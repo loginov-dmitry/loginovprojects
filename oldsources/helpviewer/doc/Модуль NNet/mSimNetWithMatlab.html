@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> NNet:  mSimNetWithMatlab</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mSimNetWithMatlab">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>NNet</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mSimNetWithMatlab</FONT></H1>
+Обработка системой Matlab входного вектора с помощью нейронной сети, хранящейся в mat-файле<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+<pre>
+<b>procedure</b> mSimNetWithMatlab(WS: TWorkspace; NetPath, NetName, InputArray,
+  ResultArray: <b>String</b>);
+</pre>
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура использует возможность взаимодействия с системой Matlab. Происходит вызов среды Matlab, куда загружается mat-файл с нейронной сетью. Имя этого файла (оно же имя нейронной сети) - <B>NetName</B>, путь к файлу - <B>NetPath</B>. <B>InputArray</B> - передаваемый в Matlab анализируемый вектор-столбец. <B>Ws</B> - ссылка на рабочую область, содержащую входные данные. Преимущество использования данной процедуры для расчета нейросетей состоит в том, что Matlab, вызываемый с помощью этой процедуры, может произвести расчет любой нейросети, вне зависимости от ее топологии.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Пусть в папке <span style="color: navy;">'D:\Matlab\Work'</span> имеется файл с нейросетью Net_I.mat. В рабочей области Base системы Matrix имеется анализируемый массив A, представляющий собой вектор-столбец. В данном случае, вызов процедуры будет выглядеть следующим образом:<BR>
+
+<pre>
+  mSimNetWithMatlab(Base, <span style="color: navy;">'D:\Matlab\Work'</span>, <span style="color: navy;">'Net_I'</span>, <span style="color: navy;">'A'</span>,  <span style="color: navy;">'Out'</span>);
+</pre>
+
+В результате в рабочей области Base появится новый массив Out.
+
+
+</BODY>
+</HTML>

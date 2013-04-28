@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  ChRangMatrix</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, ChRangMatrix">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">ChRangMatrix</FONT></H1>
+Изменение размеров матрицы<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;
+function TWorkspace.ChRangMatrix(Name: String; RowCnt,
+  ColCnt: Integer): Integer;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция изменяет размеры матрицы <B>Name</B>, в результате чего она принимает новые размеры <B>RowCnt</B> х <B>ColCnt</B>. Данная функция сохраняет структуру массива, т.е. перемещает элементы массива так, чтобы у них остались преждние координаты. Например, если изменить размеры массива A=[1 2 3; 4 5 6] до 1 х 5, то получим массив A=[1 2 3 0 0], а если до 5 х 1, то получим A=[1; 4; 0; 0; 0] (символ ';' - разделитель строк массива). Для изменения размеров вектора рекомендуется пользоваться функцией <A HREF="ChRang.html"><B>ChRang()</B></A>, т.к. она использует дополнительную оперативную память, выделяемую для векторов при их создании.<BR> Функция возвращает индекс массива <B>Name</B>.<BR>
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Имеется массив A размерами 2 х 3<BR>
+А=<BR>
+[1 2 3;<BR>
+4 5 6]<BR>
+Измененим размеры массива до 3 х 2:<BR>
+<b>&nbsp;&nbsp;I := Base.ChRangMatrix('А', 3, 2); </b><BR>
+Получим массив A=<BR>
+[1 2;<BR>
+4 5;<BR>
+0 0]<BR>
+
+</BODY>
+</HTML>

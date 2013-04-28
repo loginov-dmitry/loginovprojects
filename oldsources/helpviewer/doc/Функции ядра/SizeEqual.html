@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SizeEqual</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, IsEqual">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SizeEqual</FONT></H1>
+Определяет, равны ли размеры заданных массивов<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>function</b> TWorkspace.SizeEqual(Array1, Array2: <b>string</b>): Boolean;
+  <b>function</b> TWorkspace.SizeEqual(Idx1, Idx2: Integer): Boolean;
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция возвращает <B>True</B>, если массивы, заданные своим именем или индексом имеют одинаковые размеры (число строк равно числу столбцов). В противном случае функция вернет <B>False</B>.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+<pre>
+<i style="color: navy;">// Пусть имеются массивы:</i>
+<i style="color: navy;">// A=[777]; B=[0]; C=[1 2 3]</i>
+
+<i style="color: navy;">// Base.SizeEqual('A', 'B') вернет True</i>
+<i style="color: navy;">// Base.SizeEqual('A', 'C') вернет False</i>
+</pre>
+
+
+</BODY>
+</HTML>

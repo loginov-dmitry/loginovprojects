@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  CheckResAr</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, CheckResAr">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">CheckResAr</FONT></H1>
+Проверка имени выходного массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.CheckResAr(var Name: String; DoANS: Boolean=True);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура проверяет, верно ли задано имя массива Name (это имя нельзя задавать в виде текстовой константы). Если вместо имени указана пустая строка, то при <B>DoANS=True</B> выполняется присвоение стандартного имени: <B>Name := 'ans'</B>. Если задано недопустимое имя, то генерируется исключение с выводом сообщения об ошибке. Процедура используется для проверки имени выходного массива.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Проверка имени выходного массива:<BR>
+<b>
+&nbsp;&nbsp;ArrayName1 := '';<BR>
+&nbsp;&nbsp;ArrayName2 := 'Array 2';<BR>
+&nbsp;&nbsp;ArrayName3 := 'Array_3';<BR>
+&nbsp;&nbsp;Base.CheckResAr(ArrayName1);<BR>
+&nbsp;&nbsp;Base.CheckResAr(ArrayName2);<BR>
+&nbsp;&nbsp;Base.CheckResAr(ArrayName3);<BR>
+</b><BR>
+В первом случае происходит присвоение ArrayName1 := 'ans'; во втором случае генерируется исключение, т.к. в имени массива присутствует недопустимый символ - пробел; в третьем случае ничего не произойдет.
+
+</BODY>
+</HTML>

@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> NNet:  mTrainPerceptron </TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mTrainPerceptron ">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>NNet</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mTrainPerceptron </FONT></H1>
+Обучение персептрона<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>procedure</b> mTrainPerceptron(Ws: TWorkspace; X, D: <b>string</b>; epoch: Cardinal;
+    err: Real; W: <b>string</b>; E: <b>string</b>; T: <b>string</b>;
+    ProcProgress: TTrainProgress = <b>nil</b>);
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура обучает персептрон. Параметры обучения:
+<ul>
+<li><B>X</B>     - массив обучающих векторов (обучающая выборка). Число строк соответствует числу входов нейрона, 						число столбцов - количеству обучающих выборок.
+<li><B>D</B>     - требуемые значения на выходе. Это вектор-строка, число элементов которого равно количеству 							обучающих выборок.
+<li><B>epoch</B> - максимальное количество циклов обучения.
+<li><B>err</B>   - требуемая погрешность обучения.
+<li><B>W</B>     - массив весов (результат обучения). Это вектор-столбец, состоящий из 3-х элементов. Первый элемент - 					смещение нейрона, остальные элементы - веса синапсов.  
+<li><B>E</B>     - ошибка обучения (выходной массив).
+<li><B>T</B>     - время обучения (выходной массив).
+<li><B>ProcProgress</B> - процедура для визуализации хода обучения - не обязательно
+</ul>
+Вы можете создать процедуру для визуализации процесса обучения, например:
+<pre>
+<b>procedure</b> Visualization(epoch: Integer; err, ideal: Real);
+<b>begin</b>
+....................
+<b>end</b>;
+</pre>
+В эту процедуру поступают: номер текущей эпохи (цикла обучения) <B>epoch</B>, значение функции сходимости <B>err</B> и значение целевой функции <B>ideal</B>.<BR><BR>
+Процедура mTrainPerceptron() разработана для демонстративных целей и практических применений может не найти.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Пусть имеются входные массивы:
+<PRE>
+I=[1 0 0 1;
+0 1 1 0];
+
+O=[0 1 1 0];
+</PRE>
+где I - обучающая выборка, O - требуемые значения на выходе. Выполним обучение персептрона: <BR>
+
+<pre>
+  mTrainPerceptron(Base, <span style="color: navy;">'I'</span>, <span style="color: navy;">'O'</span>, <span style="color: navy;">50</span>, <span style="color: navy;">0.01</span>, <span style="color: navy;">'W'</span>, <span style="color: navy;">'E'</span>, <span style="color: navy;">'T'</span>);
+</pre>
+
+Здесь 50 - число циклов обучения, 0.01 - погрешность обучения, 'W' - вектор весов синапсов, 'E' - ошибка обучения, 'T' - время обучения.
+
+
+</BODY>
+</HTML>

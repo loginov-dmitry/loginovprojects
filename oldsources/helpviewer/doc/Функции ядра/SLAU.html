@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SLAU</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SLAU">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SLAU</FONT></H1>
+Решение системы линейных алгебраических уравнений<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.SLAU(MatrixName, VektorName, ResultName: String);<BR>
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция выполняет решение системы линейных алгебраических уравнений вида <B>A x X = B</B> по алгоритму Гаусса. А (MatrixName) - квадратная матрица коэффициентов, В (VektorName) - вектор-столбец (массив свободных членов СЛАУ), X (ResultName) - вектор-столбец (массив решений СЛАУ).
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Решим с помощью данной функции систему уравнений:<BR>
+3 x X - 2 x Y = 9;<BR>
+2 x X + 5 x Y = 25<BR>
+
+Выделим массив коэффициентов и массив свободных членов:<BR>
+A=<BR>
+[3 -2;<BR>
+2 5]<BR>
+B=<BR>
+[9;<BR>
+25]<BR>
+
+Определим корни системы уравнения:<BR>
+<b>&nbsp;&nbsp;Base.SLAU('А', 'B', 'X'); </b><BR>
+
+В результате получим массив<BR>
+X=<BR>
+[5;<BR>
+3]<BR> 
+Следовательно X=5, Y=3.
+</BODY>
+</HTML>

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  MinMax</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, MinMax">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">MinMax</FONT></H1>
+Определяет минимальные и максимальные элементы<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  1. <b>procedure</b> TWorkspace.MinMax(Name: <b>string</b>; <b>var</b> MinVal, MaxVal: Real);
+  2. <b>function</b> TWorkspace.MinMax(SourAr, DestAr: <b>string</b>;
+    ForRows: Boolean=True): <b>string</b>;
+</pre>
+
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+<P>1. Процедура возвращает наименьший <B>MinVal</B> и наибольший <B>MaxVal</B> элементы массива <B>Name</B>.
+
+<P>2. Функция определяет наибольшие и наименьшие элементы для каждой строки (при ForRows=True) или для каждого столбца (при ForRows=False) матрицы SourAr. В результате будет сформирован массив DestAr, одно из измерений которого равно двум. Если ForRows=True, то DestAr будет состоять из двух столбцов, причем в первом столбце будут храниться минимальные элементы, а во втором - максимальные. Если ForRows=False, то DestAr будет состоять из двух строк, причем в первой строке будут храниться минимальные элементы, а во второй - максимальные.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+<pre>
+<b>with</b> Base <b>do</b> <b>begin</b>
+  <i style="color: navy;">// Имеется массив А=[2 8 4; 7 3 9]</i>
+  SLoad(<span style="color: navy;">'A=[2 8 4; 7 3 9]'</span>);
+
+  <i style="color: navy;">// Определим min и max для каждой строки</i>
+  MinMax(<span style="color: navy;">'A'</span>, <span style="color: navy;">'ForRows'</span>);
+  <i style="color: navy;">// В результате получим ForRows=[2 8; 3 9]</i>
+
+  <i style="color: navy;">// Определим min и max для каждого столбца</i>
+  MinMax(<span style="color: navy;">'A'</span>, <span style="color: navy;">'ForCols'</span>, False);
+  <i style="color: navy;">// В результате получим ForCols=[2 3 4; 7 8 9]</i>
+<b>end</b>;
+</pre>
+
+
+</BODY>
+</HTML>

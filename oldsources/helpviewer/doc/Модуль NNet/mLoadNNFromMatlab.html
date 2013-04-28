@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> NNet:  mLoadNNFromMatlab</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mLoadNNFromMatlab">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>NNet</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mLoadNNFromMatlab</FONT></H1>
+Загрузка нейросети из рабочей области Base среды Matlab<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>procedure</b> mLoadNNFromMatlab(Ws: TWorkspace; NNName: <b>String</b>);
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура осуществляет загрузку в рабочую область <B>Ws</B> нейронной сети <B>NNName</B>, находящейся в рабочей области Base среды Matlab. Любая нейросеть в Matlab имеет множество параметров и хранится в структуре типа записи. Процедура считывает только важнейшие параметры, которыми являются массивы весов нейронов, массивы смещений нейронов, номера передаточных функций (сейчас нигде не используется) и количество слоев в нейронной сети. В Matrix все эти параметры хранятся в отдельных массивов, имена которых образуются путем прибавления различных окончаний к имени НС. Вот примерный перечень массивов одной нейросети:
+<PRE>
+Net_I_Lay1 - веса первого слоя
+Net_I_B1   - смещения первого слоя
+Net_I_Fnc1 - передаточная функция первого слоя
+Net_I_Lay2 - веса второго слоя
+Net_I_B2   - смещения второго слоя
+Net_I_Fnc2 - передаточная функция второго слоя
+Net_I_LCnt - количество слоев в НС
+</PRE>
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Загрузка нейросети из Matlab:<BR>
+
+<pre>
+  mLoadNNFromMatlab(Base, <span style="color: navy;">'Net_I'</span>);
+</pre>
+
+В результате в рабочей области Base появится нейросеть Net_I.
+
+</BODY>
+</HTML>

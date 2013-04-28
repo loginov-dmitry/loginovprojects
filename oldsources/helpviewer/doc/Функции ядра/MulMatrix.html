@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  MulMatrix</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, MulMatrix">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">MulMatrix</FONT></H1>
+Перемножение матриц по правилу матричного умножения<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.MulMatrix(Matrix1, Matrix2, MatResult: String): String;<BR>
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция перемножает матрицы <B>Matrix1</B> и <B>Matrix2</B> по правилу матричного умножения. В результате формируется матрица <B>MatResult</B>. Умножаемые матрицы должны быть согласованными, т.е. число столбцов первой матрицы должно быть равным числу строк второй матрицы. Матрица <B>MatResult</B> имеет число строк как у первой матрицы, а число столбцов как у второй матрицы. Функция возвращает имя массива <B>MatResult</B>.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Путь имеются матрицы A=<BR>
+
+[10 15 20 25<BR>
+30 35 40 45<BR>
+50 55 60 65]<BR> и
+B=<BR>
+
+[10 30 50<BR>
+15 35 55<BR>
+20 40 60<BR>
+25 45 65]<BR>
+
+Перемножим их и получим в результате массив С:<BR>
+<b>&nbsp;&nbsp;Base.MulMatrix('А', 'B', 'C'); </b><BR>
+
+В результате получим массив:<BR>
+С=<BR>
+
+[1350 2750 4150<BR>
+2750 5750 8750<BR>
+4150 8750 13350]<BR><BR>
+
+
+
+</BODY>
+</HTML>

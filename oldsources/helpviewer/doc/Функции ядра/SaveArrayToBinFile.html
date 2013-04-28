@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SaveArrayToBinFile</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SaveArrayToBinFile">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SaveArrayToBinFile</FONT></H1>
+Сохранение массива в двоичном файле<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.SaveArrayToBinFile(const FileName: String; Name: String);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+В отличие от функции <A HREF="SaveToBinFile.html"><B>SaveToBinFile()</B></A>, записывающей в двоичный файл все массивы рабочей области, процедура <B>SaveArrayToBinFile()</B> записывает в двоичный файл только указанный массив <B>Name</B>. Если файл <B>FileName</B> не существует, то он будет создан. Если в файле уже содержится массив <B>Name</B>, то при равных размерах нового и старого массивов, новый массив запишется поверх старого, а если размеры разные, то новый массив будет записан в конец файла, а имя старого массива будет изменено таким образом, чтобы оно считалось недопустимым.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Сохранение массивов в двоичном файле:<BR>
+<b>
+&nbsp;&nbsp;Base.SaveArrayToBinFile('D:\Temp\MatrixData\Arrays.bin', 'A');<BR>
+&nbsp;&nbsp;Base.SaveArrayToBinFile('D:\Temp\MatrixData\Arrays.bin', 'B');<BR>
+</b><BR>
+
+
+
+</BODY>
+</HTML>

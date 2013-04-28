@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  NewArray</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, NewArray">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">NewArray</FONT></H1>
+Создание нового массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;1. function TWorkspace.NewArray(Name: String; Rows, Cols: Integer;
+  Init: Boolean=False): Integer; overload;<BR>&nbsp;&nbsp;2. function TWorkspace.NewArray(const Name: String; StartValue,
+  FinishValue: Real; Step: Extended): Integer; overload;</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+1. Функция создает в рабочей области новый массив с именем <B>Name</B>, состоящий из <B>Rows</B> строк и <B>Cols</B> столбцов. Размер создаваемого массива в байтах можно определить по формуле <B>Rows х Cols х 8</B> (каждый элемент массива занимает 8 байт). Флаг <B>Init</B> указывает, нужно ли заполнять массив нулями или нет. Операция заполнения нулями занимает какое-то время и в некоторых случаях может не требоваться. При создании вектора (массива, состоящего из одной строки или одного столбца) функция выделяет дополнительную оперативную память; эта возможность позволяет при необходимости очень быстро изменять размеры векторов (методом <A HREF="ChRang.html"><B>ChRang()</B></A>). В случае выделения дополнительной памяти реальный размер массива кратен 800 байтам, т.е. 100 элементам. Например, если вектор содержит 98 элементов, то дополнительно будет выделено 16 байт (2 элемента), а если в вектора всего 2 элемента, то дополнительно выделяется память для 98 элементов. Функция возвращает индекс созданного массива.<BR><BR>
+
+2. Функция создает в рабочей области массив-диапазон (вектор-строка). Первый элемент массива равен <B>StartValue</B>, последний не превышает значение <B>FinishValue</B>, шаг диапазона равен <B>Step</B>. Функция аналогично предыдущей выделяет дополнительную оперативную память. Функция возвращает индекс созданного массива.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+1. Создание нулевого массива в рабочей области Base<BR>
+<b>&nbsp;&nbsp;I := NewArray('MyArray', 2, 6, True); </b><BR>
+В результате будет создан следующий массив:<BR>
+MyArray=<BR>[0 0 0 0 0 0;<BR>
+0 0 0 0 0 0];<BR><BR>
+
+2. Создание массива диапазона от -1 до 2 с шагом 0.5<BR>
+<b>&nbsp;&nbsp;I := NewArray('MyArray', -1, 2, 0.5); </b><BR>
+В результате будет создан следующий массив:<BR>
+MyArray=[-1 -0.5 0 0.5 1 1.5 2]
+</BODY>
+</HTML>
+</HTML>

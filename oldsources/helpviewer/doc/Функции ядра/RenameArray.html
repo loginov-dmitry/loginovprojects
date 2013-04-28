@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  RenameArray</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, RenameArray">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">RenameArray</FONT></H1>
+Изменение имени массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;
+function TWorkspace.RenameArray(SourAr, DestAr: String): Integer;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция присваивает массиву <B>SourAr</B> имя <B>DestAr</B>. Если массив с именем <B>DestAr</B> ранее существовал, то он удаляется. Если массив <B>SourAr</B> не существует, то генерируется исключение с сообщением об ошибке. Функция возвращает индекс массива с именем <B>DestAr</B>.<BR>
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Переименование массива:<BR>
+<b>&nbsp;&nbsp;
+I := Base.RenameArray('MyArray', 'CopyArray'); 
+</b><BR>
+
+</BODY>
+</HTML>

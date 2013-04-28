@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SetEl</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SetEl">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SetEl</FONT></H1>
+Изменение значения элемента массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;1. procedure TWorkspace.SetEl(Name: String; Value: Real; Row, Col: Integer; AutoSize: Boolean=False; AutoCreate: Boolean=False);<BR>&nbsp;&nbsp;2. procedure TWorkspace.SetEl(Idx: Integer; Value: Real; Row, Col: Integer;
+  AutoSize: Boolean);</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+1. Метод изменяет значение элемента массива <B>Name</B>, расположенного в строке <B>Row</B> и столбце <B>Col</B>. Этому элементу присваивается значение <B>Value</B>. Выполняется проверка допустимости значений <B>Row</B> и <B>Col</B>. Если вы хотите записать новое значение в несуществующей элемент массива, то поставьте <B>AutoSize</B> равным 'True'. В этом случае процедура сможет увеличить размеры массива в соответствии со значениями <B>Row</B> и <B>Col</B>. Если вы установите <B>AutoCreate</B> равным 'True', то если массив <B>Name</B> не существовал, он будет создан с размерами <B>Row x Col</B>. Вместо данного метода вы можете использовать более быстрое свойство <A HREF="Elem.html"><B>Elem</B></A>.<BR><BR>
+
+2. Метод аналогичен предыдущему с той лишь разницей, что массив указываеся не именем, а индексом, поэтому работает быстрее. Вместо данного метода вы можете использовать более быстрое свойство <A HREF="ElemI.html"><B>ElemI</B></A>.<BR><BR>
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+1. Присвоение элементу массива, заданного именем, нового значения:<BR>
+<b>&nbsp;&nbsp;Base.SetEl('MyArray', 777, 5, 5); </b><BR><BR>
+
+2. Присвоение элементу массива, заданного индексом, нового значения:<BR>
+<b>&nbsp;&nbsp;Base.SetEl(1, 777, 5, 5); </b><BR><BR>
+
+</BODY>
+</HTML>

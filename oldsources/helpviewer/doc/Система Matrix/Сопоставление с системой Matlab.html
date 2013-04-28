@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Сопоставление с системой Matlab </TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Delphi, Matrix">
+<META NAME="Description" CONTENT="Сопоставление с системой Matlab">
+</HEAD>
+
+<BODY>
+<H1 align=center><I>Сопоставление с системой Matlab</I></H1>
+<font style="font-family: courier new;"><I>
+
+Первоначально система Matrix была задумана для упрощения перевода кода m-функций системы Matlab в код среды Delphi. Фактически, в Matrix реализованы все важнейшие операции системы Matlab, касающиеся 2-мерных массивов (матриц). Многомерные массивы и другие типы данных Matrix, к сожалению, не поддерживает. С счастью, существует огромный класс задач, для решения которых достаточно использовать обычные матрицы. Здесь мы рассмотрим примеры перевода кода из Matlab в Matrix, будут сопоставлены примеры как на языке Matlab, так и на языке Delphi.<BR><BR>
+
+
+<TABLE border=1>
+<TR>
+	<TD><B>Код Matlab</B></TD>
+	<TD><B>Код Delphi</B></TD>
+	<TD><B>Комментарии</B></TD>
+</TR>
+<TR>
+	<TD>D=1;</TD>
+	<TD>SLoad(<span style="color: navy;">'D=1'</span>);</TD>
+	<TD>Создание массива D</TD>
+</TR>
+<TR>
+	<TD><FONT COLOR="#0000FF">for</FONT> i=1:10000</TD>
+	<TD><B>for</B> I := 1 <B>to</B> 10000 <B>do begin</B></TD>
+	<TD>Начало цикла</TD>
+</TR>
+<TR>
+	<TD>A=[1 2 3 4 5];</TD>
+	<TD>Base.SLoad(<span style="color: navy;">'A=[1 2 3 4 5]'</span>);</TD>
+    <TD>Создание массива A</TD>
+</TR>
+<TR>
+	<TD>B=[6 7 8 9 10; 11 12 13 14 15];</TD>
+	<TD>Base.SLoad(<span style="color: navy;">'B=[6 7 8 9 10; 11 12 13 14 15]'</span>);</TD>
+    <TD>Создание массива B</TD>
+</TR>
+<TR>
+	<TD>C=[A; B];</TD>
+	<TD>Base.AddRows(<span style="color: navy;">'A'</span>, <span style="color: navy;">'B'</span>, <span style="color: navy;">'C'</span>);</TD>
+    <TD>"Склеивание" массивов</TD>
+</TR>
+<TR>
+	<TD>C=C';</TD>
+	<TD>Base.Transpose(<span style="color: navy;">'C'</span>, <span style="color: navy;">'C'</span>);</TD>
+    <TD>Транспонирование матрицы С</TD>
+</TR>
+<TR>
+	<TD>C=sqrt(sin(C)+cos(C))/2;</TD>
+	<TD>Base.ElWiseOp(Base.CalcFunc(Base.ElWiseOp(Base.CalcFunc(<span style="color: navy;">'C'</span>, <span style="color: navy;">'Temp1'</span>, 
+
+<span style="color: navy;">'sin'</span>), Base.CalcFunc(<span style="color: navy;">'C'</span>, <span style="color: navy;">'Temp2'</span>, <span style="color: navy;">'cos'</span>), <span style="color: navy;">'Temp1'</span>, <span style="color: navy;">'+'</span>), <span style="color: navy;">'Temp1'</span>, <span style="color: navy;">'sqrt'</span>), <span style="color: navy;">'[2]'</span>, 
+
+<span style="color: navy;">'C'</span>, <span style="color: navy;">'/'</span>);
+<BR>
+	Base.DelArray(<span style="color: navy;">'Temp1'</span>);<BR>
+	Base.DelArray(<span style="color: navy;">'Temp2'</span>);<BR>
+	</TD>
+    <TD>Вычислительные операции</TD>
+</TR>
+<TR>
+	<TD>D=D+C;</TD>
+	<TD>Base.ElWiseOp(<span style="color: navy;">'D'</span>, <span style="color: navy;">'C'</span>, <span style="color: navy;">'D'</span>, <span style="color: navy;">'+'</span>);</TD>
+	<TD>Сложение массивов</TD>
+</TR>
+<TR>
+	<TD><FONT COLOR="#0000FF">end</FONT></TD>
+	<TD><B>end</B>;</TD>
+	<TD>Конец цикла</TD>
+</TR>
+<TR>
+	<TD><PRE>D =
+5001    1     1
+   1 5001     1
+   1    1  5001
+-4999   1  5001
+   1 -4999    1</PRE>
+	</TD>
+	<TD><PRE>D=
+[5001  1     1;
+ 1     5001  1;
+ 1     1     5001;
+ -4999 1     5001;
+ 1     -4999 1];</PRE>
+	</TD>
+	<TD>Результаты вычислений</TD>
+</TR>
+</TABLE><BR>
+Данный пример для Delphi находится в модуле Examples.pas в процедуре first(). Процедура работает исключительно с рабочей областью Base, т.е. не имеет собственной рабочей области. Как видите, с помощью Matrix можно проводить довольно сложные вычисления в одну строчку, т.к. большинство функций возвращают имя выходного массива, однако не забывайте, что если в этой строчке раньше времени изменить входной массив, то получится ложный результат. Чтобы такого не произошло, необходимо в ходе вычислений создавать временные массивы (Temp1 и Temp2), а после вычислений нужно их уничтожать (последнее касается, в основном, постоянной рабочей области Base). В данном примере применен цикл на 10000 итераций, благодаря чему можно сравнить скоростные характеристики Matrix и Matlab. В данном случае Matlab оказался вдвое быстрее (~1.5 сек), однако Matrix начнет выигрывать при увеличении размеров массивов.
+
+<P>Рассмотрим пример конвертирования кода функции dist() системы Matlab в код Delphi. Данная функция вычисляет эвклидово расстояние между входным вектором и весами нейронов нейронной сети. 
+<TABLE border=1>
+<TR>
+	<TD><B>Код Matlab</B></TD>
+	<TD><B>Код Delphi</B></TD>
+	<TD><B>Комментарии</B></TD>
+</TR>
+<TR>
+	<TD><FONT COLOR="#0000FF">function</FONT> z = dist(w,p)</TD>
+	<TD><B>function</B> dist(w, p, z: <B>String</B>; SourWS: TWorkspace): <B>String</B>;<BR>
+	<B>var</B> 
+	s, r, r2, q, i, wIdx, pIdx: Integer; 	
+	</TD>
+	<TD>Заголовок функции</TD>
+</TR>
+<TR>
+	<TD></TD>
+	<TD>
+		<B>begin</B><BR>
+        <b>with</b> TWorkSpace.Create(<span style="color: navy;">'negdist'</span>) <b>do</b> <b>begin</b><br>
+&nbsp;&nbsp;wIdx :=<br> CopyFromWorkspace(SourWS, w, <span style="color: navy;">'w'</span>);<br>
+&nbsp;&nbsp;pIdx :=<br> CopyFromWorkspace(SourWS, p, <span style="color: navy;">'p'</span>);
+<BR>	
+	</TD>
+	<TD>Создание собственной рабочей области, передача входных массивов</TD>
+</TR>
+<TR>
+	<TD>[s,r] = size(w);<BR>
+	    [r2,q] = size(p);
+	</TD>
+	<TD>GetRang(wIdx, s, r);<BR>
+		GetRang(pIdx, r2, q);
+	</TD>
+	<TD>Определение размеров</TD>
+</TR>
+<TR>
+	<TD><FONT COLOR="#0000FF">if</FONT> (r ~= r2), error('Matrix sizes do not match.'),<FONT COLOR="#0000FF">end</FONT></TD>
+	<TD><b>if</b> r &lt;&gt; r2 <b>then</b> DoError(<span style="color: navy;">'Matrix sizes do not match.'</span>);
+</TD>
+	<TD>Проверка согласованности размеров массивов</TD>
+</TR>
+<TR>
+	<TD>z = zeros(s,q);</TD>
+	<TD>NewArray(<span style="color: navy;">'z'</span>, s, q);</TD>
+	<TD>Создание нулевой матрицы z</TD>
+</TR>
+<TR>
+	<TD><FONT COLOR="#0000FF">if</FONT> (q&lt;s)</TD>
+	<TD><B>if</B> q &lt; s <B>then begin</B></TD>
+	<TD></TD>
+</TR>
+<TR>
+	<TD>p = p';</TD>
+	<TD>Transpose(<span style="color: navy;">'p'</span>, <span style="color: navy;">'p'</span>);</TD>
+	<TD>Транспонирование матрицы p</TD>
+</TR>
+<TR>
+	<TD>copies = zeros(1,s);</TD>
+	<TD>NewArray(<span style="color: navy;">'copies'</span>, 1, s);</TD>
+	<TD>Создание нулевой матрицы copies</TD>
+</TR>
+<TR>
+	<TD><FONT COLOR="#0000FF">for</FONT> i=1:q<BR>
+		z(:,i) = sum((w-p(i+copies,:)).^2,2);<BR>
+		<FONT COLOR="#0000FF">end<BR>else</FONT></TD>
+	<TD><b>for</b> i := <span style="color: navy;">1</span> <b>to</b> q <b>do</b>
+PastSubmatrix(SumCols(CalcFunc(ElWiseOp(<span style="color: navy;">'w'</span>, ExtractElems(<span style="color: navy;">'p'</span>, ElWiseOp(IntToStr(i), <span style="color: navy;">'copies'</span>, <span style="color: navy;">'copies'</span>, <span style="color: navy;">'+'</span>), <span style="color: navy;">'copies'</span>, True), <span style="color: navy;">'copies'</span>, <span style="color: navy;">'-'</span>), <span style="color: navy;">'copies'</span>, <span style="color: navy;">'sqr'</span>), <span style="color: navy;">'copies'</span>), <span style="color: navy;">'z'</span>, i, <span style="color: navy;">1</span>);<br>
+<b>end</b> <b>else</b> <b>begin</b>
+	</TD>
+	<TD>Вычисления</TD>
+</TR>
+<TR>
+	<TD>w = w';</TD>
+	<TD>Transpose(<span style="color: navy;">'w'</span>, <span style="color: navy;">'w'</span>);</TD>
+	<TD>Транспонирование матрицы w</TD>
+</TR>
+<TR>
+	<TD>copies = zeros(1,q);</TD>
+	<TD>NewArray(<span style="color: navy;">'copies'</span>, 1, q);</TD>
+	<TD>Создание нулевой матрицы copies</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT COLOR="#0000FF">for</FONT> i=1:s
+	    z(i,:) = sum((w(:,i+copies)-p).^2,1);<BR>
+		<FONT COLOR="#0000FF">end<BR></FONT>
+		<FONT COLOR="#0000FF">end</FONT>
+	</TD>
+	<TD>
+	    <b>for</b> i:=<span style="color: navy;">1</span> <b>to</b> s <b>do</b> PastSubmatrix(CalcFunc(ElWiseOp(ExtractElems(Transpose(<span style="color: navy;">'w'</span>, <span style="color: navy;">'Temp'</span>), ElWiseOp(IntToStr(i), <span style="color: navy;">'copies'</span>, <span style="color: navy;">'copies'</span>, <span style="color: navy;">'+'</span>), <span style="color: navy;">'copies'</span>, True), <span style="color: navy;">'p'</span>, <span style="color: navy;">'Temp'</span>, <span style="color: navy;">'-'</span>), <span style="color: navy;">'Temp'</span>, <span style="color: navy;">'sqr'</span>), <span style="color: navy;">'z'</span>, i, <span style="color: navy;">1</span>);<br>
+<b>end</b>; 
+	</TD>
+	<TD>Вычисления</TD>
+</TR>
+<TR>
+	<TD>z = sqrt(z);</TD>
+	<TD>CalcFunc(<span style="color: navy;">'z'</span>, <span style="color: navy;">'z'</span>, <span style="color: navy;">'sqrt'</span>);
+</TD>
+	<TD>Извлечение квадратного корня</TD>
+</TR>
+<TR>
+	<TD></TD>
+	<TD>MoveToWorkspace(SourWs, <span style="color: navy;">'z'</span>, z);<br>
+Result := z;<br>
+Free();<br>
+<b>end</b>;<br>
+<b>end</b>; <br>
+	</TD>
+	<TD>Возврат результата, уничтожение временной рабоочей области</TD>
+</TR>
+</TABLE>
+
+</BODY>
+</HTML>
+<BR><BR>
+Данная функция находится в модуле Examples.pas. Этот пример здесь приведен благодаря его сложности. Кода не очень много, однако имеются языковые конструкции, которые не то, что запрограммировать, но и понять сложно. Например, конструкция <B>z(i,:) = sum((w(:,i+copies)-p).^2,1)</B>. Если с ней разобраться, то становится понятно, что i - целочисленная переменная, copies - какая-то матрица, в сумме они дают тоже матрицу, в которой хранятся индексы (здесь индексы означают, какие столбцы из матрицы w нужно отбирать). В Matrix для этого предназначена функция ExtractElems().<BR><BR>
+
+Рассмотрим пример поэлементной обработки массивов, т.е. обработка каждого элемента в отдельности. 
+<TABLE border=1>
+<TR>
+	<TD><B>Код Matlab</B></TD>
+	<TD><B>Код Delphi</B></TD>
+	<TD><B>Комментарии</B></TD>
+</TR>
+<TR>
+	<TD>clear all</TD>
+	<TD>Base.Clear();</TD>
+	<TD>Очистка рабочей области</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE="" COLOR="#0000FF">for</FONT> i=1:20000<BR>
+		A(i)=sqrt(i)*sin(i);<BR>
+		<FONT SIZE="" COLOR="#0000FF">end</FONT>
+	</TD>
+	<TD>
+		<b>for</b> i := <span style="color: navy;">1</span> <b>to</b> <span style="color: navy;">20000</span> <b>do</b><br>
+Base.SetEl(<span style="color: navy;">'A'</span>, sqrt(i)*sin(i), <span style="color: navy;">1</span>, i, True, True);
+	</TD>
+	<TD>Создаем в цикле вектор-строку</TD>
+</TR>
+<TR>
+	<TD>
+		[r,c]=size(A);
+		B=zeros(r,c);
+	</TD>
+	<TD>
+aIdx := Base.GetRang(<span style="color: navy;">'A'</span>, r, c);<br>
+bIdx := Base.NewArray(<span style="color: navy;">'B'</span>, r, c); 
+	</TD>
+	<TD>Создаем вектор B</TD>
+</TR>
+<TR>
+	<TD>B(1)=5;</TD>
+	<TD>Base.ElemI[bIdx, <span style="color: navy;">1</span>, <span style="color: navy;">1</span>] := <span style="color: navy;">5</span>;
+</TD>
+	<TD>Изменяем первый элемент</TD>
+</TR>
+<TR>
+	<TD>
+		<FONT SIZE="" COLOR="#0000FF">for</FONT> i=2:c<BR>
+		B(i)=B(i-1)+A(i);<BR>
+		<FONT SIZE="" COLOR="#0000FF">end</FONT>
+	</TD>
+	<TD>
+<b>for</b> i := <span style="color: navy;">2</span> <b>to</b> c <b>do</b><br> Base.ElemI[bIdx, <span style="color: navy;">1</span>, i] := Base.ElemI[bIdx, <span style="color: navy;">1</span>, i-<span style="color: navy;">1</span>] + Base.ElemI[aIdx, <span style="color: navy;">1</span>, i]; 
+</pre>
+	</TD>
+	<TD>Вычисляем остальные элементы вектора B</TD>
+</TR>
+<TR>
+	<TD></TD>
+	<TD></TD>
+	<TD></TD>
+</TR>
+</TABLE>
+<BR><BR>
+
+Данный пример находится в процедуре Iter() модуля Examples.pas. Наиболее интересным в этом примере является создание массива-вектора методом "наращивания" новых элементов в цикле, т.е. при каждой итерации размер массива увеличивается на единицу. Ценность такого метода очевидна: допустим у нас есть входной массив, и после его обработки должен получиться выходной массив, длина которого нелинейно зависит от длины входного массива - в этом случае выходной массив проще всего формировать по ходу вычислений. Данный метод актуален только для Matrix, т.к. в Matlab он почти не используется и работает очень долго (приведенный пример потребовал 11 сек. в Matlab и 0.1 сек. в Matrix). Здесь вы можете увидеть пример использования функции SetEl() и свойства ElemI[].
+
+<P>Итак, можно сделать вывод, что Matrix поддерживает все необходимые операции системы Matlab. Трудности перевода кода на язык Delphi состоят в том, что в Matlab имеется огромное количество различных встроенных функций, алгоритмы которых не приводятся. В таких случаях вы можете поискать алгоритм в Интернете или в других источниках.

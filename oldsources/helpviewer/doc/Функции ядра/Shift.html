@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  Shift</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, Shift">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">Shift</FONT></H1>
+Сдвиг строк массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.Shift(SourAr, DestAr: String; Value: Integer;
+  Rigth: Boolean=True);<BR>
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция осуществляет стриг строк массива влево или вправо на указанное число разрядов. Если <B>Rigth=True</B>, то осуществляется сдвиг вправо, а если <B>Rigth=False</B>, то сдвиг влево. Аргумент <B>Value</B> определяет на сколько разрядов необходимо выполнить сдвиг, должен иметь неотрицательное значение. <B>SourAr</B> - входной массив, <B>DestAr</B> - выходной массив. Функция осуществляет сдвиг с потерей, т.е. значение элементов, сдвинутых за разрядную сетку, восстановить не удастся.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Путь имеется массив A=<BR>
+
+[10 15 20 25<BR>
+30 35 70 45<BR>
+50 55 60 65]<BR> 
+Выполним сдвиг вправо на 2 разряда:<BR>
+<b>&nbsp;&nbsp;Base.Shift('А', 'A', 2); </b><BR>
+В результате получим массив A=<BR>
+
+[0 0 10 15<BR>
+0 0 30 35<BR>
+0 0 50 55]<BR> 
+</BODY>
+</HTML>

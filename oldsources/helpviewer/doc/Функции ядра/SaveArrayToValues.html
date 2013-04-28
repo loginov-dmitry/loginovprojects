@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SaveArrayToValues</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SaveArrayToValues">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SaveArrayToValues</FONT></H1>
+Запись элементов массива в текстовую строку<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.SaveArrayToValues(var Str: String; const Name: String);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура записывает в текстовую строку <B>Str</B> элементы массива <B>Name</B>. Элеметны строки отделяются пробелами, а строки отделяются друг от друга символом ';'. 
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Пусть имеется массив A=[1 2 3; 4 5 6; 7 8 9]. Запишем элементы массива в текстовую строку:<BR>
+<b>
+&nbsp;&nbsp;Base.SaveArrayToValues(Str, 'A');<BR>
+</b><BR>
+В результате текст строки Str будет следующим:<BR>
+1 2 3;<BR>
+4 5 6;<BR>
+7 8 9
+
+
+</BODY>
+</HTML>

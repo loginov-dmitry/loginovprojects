@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  CopySubmatrix</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, CopySubmatrix">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">CopySubmatrix</FONT></H1>
+Копирование прямоугольного участка матрицы<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;
+function TWorkspace.CopySubmatrix(SourAr, DestAr: String; FirstRow, Rows,
+  FirstCol, Cols: Integer): String;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция копирует в массив <B>DestAr</B> прямоугольный кусочек массива <B>SourAr</B>. <B>FirstRow</B> - номер строки, с которой нужно начать копирование; <B>Rows</B> - количетсво копируемых строк; <B>FirstCol</B> - номер столбца, с которого нужно начать копирование; <B>Cols</B> - количетсво копируемых столбцов. Функция возвращает имя выходного массива <B>DestAr</B>.<BR>
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+Имеется матрица А=<BR>
+<TABLE>
+<TR>
+	<TD>[1</TD>
+	<TD>2</TD>
+	<TD>3</TD>
+	<TD>4</TD>
+	<TD>5</TD>
+</TR>
+<TR>
+	<TD>0.1&nbsp;&nbsp;</TD>
+	<TD>0.2&nbsp;&nbsp;</TD>
+	<TD>0.3&nbsp;&nbsp;</TD>
+	<TD>0.4&nbsp;&nbsp;</TD>
+	<TD>0.5&nbsp;&nbsp;</TD>
+</TR>
+<TR>
+	<TD>5</TD>
+	<TD>4</TD>
+	<TD>3</TD>
+	<TD>2</TD>
+	<TD>1</TD>
+</TR>
+<TR>
+	<TD>0.5</TD>
+	<TD>0.4</TD>
+	<TD>0.3</TD>
+	<TD>0.2</TD>
+	<TD>0.1]</TD>
+</TR>
+</TABLE><BR>
+
+Скопируем центральную часть матрицы А в массив В:<BR>
+<b>&nbsp;&nbsp;Base.CopySubmatrix('А', 'B', 2, 2, 2, 3); </b><BR><BR>
+В результате получим массив В=
+<TABLE>
+<TR>
+	<TD>[0.2&nbsp;&nbsp;</TD>
+	<TD>0.3&nbsp;&nbsp;</TD>
+	<TD>0.4&nbsp;&nbsp;</TD>
+</TR>
+<TR>
+	<TD>4</TD>
+	<TD>3</TD>
+	<TD>2]</TD>
+</TR>
+</TABLE>
+
+</BODY>
+</HTML>

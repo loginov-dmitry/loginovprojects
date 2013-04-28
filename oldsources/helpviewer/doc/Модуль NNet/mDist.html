@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> NNet:  mDist</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mDist">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>NNet</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mDist</FONT></H1>
+Вычисление эвклидова расстояния между весами нейронов и входным вектором<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>function</b> mDist(Ws: TWorkspace; w, p, z: <b>String</b>): <b>String</b>;
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция осуществляет вычисление эвклидова расстояния между весами нейронов <B>w</B> и входным вектором-столбцом <B>p</B>. Матрица <B>w</B> имеет размеры N x M, где N - число нейронов во входном слое, а M - число входов нейронной сети. Входной вектор-столбец <B>p</B> состоит из M элементов, которые подаются на вход НС. <B>z</B> - выходной вектор-столбец, хранящий значения эвклидовых расстояний. <B>Ws</B> - ссылка на рабочую область, хранящую входные массивы. Функция возвращает имя выходного массива <B>ResultVar</B>.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Пусть в рабочей области Base имеются массивы 
+
+<PRE>W=[0.9501 0.8913 0.8214;
+0.2311 0.7621 0.4447;
+0.6068 0.4565 0.6154;
+0.486 0.0185 0.7919];
+
+P=[0.9218;
+0.7382;
+0.1763];</PRE>
+
+Вычислим вектор эвклидовых расстояний между весами W и входным вектором P:<BR>
+
+<pre>
+  mDist(Base, <span style="color: navy;">'W'</span>, <span style="color: navy;">'P'</span>, <span style="color: navy;">'Z'</span>); 
+</pre>
+
+В результате получим вектор
+
+<PRE>Z=[0.6636;
+0.7414;
+0.6094;
+1.0425];</PRE>
+
+</BODY>
+</HTML>

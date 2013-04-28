@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  GetEl</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, GetEl">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">GetEl</FONT></H1>
+Чтение значения элемента массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp
+1. function TWorkspace.GetEl(Name: String; Row, Col: Integer): Real;
+<BR>&nbsp;&nbsp;
+2. function TWorkspace.GetEl(Idx, Row, Col: Integer): Real;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+1. Метод считывает значение элемента массива <B>Name</B>, расположенного в строке <B>Row</B> и столбце <B>Col</B>. Этому элементу присваивается значение <B>Value</B>. Выполняется проверка допустимости значений <B>Row</B> и <B>Col</B>. Вместо данного метода вы можете использовать более быстрое свойство <A HREF="Elem.html"><B>Elem</B></A>.<BR><BR>
+
+2. Метод аналогичен предыдущему с той лишь разницей, что массив указываеся не именем, а индексом, поэтому работает быстрее. Вместо данного метода вы можете использовать более быстрое свойство <A HREF="ElemI.html"><B>ElemI</B></A>.<BR><BR>
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+1. Чтение элемента массива, заданного именем:<BR>
+<b>&nbsp;&nbsp;R := Base.GetEl('MyArray', 5, 5); </b><BR><BR>
+
+2. Чтение элемента массива, заданного индексом:<BR>
+<b>&nbsp;&nbsp;R := Base.GetEl(1, 5, 5); </b><BR><BR>
+
+</BODY>
+</HTML>

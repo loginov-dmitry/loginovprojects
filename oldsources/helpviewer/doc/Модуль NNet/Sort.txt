@@ -1,0 +1,10 @@
+mCompet.html
+mDist.html
+mNegdist.html
+mSimNetWithMatlab.html
+mLoadNNFromMatlab.html
+mSaveNNToBinFile.html
+mLoadNNFromBinFile.html
+mClearNetwork.html
+mCalcKohon.html
+mTrainPerceptron.html

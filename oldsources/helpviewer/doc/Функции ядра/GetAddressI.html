@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  GetAddressI</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, GetAddressI">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">GetAddressI</FONT></H1>
+Определение адреса массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;1. function TWorkspace.GetAddressI(Name: String): Integer;<BR>
+&nbsp;&nbsp;2. function TWorkspace.GetAddressI(Idx: Integer): Integer;<BR>
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+<P>1. Функция возвращает адрес массива <B>Name</B> в формате <B>"Integer"</B>. Работает так же, как и функция <A HREF="GetAddressP.html"><B>GetAddressP</B></A>, однако результат работы возвращает в другом формате. Формат <B>Integer</B> точно такой же, как и <B>Pointer</B>, но над данными в формате <B>Integer</B> можно производить арифметические операции.
+
+<P>2. Функция аналогична предыдущей, однако вместо имени массива указывается его индекс <B>Idx</B>.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Определение адреса массива:<BR>
+<b>&nbsp;&nbsp;Address := Base.GetAddressI('A');</b><BR>
+
+
+</BODY>
+</HTML>

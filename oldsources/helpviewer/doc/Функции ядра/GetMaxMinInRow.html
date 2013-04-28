@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  GetMaxMinInRow</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, GetMaxMinInRow">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">GetMaxMinInRow</FONT></H1>
+Определение индекса максимального или минимального элемента в указанной строке<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.GetMaxMinInRow(Name: String; Row: Integer;
+  Max: Boolean=True): Integer;<BR>
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция определяет индекс максимального или минимального элемента массива <B>Name</B> в строке <B>Row</B>. При <B>Max=True</B> выполняется поиск наибольшего элемента, а при <B>Max=False</B> ищется наименьший элемент строки <B>Row</B>. Функция возвращает номер столбца, в котором находится найденный элемент. Если в одной строке несколько наибольших/наименьших элементов, то выбирается тот, который находится левее.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Путь имеется массив A=<BR>
+
+[10 15 20 25<BR>
+30 35 70 45<BR>
+50 55 60 65]<BR> 
+Определим номер наибольшего элемента во второй строке:<BR>
+<b>&nbsp;&nbsp;Base.GetMaxMinInRow('А', 2, True); </b><BR>
+Функция вернет значение 3, т.к. элемент со значением 70 - наибольший элемент во второй строке.
+
+</BODY>
+</HTML>

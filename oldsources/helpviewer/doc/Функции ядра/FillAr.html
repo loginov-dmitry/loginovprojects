@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  FillAr</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, FillAr">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">FillAr</FONT></H1>
+Заполняет массив диапазоном чисел с заданным шагом<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.FillAr(const Name: String; BaseValue: Real;
+  Step: Extended): String;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция заполняет массив <B>Name</B> последовательностью чисел, первое из которых равно <B>BaseValue</B>, а остальные формируются путем прибавления шага <B>Step</B>. Заполнение производится построчно, т.е. массив может иметь любые размеры. Функция возвращает имя массива <B>Name</B>. Если массив <B>Name</B> не существует, то будет сгенерировано исключение.<BR>
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+1. Заполнение массива последовательностью чисел, начиная с 10 с шагом 5:<BR>
+<b>&nbsp;&nbsp;Base.FillAr('А', 10, 5); </b><BR><BR>
+Если до заполнения массив имел вид: А=<BR>
+[0 0 0 0<BR>
+0 0 0 0<BR>
+0 0 0 0],<BR>
+то после заполнения массив станет таким:<BR>
+A=<BR>
+[10 15 20 25<BR>
+30 35 40 45<BR>
+50 55 60 65]<BR>
+
+
+</BODY>
+</HTML>

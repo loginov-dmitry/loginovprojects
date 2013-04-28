@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SaveArrayToTextFile</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SaveArrayToTextFile">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SaveArrayToTextFile</FONT></H1>
+Сохранение массива в текстовом файле<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.SaveArrayToTextFile(const FileName: String; Name: String);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+В отличие от функции <A HREF="SaveToTextFile.html"><B>SaveToTextFile()</B></A>, записывающей в текстовый файл все массивы рабочей области, процедура <B>SaveArrayToTextFile()</B> записывает в текстовый файл только указанный массив <B>Name</B>. Если файл <B>FileName</B> не существует, то он будет создан, иначе массив будет записан в конце файла. Если в файле уже содержится массив <B>Name</B>, то он будет стерт из файла путем "забеливания" символами пробела, а новый массив будет записан в конец файла.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Сохранение массивов в текстовом файле:<BR>
+<b>
+&nbsp;&nbsp;Base.SaveArrayToTextFile('D:\Temp\MatrixData\Arrays.txt', 'A');<BR>
+&nbsp;&nbsp;Base.SaveArrayToTextFile('D:\Temp\MatrixData\Arrays.txt', 'B');<BR>
+</b><BR>
+
+
+
+</BODY>
+</HTML>

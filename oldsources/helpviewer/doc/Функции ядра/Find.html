@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  Find</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, Find">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">Find</FONT></H1>
+Поиск массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;function TWorkspace.Find(Name: String): Integer;</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция выполняет поиск массива по его имени <B>Name</B>. Возвращает индекс (порядковый номер) массива в случае успеха или '-1', если массив не был найден. Поиск выполняется в списке имен массивов. Для ускорения поиска применяется алгоритм индексации.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Поиск массива 'MyArray' в рабочей области Base<BR>
+<b>&nbsp;&nbsp;I := Base.Find('MyArray'); </b>
+
+</BODY>
+</HTML>

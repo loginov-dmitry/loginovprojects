@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  CalcFunc</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, CalcFunc">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">CalcFunc</FONT></H1>
+Вычисление функции одной переменной<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;
+1. function TWorkspace.CalcFunc(SourAr, DestAr, Operation: String): String;<BR>&nbsp;&nbsp;
+2. function TWorkspace.CalcFunc(SourAr, DestAr: String; Func: TRealFunc): String;<BR>&nbsp;&nbsp;
+3. function TWorkspace.CalcFunc(SourAr, DestAr: String;
+  Func: TExtendFunc): String;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+1. Данный метод вычисляет функцию одной переменной, заданную с помощью аргумента <B>Operation</B>. Поддерживаются наиболее часто используемые математические функции. К ним относятся:<BR>
+<PRE>
+SIN   -       Синус
+ASIN  -       Арксинус
+COS   -       Косинус
+ACOS  -       Арккосинус
+TAN   -       Тангенс
+COTAN -       Котангенс
+SEC   -       Секант
+COSEC -       Косекант
+SQRT  -       Квадратный корень
+SQR   -       Квадрат числа
+ABS   -       Модуль числа
+LOG10 -       Десятичный логарифм
+LOG2  -       Логарифм по основанию 2
+ROUND -       Округление до ближайшего целого
+TRUNC -       Отбрасывает дробную часть
+FIX   -       Отбрасывает дробную часть
+INT   -       Отбрасывает дробную часть
+FRAC  -       Отбрасывает целую часть</PRE><BR>
+
+Функция возвращает имя выходного массива <B>DestAr</B>.<BR><BR>
+
+2. Данный метод вычисляет математическую функцию с помощью подпрограммы, ссылка на которую передается в последнем аргументе. Например, если в качестве последнего аргумента указать <B>Tan</B>, то для вычислений будет использована функция <B>Tan()</B>, которая находится в модуле <B>Math</B> (Такие функции, как <B>Sin()</B> и <B>Cos()</B> вы не сможете использовать в данном методе, т.к. они являются системными функциями). Вы можете программировать собственные вычислительные функции, например:<BR>
+<b>
+function MyFunc(const R: Real): Real;<BR>
+begin<BR>
+&nbsp;&nbsp;  Result := Sin(R) / Sqrt(3);<BR>
+end;  </B><BR>
+Тогда, если в качестве последнего аргумента вы укажете имя функции <B>MyFunc</B>, то именно она будет использована для вычислений.<BR><BR>
+
+3. Функция аналогична предыдущей, однако использует не <B>Real</B>, а <B>Extended</B>. Этот тип введен по той причине, что в модуле <B>Math</B> существуют много функций работающих только с типом <B>Extended</B>.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+1. Имеется массив A=[1 2 3]. Вычислить функцию sin(), результат поместить в массив C:<BR>
+<b>
+&nbsp;&nbsp;Base.CalcFunc('A', 'C', 'Sin');
+</b><BR>
+2. Имеется массив A=[1 2 3]. Вычислить функцию tan(), результат поместить в массив C:<BR>
+<b>
+&nbsp;&nbsp;Base.CalcFunc('A', 'C', Tan); // Необходимо сперва подключить модуль Math
+</b><BR>
+</BODY>
+</HTML>

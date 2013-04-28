@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  GetMin</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, IsEqual">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">GetMin</FONT></H1>
+Определяет минимальные элементы<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>procedure</b> TWorkspace.GetMin(SourAr, MinElems, Indexes: <b>string</b>;
+    ForColums: Boolean);
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция возвращает минимальные элементы массива <B>SourAr</B> и индексы этих элементов. Вместо <B>MinElems</B> или <B>Indexes</B> можно задать пустую строку - в этом случае соответствующий массив формироваться не будет. Если <B>ForColums=True</B>, то выполнится поиск минимальных элементов для каждого столбца, иначе - для каждой строки.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+<pre>
+<b>with</b> Base <b>do</b> <b>begin</b>
+  <i style="color: navy;">// Имеется массив А=[2 8 4; 7 3 9]</i>
+  SLoad(<span style="color: navy;">'A=[2 8 4; 7 3 9]'</span>);
+
+  <i style="color: navy;">// Определим минимальные элементы и их индексы для</i>
+  <i style="color: navy;">// каждого столбца</i>
+  GetMin(<span style="color: navy;">'A'</span>, <span style="color: navy;">'cEl'</span>, <span style="color: navy;">'cInd'</span>);
+  <i style="color: navy;">// В результате получим cEl=[2 3 4]; cInd=[1 2 1]</i>
+
+  <i style="color: navy;">// Определим минимальные элементы и их индексы для</i>
+  <i style="color: navy;">// каждой строки</i>
+  GetMin(<span style="color: navy;">'A'</span>, <span style="color: navy;">'rEl'</span>, <span style="color: navy;">'rInd'</span>, False);
+  <i style="color: navy;">// В результате получим rEl=[2; 3]; rInd=[1; 2]</i>
+<b>end</b>;
+</pre>
+
+
+</BODY>
+</HTML>

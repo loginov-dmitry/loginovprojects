@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  LoadArrayFromMemory</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, LoadArrayFromMemory">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">LoadArrayFromMemory</FONT></H1>
+Загрузка массива из структуры в оперативной памяти<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.LoadArrayFromMemory(ArrayName: String;
+  ArrayAddress: Pointer; RowCount, ColCount: Integer;
+  BaseTypeName: String);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура осуществляет загрузку массива <B>ArrayName</B> из структуры, которая находится в оперативной памяти в текущем сегменте данных по адресу <B>ArrayAddress</B>. Практически данный метод используется для копирования массивов среды <B>Delphi</B> в массивы формата <B>Matrix</B>. Допустим, что в <B>Delphi</B> массив объявлен следующим образом:<BR><BR>
+&nbsp;&nbsp;<B>var DelphiArray: array[1..100, 1..1000] of Integer;</B><BR><BR>
+Нам нужно создать массив <B>Matrix</B>, элементы которого должны быть копией элементов массива <B>DelphiArray</B>. Для этого нужна всего одна строчка кода:<BR><BR>
+&nbsp;&nbsp;<B>Base.LoadArrayFromMemory('MatrixArray', @DelphiArray, 100, 1000, 'Integer');</B><BR><BR>
+В результате будет создан массив <B>MatrixArray</B> размером 100 x 1000, элементы которого соответствуют элементам массива <B>DelphiArray</B>.<BR>
+В качестве <B>RowCount</B> и <B>ColCount</B> нужно указывать соответственно число строк и столбцов массива <B>Delphi</B>. <B>BaseTypeName</B> - это имя типа массива <B>Delphi</B>. Поддерживаются все базовые типы: Real, Double, Integer, Longint, Cardinal, Longword, Dword, Byte, Shortint, Int64, Word, Smallint, Short, Real48, Single, Extended, Comp и Currency. В независимости от типа элементы массива <B>Matrix</B> всегда занимают 8 байт и хранятся в формате <B>Real</B>.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Загрузка массива из структуры в оперативной памяти:<BR>
+<b>
+&nbsp;&nbsp;Base.LoadArrayFromMemory('MatrixArray', @DelphiArray, 100, 1000, 'Integer');<BR>
+</b><BR>
+
+
+
+</BODY>
+</HTML>

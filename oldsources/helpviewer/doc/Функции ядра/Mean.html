@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  Mean</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, Mean">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">Mean</FONT></H1>
+Определяет средние арифметические значения для строк или столбцов<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>function</b> TWorkspace.Mean(SourAr, DestAr: <b>string</b>;
+    ForColumns: Boolean = True): <b>string</b>;
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция определяет средние арифметические значения для строк (при ForColumns=False) или столбцов (при ForColumns=True) матрицы <B>SourAr</B>. В результате формируется вектор <B>DestAr</B>. В зависимости от ForColumns этот вектор может быть строкой или столбцом
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+<pre>
+<b>with</b> Base <b>do</b> <b>begin</b>
+  <i style="color: navy;">// Имеется массив А=[0 1 2; 3 4 5]</i>
+  SLoad(<span style="color: navy;">'A=[0 1 2; 3 4 5]'</span>);
+
+  <i style="color: navy;">// Определим среднее арифметическое для каждой строки</i>
+  Mean(<span style="color: navy;">'A'</span>, <span style="color: navy;">'ForRows'</span>, False);
+  <i style="color: navy;">// В результате получим ForRows=[1; 4]</i>
+
+  <i style="color: navy;">// Определим среднее арифметическое для каждого столбца</i>
+  Mean(<span style="color: navy;">'A'</span>, <span style="color: navy;">'ForCols'</span>);
+  <i style="color: navy;">// В результате получим ForCols=[1.5 2.5 3.5]</i>
+<b>end</b>;
+</pre>
+
+
+</BODY>
+</HTML>

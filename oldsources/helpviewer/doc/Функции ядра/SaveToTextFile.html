@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SaveToTextFile</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SaveToTextFile">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SaveToTextFile</FONT></H1>
+Сохранение рабочей области в текстовый файл<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.SaveToTextFile(const FileName: String);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура сохраняет все массивы рабочей области в текстовый файл <B>FileName</B>. В текстовом файле массивы следуют последовательно и отделяются друг от друга пустой строкой. В текстовый вид массивы преобразуются с помощью функции <A HREF="SaveArrayToString.html"><B>SaveArrayToString()</B></A>, после чего полученный текст записывается в файл. Работа с текстовыми файлами происходит долго, поэтому не рекомендуется применять данный формат при работе с большими массивами. Чаще всего представление массивов в текстовом виде применяется при отладке программы.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Сохранение рабочей области Base в текстовый файл:<BR>
+<b>
+&nbsp;&nbsp;Base.SaveToTextFile('D:\Temp\MatrixData\Base.txt');<BR>
+</b><BR>
+
+
+</BODY>
+</HTML>

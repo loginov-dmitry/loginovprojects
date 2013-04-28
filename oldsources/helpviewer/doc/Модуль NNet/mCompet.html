@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> NNet:  mCompet</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mCompet">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>NNet</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mCompet</FONT></H1>
+Для каждого столбца матрицы определяет номер строки с наибольшим элементом<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>procedure</b> mCompet(Ws: TWorkspace; SourAr, DestAr: <b>String</b>);
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура осуществляет поиск максимального элемента в каждом столбце матрицы <B>SourAr</B>. В результате формируется вектор-строка <B>DestAr</B>, хранящий номера строк с наибольшими элементами. <B>Ws</B> - ссылка на рабочую область, хранящую входной массив.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Пусть в рабочей области Base имеется матрица 
+<PRE>
+A=
+[7 5 2 9 5;
+5 8 2 4 6;
+4 2 7 5 0].</PRE>
+
+Определим индексы наибольших элементов в каждом столбце:<BR>
+
+<pre>
+  mCompet(Base, <span style="color: navy;">'A'</span>, <span style="color: navy;">'B'</span>); 
+</pre>
+
+В результате получим вектор B=[1 2 3 1 2];
+
+</BODY>
+</HTML>
