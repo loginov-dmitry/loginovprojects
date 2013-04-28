@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{c75b1dc5-3287-49d6-9f15-8974c57126c5}</ProjectGuid>
+    <MainSource>MedicalCheckOut.dpr</MainSource>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+    <DCC_DependencyCheckOutputName>..\MedicalCheckOut.exe</DCC_DependencyCheckOutputName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_Define>RELEASE</DCC_Define>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_Define>DEBUG</DCC_Define>
+    <DCC_ExeOutput>..\</DCC_ExeOutput>
+    <DCC_DcuOutput>$(TEMP)\Delphi\2007\MedicalCheckOut</DCC_DcuOutput>
+    <DCC_ObjOutput>$(TEMP)\Delphi\2007\MedicalCheckOut</DCC_ObjOutput>
+    <DCC_HppOutput>$(TEMP)\Delphi\2007\MedicalCheckOut</DCC_HppOutput>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality</Borland.Personality>
+    <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+    <BorlandProject>
+<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">False</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">0</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1049</VersionInfo><VersionInfo Name="CodePage">1251</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">LoginovProjects</VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName"></VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">MedicalCheckOut.dpr</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+  <ItemGroup>
+    <DelphiCompile Include="MedicalCheckOut.dpr">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <DCCReference Include="..\MainFrm.pas">
+      <Form>MedMainFrm</Form>
+    </DCCReference>
+    <DCCReference Include="..\MedAddEditCategFrm.pas">
+      <Form>MedAddEditCategForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\MedAddEditDoctorFrm.pas">
+      <Form>MedAddEditDoctorForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\MedAddEditElemFrm.pas">
+      <Form>MedAddEditElemForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\MedAddEditVarFrm.pas">
+      <Form>MedAddEditVarForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\MedBaseFrm.pas">
+      <Form>MedBaseForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\MedCreateCheckOutFrm.pas">
+      <Form>MedCreateCheckOutForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\MedDBStruct.pas" />
+    <DCCReference Include="..\MedDMUnit.pas">
+      <Form>MedDataModule</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="..\MedDoctorsFrm.pas">
+      <Form>MedDoctorsForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\MedEditElemBaseFrm.pas">
+      <Form>MedEditElemBaseForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\MedEditVarTypesFrm.pas">
+      <Form>MedEditVarTypesForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\MedGlobalUnit.pas" />
+    <DCCReference Include="..\MedInputDataFrm.pas">
+      <Form>MedInputDataForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\MedInputVarFrm.pas">
+      <Form>MedInputVarForm</Form>
+    </DCCReference>
+    <DCCReference Include="..\MedLoginFrm.pas">
+      <Form>LoginForm</Form>
+    </DCCReference>
+  </ItemGroup>
+</Project>
