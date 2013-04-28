@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> NNet:  mClearNetwork</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mClearNetwork">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>NNet</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mClearNetwork</FONT></H1>
+Удаление массивов нейронной сети<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>procedure</b> mClearNetwork(Ws: TWorkspace; NNName: <b>String</b>);
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура удаляет из рабочей области <B>Ws</B> массивы нейронной сети <B>NNName</B>, загруженные из Matlab с помощью процедуры <A HREF="mLoadNNFromMatlab.html">mLoadNNFromMatlab</A>().
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Удаление из рабочей области Base массивов нейронной сети Net_I:<BR>
+
+<pre>
+  mClearNetwork(Base, <span style="color: navy;">'Net_I'</span>);
+</pre>
+
+
+</BODY>
+</HTML>

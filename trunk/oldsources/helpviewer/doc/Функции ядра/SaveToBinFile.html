@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SaveToBinFile</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SaveToBinFile">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SaveToBinFile</FONT></H1>
+Сохранение рабочей области в двоичный файл<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.SaveToBinFile(const FileName: String);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура сохраняет все массивы рабочей области в двоичный файл <B>FileName</B>. Структура двоичного файла следующая: сначала идет заголовок файла (30 байт), затем имя массива (32 байта), число строк (Integer, 4 байта), число столбцов (Integer, 4 байта), закодированный тип элементов (Word, 2 байта), элементы массива (следуют сразу друг за другом, каждый элемент занимает от 1 до 8 байт в зависимости от типа элементов), после чего могут следовать записи остальных массивов. Запись массивов в двоичный файл происходит очень быстро, поэтому этот формат удобно использовать для хранения массивов больших размеров.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Сохранение рабочей области Base в двоичный файл:<BR>
+<b>
+&nbsp;&nbsp;Base.SaveToBinFile('D:\Temp\MatrixData\Base.bin');<BR>
+</b><BR>
+
+
+</BODY>
+</HTML>

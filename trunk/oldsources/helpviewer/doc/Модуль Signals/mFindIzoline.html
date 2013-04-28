@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Signals:  mFindIzoline</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mFindIzoline">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Signals</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mFindIzoline</FONT></H1>
+Поиск изолинии<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>function</b> mFindIzoline(Ws: TWorkspace; MatName: <b>string</b>; Row: Integer;
+    Koef: Integer = <span style="color: navy;">20</span>): Real;
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура выполняет поиск изолинии и разработана специально для анализа сигналов ЭКГ. Изолиния - прямая, на которой лежит наибольшее количество точек. Естественно, что реально в сигнале ЭКГ такой прямой быть не может, поэтому мы разбиваем весь сигнал на <B>Koef</B> интервалов (по оси Y). Для каждого из интервалов устанавливаются счетчики, которые ведут учет, сколько точек приходится на тот или иной интервал. Выигрывает тот интервал, чей счетчик принял наибольшее значение. Вы можете задавать в качестве входного массива матрицу из нескольких сигналов, однако процедура будет обрабатывать только строку <B>Row</B>. Процедура возвращает значение изолинии. <B>Ws</B> - ссылка на рабочую область, в которой хранится  массив сигналов.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Пусть имеется сигнал ЭКГ здорового человека в I-м отведении, графически изображенный на рисунке:<BR>
+<IMG SRC="Img06.png" WIDTH="403" HEIGHT="203" BORDER=0 ALT=""><BR>
+Сигнал нормирован до 100, синяя линия означает ноль по оси Y. Выполним поиск изолинии:
+<pre>
+  Izoline := mFindIzoline(Base, <span style="color: navy;">'A'</span>, <span style="color: navy;">1</span>);
+</pre>
+
+В результате получим Izoline=0.
+
+</BODY>
+</HTML>

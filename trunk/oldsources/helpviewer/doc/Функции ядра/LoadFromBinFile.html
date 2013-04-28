@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  LoadFromBinFile</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, LoadFromBinFile">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">LoadFromBinFile</FONT></H1>
+Загрузка рабочей области из двоичного файла<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.LoadFromBinFile(const FileName: String);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура загружает в рабочую область массивы из двоичного файла <B>FileName</B>. Сохранение рабочей области в двоичный файл осуществляет функция <A HREF="SaveToBinFile.html"><B>SaveToBinFile()</B></A>. Если во время загрузки массива в рабочей области будет обнаружен одноименный массив, то он будет удален. Чтение данных из двоичных файлов происходит столь же быстро, как и запись, поэтому при работе с большими объемами данных рекомендуется пользоваться именно этим форматом.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Загрузка рабочей области Base из двоичного файла:<BR>
+<b>
+&nbsp;&nbsp;Base.LoadFromBinFile('D:\Temp\MatrixData\Base.bin');<BR>
+</b><BR>
+
+
+</BODY>
+</HTML>

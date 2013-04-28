@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  LoadArrayFromStream</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, LoadArrayFromStream">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">LoadArrayFromStream</FONT></H1>
+Загрузка массива из потока TStream<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.LoadArrayFromStream(ArrayName: String;
+  Stream: TStream; Rows, Cols: Integer; BaseTypeName: String; StartByte: DWORD=0);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+
+Процедура осуществляет загрузку массива <B>ArrayName</B> из объекта-потока, являющимся дочерним от класса <B>TStream</B>. Пусть имеется двоичный файл, в котором хранятся элементы массива формата <B>Byte</B> размером 100 х 1000, причем первые 500 байт идет заголовочная область, а сам массив расположен сразу за заголовочной областью. Для того, чтобы создать копию этого массива в <B>Matrix</B> нужно сперва создать объект типа TFileStream:<BR><BR>
+<B>
+var FileStr: TFileStream;<BR>
+begin<BR>
+&nbsp;&nbsp;FileStr := TFileStream.Create('ArrayFile.bin', fmOpenRead);<BR>
+</B><BR>
+После этого осуществляется загрузка массива в <B>Matrix</B>:<BR><BR>
+<B>
+&nbsp;&nbsp;Base.LoadArrayFromStream('MatrixArray', FileStr, 100, 1000, 'Byte', 500);<BR>
+</B><BR>
+
+В результате будет создан массив <B>MatrixArray</B> размером 100 x 1000, элементы которого являются копией элементов, хранящихся в файле 'ArrayFile.bin'. В качестве <B>Rows</B> и <B>Cols</B> нужно указывать соответственно число строк и столбцов создаваемого массива. <B>BaseTypeName</B> - это имя типа элементов, хранящихся в потоке, а <B>StartByte</B> - номер байта, с которого нужно начинать загрузку массива (нумерация байтов начинается с нуля), или другими словами это количество байтов, которые нужно пропустить перед началом чтения (обычно они входят в заголовочную область). Поддерживаются все базовые типы: Real, Double, Integer, Longint, Cardinal, Longword, Dword, Byte, Shortint, Int64, Word, Smallint, Short, Real48, Single, Extended, Comp и Currency. В независимости от типа элементы массива <B>Matrix</B> всегда занимают 8 байт и хранятся в формате <B>Real</B>. Кроме потоков <B>TFileStream</B> поддерживаются потоки <B>TMemoryStream</B>, что позволяет загружать массивы из БЛОБ-полей базы данных.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Загрузка массива из потока TStream:<BR>
+<b>
+&nbsp;&nbsp;Base.LoadArrayFromStream('MatrixArray', FileStr, 100, 1000, 'Byte', 500);<BR>
+</b><BR>
+
+
+
+</BODY>
+</HTML>

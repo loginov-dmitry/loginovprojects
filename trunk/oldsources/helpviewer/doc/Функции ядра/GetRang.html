@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  GetRang</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, GetRang">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">GetRang</FONT></H1>
+Определение размеров массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;1. function TWorkspace.GetRang(Name: String; var Rows, Cols: Integer): Integer;<BR>
+&nbsp;&nbsp;2. function TWorkspace.GetRang(Idx: Integer; var Rows, Cols: Integer): Integer;<BR>
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+<P>1. Функция определяет размеры массива <B>Name</B>. В результате выполнения функции в переменную <B>Rows</B> запишется число строк, а в переменную <B>Cols</B> - число столбцов массива. Функция возвращает индекс массива <B>Name</B>.
+
+<P>2. Функция работает аналогично предыдущей, однако вместо имени массива задается его индекс. Возвращает индекс массива (фактически возвращает заданный индекс <B>Idx</B>).
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+1. Пусть имеется массив A=[1 2 3; 4 5 6; 7 8 9; 10 11 12]. Определим размеры и индекс массива:<BR>
+<b>&nbsp;&nbsp;Index := Base.GetRang('A', Rows, Cols); </b><BR>
+В результате получим Rows = 4 и Cols = 3.
+
+<P>2. Индекс массива известен и хранится в переменной Index. Определим размеры массива:<BR>
+<b>&nbsp;&nbsp;Base.GetRang(Index, Rows, Cols); </b><BR>
+В результате получим Rows = 4 и Cols = 3.
+</BODY>
+</HTML>

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  CopyCutCols</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, CopyCutCols">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">CopyCutCols</FONT></H1>
+Копирование/вырезание строк<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;function TWorkspace.CopyCutCols(SourAr, DestAr: String; ColNumber,
+  Cols: Integer; Cut: Boolean): String;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Данная функция может из входного массива <B>SourAr</B> скопировать или вырезать несколько столбцов в выходной массив <B>DestAr</B>. Если <B>Cut=False</B>, то выполняется копирование, иначе - вырезание. Если после вырезания в массиве <B>SourAr</B> не остается строк, то он будет удален из рабочей области. Переменная <B>ColNumber</B> указывает, с какго столбца начать копирование/вырезание, а <B>Cols</B> - сколько столбцов нужно скопировать/вырезать. Функция возвращает имя выходного массива <B>DestAr</B>.<BR>
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+1. Копирование нескольких столбцов из массива 'А' в массив 'В':<BR>
+<b>&nbsp;&nbsp;Base.CopyCutCols('А', 'B', 2, 5); </b><BR><BR>
+2. Вырезание нескольких столбцов из массива 'А' в массив 'В':<BR>
+<b>&nbsp;&nbsp;Base.CopyCutCols('А', 'B', 2, 5, True); </b>
+</BODY>
+</HTML>

@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SumCols</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SumCols">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SumCols</FONT></H1>
+Сложение столбцов массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.SumCols(SourAr, DestAr: String): String;<BR>
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция складывает между собой столбцы массива <B>SourAr</B>. В результате формируется вектор-столбец <B>DestAr</B>. Функция возвращает имя выходного массива <B>DestAr</B>.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Имеется массив A=<BR>
+[1 2 3 4;<BR>
+5 6 7 8;<BR>
+8 2 4 3]<BR>
+Выполним сложение столбцов массива с помещением результата в массив В:<BR>
+<b>&nbsp;&nbsp;Base.SumCols('А', 'B'); </b><BR>
+В результате будет создан массив<BR>
+B=[10;<BR>
+26;<BR>
+17];<BR>
+</BODY>
+</HTML>

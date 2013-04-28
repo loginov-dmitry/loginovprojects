@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Signals:  mNormAmplitude</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mNormAmplitude">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Signals</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mNormAmplitude</FONT></H1>
+Нормализация амплитуды сигналов в строках матрицы (шкалирование)<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>procedure</b> mNormAmplitude(Ws: TWorkspace;SourAr, DestAr: <b>string</b>; 
+    MaxValue: Real);
+</pre>
+
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура выполняет нормализацию амплитуды сигналов в строках матрицы <B>SourAr</B> согласно значению <B>MaxValue</B>. Для всех строк матрицы <B>SourAr</B> происходит поиск максимального по модулю элемента <B>MaxElem</B>, с помощью которого расчитывается коэффициент нормализации по формуле <B>Koef = MaxValue / MaxElem</B>. После этого элементы строки умножаются на этот коэффициент, и в результате формируется выходная матрица <B>DestAr</B>. <B>Ws</B> - ссылка на рабочую область, в которой хранятся входные массивы.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Пусть имеется массив сигналов
+<PRE>
+A=[1 2 3 4 3 2;
+   8 5 4 3 9 8;
+   6 5 2 0 7 6];
+</PRE>
+Выполним нормализацию сигналов до уровня 10:
+<pre>
+  mNormAmplitude(Base, <span style="color: navy;">'A'</span>, <span style="color: navy;">'B'</span>, <span style="color: navy;">10</span>);
+</pre>
+
+В результате получим массив
+<PRE>
+B=[2.5    5      7.5    10     7.5  5;
+   8.8889 5.5556 4.4444 3.3333 10   8.8889;
+   8.5714 7.1428 2.8571 0      10   8.5714];
+</PRE>
+
+</BODY>
+</HTML>

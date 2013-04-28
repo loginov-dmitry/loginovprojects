@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  GetNameList</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, GetNameList">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">GetNameList</FONT></H1>
+Формирование списка имен массивов<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.GetNameList: String;<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция возвращает список имен массивов, находящихся в рабочей области, из которой данная функция была вызвана. Имена массивов отделяются друг от друга символами <B>#13#10</B> ("возврат каретки" и "перенос строки").
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Формирование списка имен массивов, находящихся в рабочей области Base:<BR>
+<b>&nbsp;&nbsp;NameList := Base.GetNameList();</b><BR>
+
+</BODY>
+</HTML>

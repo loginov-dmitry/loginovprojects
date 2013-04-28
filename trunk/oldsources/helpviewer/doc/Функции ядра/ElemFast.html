@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  ElemFast</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, ElemI">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">ElemFast</FONT></H1>
+Доступ к отдельному элементу массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>property</b> ElemFast[Adr, Row, Col, ColCount: Integer]: Real
+    <b>read</b> GetElemFast <b>write</b> SetElemFast;
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Данное свойство отличается от свойства <A HREF="Elem.html"><B>ElemI[]</B></A> тем, что вместо индекса массива нужно указывать его адрес, а также в качестве 4-го параметра необходимо указывать число столбцов. С помощью данного свойства осуществляется самый быстрый доступ к элементам массива в системе <B>Matrix</B>.
+
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+<pre>
+<b>with</b> Base <b>do</b> <b>begin</b>
+  <i style="color: navy;">// Имеется массив А. Определяем его адрес и число столбцов</i>
+  aAdr := GetAddressI(GetRang(<span style="color: navy;">'A'</span>, Rows, Cols));
+
+  <i style="color: navy;">// Запись в массив:</i>
+  ElemFast[aAdr, <span style="color: navy;">1</span>, <span style="color: navy;">1</span>, Cols] := <span style="color: navy;">777</span>;
+
+  <i style="color: navy;">// Чтение из массива</i>
+  R := ElemFast[aAdr, <span style="color: navy;">1</span>, <span style="color: navy;">1</span>, Cols];
+<b>end</b>;
+</pre>
+</BODY>
+</HTML>

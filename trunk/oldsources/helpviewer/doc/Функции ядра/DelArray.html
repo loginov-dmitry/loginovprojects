@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  DelArray</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, DelArray">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">DelArray</FONT></H1>
+Удаление указанного массива из рабочей области<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;function TWorkspace.DelArray(Name: String): Integer;</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция удаляет массив с именем <B>Name</B> из рабочей области. Возвращает индекс удаленного массива. Дело в том, что при удалении массива его имя из списка имен не удаляется, а помечается с помощью символа '$'. Если бы имя удалялось из списка, то индексация остальных массивов могла нарушиться. Кроме того, функция <A HREF="NewArray.html"><B>NewArray()</B></A> производит поиск удаленного массива, помеченного символом '$' в списке имен и создает новый массив на месте помеченного. В случае удаления массива функцией <B>DelArray()</B> и последующего создания массива с тем же именем функцией <B>NewArray()</B>, имя нового массива записывается на месте удаленного, т.е. индекс нового массива будет таким же, как и для удаленного. В случае попытки удаления несуществующего массива ошибки не возникает (попытка удаления несуществующего массива довольно частая операция в <B>Matrix</B>).
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Удаление массива MyArray из рабочей области Base<BR>
+<b>&nbsp;&nbsp;I := Base.DelArray('MyArray'); </b>
+
+</BODY>
+</HTML>

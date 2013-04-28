@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  CopyRefFromWorkspace</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, CopyRefFromWorkspace">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">CopyRefFromWorkspace</FONT></H1>
+Копирование ссылки на массив из указанной рабочей области<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function  CopyRefFromWorkspace(SourWS: TWorkspace;
+      SourAr, DestAr: String): Integer;<BR>
+
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+<P>Функция копирует ссылку на массив <B>SourAr</B> из рабочей области <B>SourWS</B> в рабочую область подпрограммы. После копирования ссылки массиву назначается новое имя <B>DestAr</B>. Если задан код <B>Base.CopyRefFromWorkspace(Ws, 'A', 'B')</B>, то из рабочей области <B>Ws</B> в рабочую область <B>Base</B> будет скопирована ссылка на массив 'A' и ему будет присвоено имя 'B'. Функция возвращает индекс массива <B>DestAr</B>. Данная функция реализует основной способ передачи входных массивов в подпрограмму. Переданный по ссылке массив может использоваться только для чтения. Ваша подпрограмма не должна менять данные в этом массиве.<BR>
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+<P>Примеры использования функции <B>CopyRefFromWorkspace()</B> вы можете увидеть в модуле <B>Signals.pas</B>, который поставляется вместе с системой <B>Matrix</B>.
+
+</BODY>
+</HTML>

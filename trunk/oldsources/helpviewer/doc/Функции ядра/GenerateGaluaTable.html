@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  GenerateGaluaTable</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, GenerateGaluaTable">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">GenerateGaluaTable</FONT></H1>
+
+Генерация таблиц сложения и умножения в конечном поле Галуа<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.GenerateGaluaTable(TableName: String; Value: Integer; TabSum: Boolean=True);<BR>
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура выполняет генерацию таблицы сложения или умножения в конечном поле Галуа степени <B>Value</B>. При <B>TabSum=True</B> строится таблица сложения, а при <B>TabSum=False</B> - таблица умножения. <B>TableName</B> - имя массива, содержащего таблицу Галуа.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Создадим таблицы сложения и умножения в поле Галуа степени 5:<BR>
+<b>
+&nbsp;&nbsp;Base.GenerateGaluaTable('TabSum', 5);  // Таблица сложения<BR>
+&nbsp;&nbsp;Base.GenerateGaluaTable('TabMul', 5, False); // Таблица умножения<BR>
+</b><BR>
+В результате получим следующие массивы:
+<PRE>TabSum=
+[0 1 2 3 4;
+1 2 3 4 0;
+2 3 4 0 1;
+3 4 0 1 2;
+4 0 1 2 3];
+
+TabMul=
+[0 0 0 0 0;
+0 1 2 3 4;
+0 2 3 4 1;
+0 3 4 1 2;
+0 4 1 2 3];</PRE>
+</BODY>
+</HTML>

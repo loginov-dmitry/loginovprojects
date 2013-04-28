@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  MoveToWorkspace</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, MoveToWorkspace">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">MoveToWorkspace</FONT></H1>
+Перемещает массив (точнее, ссылку на массив) в указанную рабочую область<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.MoveToWorkspace(DestWS: TWorkspace; SourAr,
+  DestAr: String);<BR>
+
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+
+<P>Процедура перемещает ссылку на массив <B>SourAr</B> из рабочей области, вызвавшей данный метод в указанную рабочую область <B>DestWS</B>. После перемещения массиву назначается новое имя <B>DestAr</B>. Операция перемещения ссылки означает, что из "вызывающей" рабочей области в указанную рабочую область копируются название массива, размеры массива и его адрес, после чего эти данные удаляются из "вызывающей" рабочей области. Данная процедура в основном используется для возврата результатов работы подпрограмм.<BR>
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+<P>Более подробные примеры использования процедуры <B>MoveToWorkspace()</B> смотрите в разделе <I>Система Matrix-&gt;<A HREF="../Система Matrix/Программирование внешних функций.html">Программирование внешних функций</A></I>.
+
+</BODY>
+</HTML>

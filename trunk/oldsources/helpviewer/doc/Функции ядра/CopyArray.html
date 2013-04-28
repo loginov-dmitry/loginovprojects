@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  CopyArray</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, CopyArray">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">CopyArray</FONT></H1>
+Копирование массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;function TWorkspace.CopyArray(SourAr, DestAr: String): Integer;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция копирует массив <B>SourAr</B> в массив <B>DestAr</B>. Если <B>DestAr</B> перед копированием существовал, то он удаляется. Функция создает массив <B>DestAr</B> в той же рабочей области, что и <B>SourAr</B>. Если массив <B>SourAr</B> не существует, то генерируется соответствующее сообщение. Для копирования используется оператор <B>Move()</B>, копирующий данные из одной области памяти в другую с максимально большой скоростью. Функция возвращает индекс нового массива <B>DestAr</B>.<BR>
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Копирование массива:<BR>
+<b>&nbsp;&nbsp;I := Base.CopyArray('MyArray', 'CopyArray'); </b>
+
+</BODY>
+</HTML>

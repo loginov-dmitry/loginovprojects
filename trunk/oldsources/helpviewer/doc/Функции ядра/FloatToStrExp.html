@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  FloatToStrExp</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, FloatToStrExp">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">FloatToStrExp</FONT></H1>
+Преобразование вещественного числа в строку<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;function TMatrixCommonFunc.FloatToStrExp(Value: Extended): string;</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция преобразует вещественное число <B>Value</B> в строку фиксированной длины с экспоненциальной частью. Длина числа: 23 знака для положительных и 24 знака для отрицательных чисел. Разделителем целых и дробных разрядов является точка, независимо от настроек операционной системы. 
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Преобразование строки в вещественное число:<BR>
+<b>
+&nbsp;&nbsp;S := MatrixFunc.FloatToStrExp(1.7)  // Получим S=1.7000000000000000E+000;<BR>
+&nbsp;&nbsp;S := MatrixFunc.FloatToStrExp(-1.7)  // Получим S=-1.7000000000000000E+000;
+</b>
+
+</BODY>
+</HTML>

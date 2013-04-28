@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  IsEqual</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, IsEqual">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">IsEqual</FONT></H1>
+Сравнение массивов<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.IsEqual(Array1, Array2, ResArray: String=''): Boolean;<BR>
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция определяет, равны ли массивы <B>Array1</B> и <B>Array2</B> между собой. Если равны, то возвращает 'True', а иначе - 'False'. Если в качестве аргумента <B>ResArray</B> указать имя массива, то результат сравнения будет записан также и в этот массив (массив будет содержать всего один элемент, равный 1 при равенстве и 0 при неравенстве).
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Путь имеются массивы A=<BR>
+
+[10 15 20 25<BR>
+30 35 40 45<BR>
+50 55 60 65]<BR> и
+B=<BR>
+
+[10 30 50<BR>
+15 35 55<BR>
+20 40 60<BR>
+25 45 65]<BR>
+
+Сравним их. Результат сравнения запишем в массив С:<BR>
+<b>&nbsp;&nbsp;if Base.IsEqual('А', 'B', 'C') then ShowMessage('Массивы равны между собой'); </b><BR>
+
+В результате получим массив
+С=[0], так как массивы разные.
+
+
+
+</BODY>
+</HTML>

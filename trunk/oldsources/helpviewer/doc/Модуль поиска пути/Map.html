@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> TFindPath:  Map</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, Map">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>TFindPath</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">Map</FONT></H1>
+Матрица карты<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+<b>property</b>  Map[Row, Col: Integer]: Boolean <b>read</b> GetMapEl <b>write</b> SetMapEl;
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Свойство позволяет осуществлять запись и чтение элементов матрицы карты. Вы можете использовать данное свойство как обычный массив Delphi. Для определения числа строк и столбцов матрицы карты используйте соответственно свойства MapRows и MapCols.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Запись элемента в матрицу карты<BR>
+<pre>
+  FP.Map[<span style="color: navy;">1</span>, <span style="color: navy;">1</span>] := True;
+</pre>
+
+Чтение элемента матрицы карты<BR>
+<pre>
+  B := FP.Map[<span style="color: navy;">1</span>, <span style="color: navy;">1</span>];
+</pre>
+
+</BODY>
+</HTML>

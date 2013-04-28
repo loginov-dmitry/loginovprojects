@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  LoadArrayFromTextFile</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, LoadArrayFromTextFile">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">LoadArrayFromTextFile</FONT></H1>
+Загрузка массива из текстового файла<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.LoadArrayFromTextFile(const FileName: String; Name: String);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура осуществляет загрузку указанного массива <B>Name</B> из текстового файла <B>FileName</B>. Запись массивов в текстовый файл может выполнять одна из функций: <A HREF="SaveToTextFile.html"><B>SaveToTextFile()</B></A> или <A HREF="SaveArrayToTextFile.html"><B>SaveArrayToTextFile()</B></A>. Если файл не найден или элементы указанного массива заданы неправильно, то генерируется исключительная ситуация с соответствующим сообщением. Если в файле нет указанного массива, то ошибки не возникает.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Загрузка массива из текстового файла:<BR>
+<b>
+&nbsp;&nbsp;Base.LoadArrayFromTextFile('D:\Temp\MatrixData\Arrays.txt', 'A');<BR>
+</b><BR>
+
+
+
+</BODY>
+</HTML>

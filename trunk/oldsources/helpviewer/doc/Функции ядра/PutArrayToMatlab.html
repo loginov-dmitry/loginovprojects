@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  PutArrayToMatlab</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, PutArrayToMatlab">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">PutArrayToMatlab</FONT></H1>
+Передача массива в MATLAB<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.PutArrayToMatlab(const Name: String);<BR>
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура передает массив <B>Name</B> в среду MATLAB. Если от системы Matrix еще не было обращений к MATLAB, то эта среда будет запущена. MATLAB запустится в фоновом режиме, окно этой среды будет свернуто. В результате в рабочей области <B>Base</B> среды MATLAB появится массив с тем же именем, т.е. <B>Name</B>.<BR>
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Передача массива в MATLAB:<BR>
+<b>
+&nbsp;&nbsp;Base.PutArrayToMatlab('A');<BR>
+</b><BR>
+</BODY>
+</HTML>

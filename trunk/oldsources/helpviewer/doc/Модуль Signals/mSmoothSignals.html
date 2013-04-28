@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Signals:  mSmoothSignals</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mSmoothSignals">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Signals</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mSmoothSignals</FONT></H1>
+Сглаживание сигналов в строках матрицы<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>procedure</b> mSmoothSignals(Ws: TWorkspace; SourAr, DestAr: <b>string</b>; 
+    Iter: Integer);
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура выполняет сглаживание сигналов в строках матрицы. <B>SourAr</B> - массив исходных сигналов. <B>DestAr</B> - массив, полученный после сглаживания. <B>Iter</B> - количество циклов сглаживания (чем больше это число, тем более гладким становится сигнал, постепенно он выраждается в прямую линию). <B>Ws</B> - ссылка на рабочую область, содержащую входные массивы.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Пусть имеется некоторый несглаженный сигнал А, представленный на рисунке ниже<BR>
+<IMG SRC="Img04.png" WIDTH="302" HEIGHT="180" BORDER=0 ALT=""><BR>
+
+Выполним 30 циклов сглаживания:
+
+<pre>
+  mSmoothSignals(Base, <span style="color: navy;">'A'</span>, <span style="color: navy;">'A'</span>, <span style="color: navy;">30</span>);
+</pre>
+
+В результате получим сглаженный сигнал, графическое изображение которого представлено на рисунке ниже:<BR>
+<IMG SRC="Img05.png" WIDTH="302" HEIGHT="179" BORDER=0 ALT=""><BR><BR>
+
+Количество циклов сглаживания зависит от требований конкретной задачи.
+
+
+</BODY>
+</HTML>

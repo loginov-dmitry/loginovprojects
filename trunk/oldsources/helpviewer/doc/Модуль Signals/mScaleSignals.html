@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Signals:  mScaleSignals</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mScaleSignals">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Signals</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mScaleSignals</FONT></H1>
+Растяжение или сжатие строк матрицы<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>procedure</b> mScaleSignals(Ws: TWorkspace;SourAr, DestAr: <b>string</b>; 
+    DestLen: Integer);
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура выполняет растяжение или сжатие сигнала с помощью соответствующих процедур <A HREF="mIncSizeRows.html"><B>mIncSizeRows()</B></A> или <A HREF="mDecSizeRows.html"><B>mDecSizeRows()</B></A>. Если значение <B>DestLen</B> больше размера строк матрицы <B>SourAr</B>, то происходит растяжение сигнала, иначе происходит сжатие. <B>WS</B> - ссылка на рабочую область с входными данными.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Растяжение или сжатие строк матрицы A<BR>
+
+<pre>
+  mScaleSignals(Base, <span style="color: navy;">'A'</span>, <span style="color: navy;">'A'</span>, <span style="color: navy;">100</span>);
+</pre>
+
+
+
+</BODY>
+</HTML>

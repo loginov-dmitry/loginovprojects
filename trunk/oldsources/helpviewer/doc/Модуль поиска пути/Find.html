@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> TFindPath:  Find</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, Find">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>TFindPath</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">Find</FONT></H1>
+Выполнение поиска<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>function</b> TFindPath.Find(bRow, bCol, eRow, eCol: Integer; 
+    Proc: TFindPathProc=<B>nil</B>): Boolean;
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция выполняет поиск кратчайшего пути между начальной точкой (bRow, bCol) и конечной точкой (eRow, eCol). Кратчайший путь - это минимальный путь без препятствий. Найденный путь в разных местах может быть горизонтальным, вертикальным или диагональным. Если путь найден, то функция вернет значение True, а иначе - False. Точки найденного пути хранятся в списке PathList, имеющего тип TPoint. Вы можете создать свою процедуру, например:
+<pre>
+<b>procedure</b> GetPathPoints(Row, Col);
+<b>begin</b>
+ <i style="color: navy;">// Обработка найденной точки</i>
+<b>end</b>;
+</pre>
+
+Если имя этой процедуры указать в качестве 5-го параметра функции Find(), то для каждого найденного элемента будет вызываться процедура GetPathPoints(), в которую будут переданы координаты найденной точки.
+<P>После поиска пути вы можете узнать время, затраченное на поиск - для этого случит переменная SearchTime.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Выполнение поиска<BR>
+<pre>
+  <b>if</b> FP.Find(<span style="color: navy;">5</span>, <span style="color: navy;">5</span>, <span style="color: navy;">20</span>, <span style="color: navy;">20</span>) <b>then</b> ShowMessage(<span style="color: navy;">'Путь найден'</span>);
+</pre>
+
+</BODY>
+</HTML>

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SaveArrayToStream</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SaveArrayToStream">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SaveArrayToStream</FONT></H1>
+Запись массива в поток TStream<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.SaveArrayToStream(ArrayName: String;
+  Stream: TStream; BaseTypeName: String; StartByte: DWORD=0);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+
+Процедура осуществляет запись массива <B>ArrayName</B> в объект-поток, являющимся дочерним от класса <B>TStream</B>. Пусть в рабочей области <B>Base</B> имеется массив <B>MatrixArray</B>. Нам нужно сохранить элементы этого массива в двоичный файл, причем под заголовочную область нужно оставить 100 байт. Для этого следует ввести такой код:<BR><BR>
+<B>
+var FileStr: TFileStream;<BR>
+begin<BR>
+&nbsp;&nbsp;FileStr := TFileStream.Create('ArrayFile.bin', fmCreate);<BR>
+&nbsp;&nbsp;Base.SaveArrayToStream('MatrixArray', FileStr, 'Real', 100);<BR>
+&nbsp;&nbsp;FileStr.Free;<BR>
+end;<BR>
+</B><BR>
+
+В результате будет создан файл 'ArrayFile.bin', который включает заголовочную область размером 100 байт и элементы массива <B>MatrixArray</B>.<BR>
+<B>BaseTypeName</B> - определяет тип элементов в потоке, <B>StartByte</B> - номер байта, с которого нужно начинать запись массива (нумерация байтов начинается с нуля), или другими словами это количество байтов, которые нужно пропустить перед началом записи (обычно они входят в заголовочную область). Поддерживаются все базовые типы: Real, Double, Integer, Longint, Cardinal, Longword, Dword, Byte, Shortint, Int64, Word, Smallint, Short, Real48, Single, Extended, Comp и Currency. В независимости от типа элементы массива <B>Matrix</B> всегда занимают 8 байт и хранятся в формате <B>Real</B>. Кроме потоков <B>TFileStream</B> поддерживаются потоки <B>TMemoryStream</B>, что позволяет сохранять массивы в БЛОБ-полях базы данных.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Запись массива в поток TStream:<BR>
+<b>
+&nbsp;&nbsp;Base.SaveArrayToStream('MatrixArray', FileStr, 'Real', 100);<BR>
+</b><BR>
+
+
+
+</BODY>
+</HTML>

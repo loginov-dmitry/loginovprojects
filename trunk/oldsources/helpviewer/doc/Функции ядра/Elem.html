@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  Elem</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, Elem">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">Elem</FONT></H1>
+Доступ к отдельному элементу массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>property</b>  Elem[Name: <b>String</b>; Row, Col: DWORD]: Real 
+    <b>read</b> eGet <b>write</b> ePut;
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+С помощью свойства <B>Elem</B> вы можете считать или изменить значение любого элемента массива <B>Name</B>, находящегося в строке <B>Row</B> и столбце <B>Col</B>. Данное свойство для чтения использует функцию <B>eGet()</B>, а для записи - функцию <B>ePut()</B>. Например, если в обычном массиве изменить элемент можно с помощью кода <B>ArrayName[Row, Col] := Value</B>, то в <B>Matrix</B> для этого нужно писать: <B>Elem['ArrayName', Row, Col] := Value</B>. Доступ к элементу массива с помощью данного свойства не самый быстрый, т.к. приходится выполняеть поиск индекса массива по его имени. Значительно быстрее работает свойство <A HREF="ElemI.html"><B>ElemI</B></A>, в котором вместо имени нужно указывать индекс массива.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+<pre>
+<b>with</b> Base <b>do</b> <b>begin</b>
+  <i style="color: navy;">// Имеется массив MyArray</i>
+  <i style="color: navy;">// Осуществляем запись в массив:</i>
+  Elem[<span style="color: navy;">'MyArray'</span>, <span style="color: navy;">1</span>, <span style="color: navy;">1</span>] := <span style="color: navy;">777</span>;
+
+  <i style="color: navy;">// Чтение из массива</i>
+  R := Elem[<span style="color: navy;">'MyArray'</span>, <span style="color: navy;">1</span>, <span style="color: navy;">1</span>];
+<b>end</b>;
+</pre>
+</BODY>
+</HTML>

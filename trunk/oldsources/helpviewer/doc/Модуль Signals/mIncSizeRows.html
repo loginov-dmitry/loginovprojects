@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Signals:  mIncSizeRows</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mIncSizeRows">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Signals</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mIncSizeRows</FONT></H1>
+Растяжение сигналов в строках матрицы<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>procedure</b> mIncSizeRows(Ws: TWorkspace; SourAr, DestAr: <b>string</b>; 
+    NumPoints: Integer);
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура растягивает сигналы, хранящиеся в строках матрицы с помощью параболической интерполяции. <B>SourAr</B> - массив исходных сигналов, <B>DestAr</B> - растянутый выходной массив. <B>NumPoints</B> - количество точек в выходном массиве. <B>Ws</B> - ссылка на рабочую область, хранящую входные данные.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Пусть имеется массив А, полученный в результате операции A=sin(1:0.1:20).*20 (запись операции на языке Matlab). Графически массив А будет выглядеть следующим образом:<BR>
+<IMG SRC="Img01.png" WIDTH="193" HEIGHT="42" BORDER=0 ALT=""><BR>
+
+Массив А имеет 191 точку. Теперь растянем его до 300 точек:<BR>
+
+<pre>
+  mIncSizeRows(Base, <span style="color: navy;">'A'</span>, <span style="color: navy;">'A'</span>, <span style="color: navy;">300</span>);
+</pre>
+
+
+В результате изображение графика будет растянутым:<BR>
+<IMG SRC="Img02.png" WIDTH="302" HEIGHT="43" BORDER=0 ALT="">
+
+
+</BODY>
+</HTML>

@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  RandomAr</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, RandomAr">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">RandomAr</FONT></H1>
+Заполнение массива псевдослучайными числами<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.RandomAr(const Name: String): String;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция заполняет массив Name псевдослучайными числами. Заполнение производится построчно. Функция <B>Randomize()</B> в данном методе не вызывается, т.е. если вы хотите, чтобы числа были случайными, вам придется перед вызовом метода <B>RandomAr()</B> вызывать функцию <B>Randomize()</B>. Функция возвращает имя массива <B>Name</B>. Если массив <B>Name</B> не существует, то будет сгенерировано исключение.<BR>
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+1. Заполнение массива псевдослучайными числами:<BR>
+<b>&nbsp;&nbsp;Base.RandomAr('А'); </b><BR><BR>
+2. Заполнение массива случайными числами:<BR>
+<b>
+&nbsp;&nbsp;Randomize();<BR>
+&nbsp;&nbsp;Base.RandomAr('А'); </b><BR><BR>
+</BODY>
+</HTML>

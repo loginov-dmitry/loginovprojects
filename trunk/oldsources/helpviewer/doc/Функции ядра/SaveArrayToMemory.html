@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SaveArrayToMemory</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SaveArrayToMemory">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SaveArrayToMemory</FONT></H1>
+Запись массива в структуру, хранящуюся в оперативной памяти<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.SaveArrayToMemory(ArrayName: String;
+  ArrayAddress: Pointer; RowCount, ColCount: Integer;
+  BaseTypeName: String);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура копирует массив <B>ArrayName</B> в структуру, которая находится в оперативной памяти в текущем сегменте данных по адресу <B>ArrayAddress</B>. Практически данный метод используется для копирования массивов <B>Matrix</B> в массивы среды <B>Delphi</B>. Допустим, что в <B>Delphi</B> массив объявлен следующим образом:<BR><BR>
+&nbsp;&nbsp;<B>var DelphiArray: array[1..100, 1..1000] of Integer;</B><BR><BR>
+Имеется массив <B>Matrix</B> размером 100 х 1000, элементы которого нужно скопировать в массив <B>DelphiArray</B>. Для этого нужна всего одна строчка кода:<BR><BR>
+&nbsp;&nbsp;<B>Base.SaveArrayToMemory('MatrixArray', @DelphiArray, 100, 1000, 'Integer');</B><BR><BR>
+В результате все элементы массива <B>MatrixArray</B> будут скопированы в массив <B>DelphiArray</B>.<BR>
+В качестве <B>RowCount</B> и <B>ColCount</B> нужно указывать соответственно число строк и столбцов массива <B>Delphi</B>. <B>BaseTypeName</B> - это имя типа массива <B>Delphi</B>. Поддерживаются все базовые типы: Real, Double, Integer, Longint, Cardinal, Longword, Dword, Byte, Shortint, Int64, Word, Smallint, Short, Real48, Single, Extended, Comp и Currency. В независимости от типа элементы массива <B>Matrix</B> всегда занимают 8 байт и хранятся в формате <B>Real</B>. При копировании массива <B>Matrix</B>, элементы которого являются числами с плавающей точкой, в целочисленный массив <B>Delphi</B>, происходит округление элементов функцией <B>Round()</B>.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Запись массива в структуру, хранящуюся в оперативной памяти:<BR>
+<b>
+&nbsp;&nbsp;Base.SaveArrayToMemory('MatrixArray', @DelphiArray, 100, 1000, 'Integer');<BR>
+</b><BR>
+
+
+
+</BODY>
+</HTML>

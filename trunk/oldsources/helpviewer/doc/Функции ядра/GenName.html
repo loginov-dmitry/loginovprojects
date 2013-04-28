@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  GenName</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, GenName">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">GenName</FONT></H1>
+
+Генерация уникального имени массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.GenName(Add: String=''): String;<BR>
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция генерирует уникальное имя массива. В рабочей области существует счетчик генерации уникальных имен, который каждый раз увеличивает свое значение на единицу. Уникальное имя строится следующим образом: <B>'I_'+Значение_счетчика+'_TV'</B>. Максимальное значение счетчика: 9х10^18 (это очень большое число, его емкости хватит на долгие годы безотказной работы программы). Если строка <B>Add</B> не пустая, то генерация уникального имени произойдет без использования счетчика следующим образом: <B>'I_'+Add+'_TV'</B>.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Генерация уникального имени массива:<BR><B>
+&nbsp;&nbsp;TempName := Base.GenName();       // Результат: TempName=I_1_TV<BR>
+&nbsp;&nbsp;TempName := Base.GenName('Text'); // Результат: TempName=I_Text_TV</B>
+
+
+</BODY>
+</HTML>

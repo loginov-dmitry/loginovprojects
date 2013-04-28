@@ -1,0 +1,8 @@
+mFastInterp.html
+mIncSizeRows.html
+mDecSizeRows.html
+mScaleSignals.html
+mSmoothSignals.html
+mNormAmplitude.html
+mFindIzoline.html
+mFindMaxPoints.html

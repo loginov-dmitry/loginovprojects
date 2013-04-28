@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  LoadArrayFromAscii</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, LoadArrayFromAscii">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">LoadArrayFromAscii</FONT></H1>
+Создание массива из ascii-файла<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.LoadArrayFromAscii(const FileName: String);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура создает массив из ascii-файла <B>FileName</B>. Ascii-файлы создаются функцией <A HREF="SaveArrayToAscii.html"><B>SaveArrayToAscii()</B></A>. При создании из файла имя массива формируется путем удаления расширения. Если имя файла не соответствует правильному имени массива, то возникнет исключение с выводом соответствующего сообщения.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Создание массива из ascii-файла:<BR>
+<b>
+&nbsp;&nbsp;Base.LoadArrayFromAscii('D:\Temp\MatrixData\A.asc');<BR>
+</b><BR>
+В результате в рабочей области Base будет создан массив 'A'.
+
+</BODY>
+</HTML>

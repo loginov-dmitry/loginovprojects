@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  GetInfo</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, GetInfo">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">GetInfo</FONT></H1>
+Определение параметров массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.GetInfo(Name: String; var Rows, Cols, Address,
+  SizeInBytes: Integer);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура определяет для массива <B>Name</B> такие параметры, как число строк <B>Rows</B>, число столбцов <B>Cols</B>, адрес начала массива <B>Address</B> и количество занимаемой памяти в байтах <B>SizeInBytes</B>.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Определение параметров массива 'A':<BR>
+<b>&nbsp;&nbsp;Base.GetInfo('A', Rows, Cols, Address, Size);</b><BR>
+
+</BODY>
+</HTML>

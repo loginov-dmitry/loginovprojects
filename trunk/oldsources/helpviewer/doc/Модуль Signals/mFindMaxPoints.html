@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Signals:  mFindMaxPoints</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mFindMaxPoints">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Signals</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mFindMaxPoints</FONT></H1>
+Поиск точек экстремума<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>function</b> mFindMaxPoints(Ws: TWorkspace; SourAr, DestAr: <b>string</b>; 
+    Line: Real; FindMax: Boolean = True): Boolean;
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура выполняет поиск точек экстремума в векторе-строке <B>SourAr</B>. Если <B>FindMax=True</B>, то ищутся точки, лежащие выше линии <B>Line</B>, а иначе - точки ниже этой линии. Точка считается точкой экстремума, если обе кривые, сходящиеся в этой точке, пересекают линию <B>Line</B>. В выходной вектор <B>DestAr</B> записываются координаты найденных точек. <B>Ws</B> - ссылка на рабочую область, в которой хранится входной массив.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Пусть имеется массив A, хранящий участок синусойды. Он представлен на рисунке:<BR>
+<IMG SRC="Img01.png" WIDTH="193" HEIGHT="42" BORDER=0 ALT=""><BR>
+Выполним поиск точек экстремума, лежащих выше нуля:
+<pre>
+  mFindMaxPoints(Base, <span style="color: navy;">'A'</span>, <span style="color: navy;">'P'</span>, <span style="color: navy;">0</span>);
+</pre>
+
+В результате получим массив P=[70 132 195 258].
+
+</BODY>
+</HTML>

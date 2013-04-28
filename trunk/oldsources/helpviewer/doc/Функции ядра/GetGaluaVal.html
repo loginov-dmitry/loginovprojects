@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  GetGaluaVal</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, GetGaluaVal">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">GetGaluaVal</FONT></H1>
+
+Возвращает результат умножения или сложения в конечном поле Галуа<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.GetGaluaVal(TableName: String; Val1, Val2: Real): Real;<BR>
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция возвращает результат умножения или сложения в конечном поле Галуа. Используется только после создания таблицы сложения или умножения функцией <A HREF="GenerateGaluaTable.html"><B>GenerateGaluaTable()</B></A>. <B>TableName</B> - имя таблицы, <B>Val1</B>, <B>Val2</B> - слагаемые или множетели взависимости от вида таблицы (таблица сложения или умножения).
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Выполним сложение чисел 2 и 4 в поле Галуа степени 5:<BR>
+<b>
+&nbsp;&nbsp;Base.GenerateGaluaTable('TabSum', 5);  // Формирование таблицы сложения<BR>
+&nbsp;&nbsp;Sum := Base.GetGaluaVal('TabSum', 2, 4); // Сложение в поле Галуа<BR>
+</b><BR>
+В результате получим Sum=1
+
+</BODY>
+</HTML>

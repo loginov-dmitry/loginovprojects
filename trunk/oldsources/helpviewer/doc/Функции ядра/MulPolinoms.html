@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  MulPolinoms</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, MulPolinoms">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">MulPolinoms</FONT></H1>
+Умножение многочленов<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.MulPolinoms(Pol1, Pol2, PolResult: String;
+      GaluaValue: Integer=0; ClearGalua: Boolean = True);<BR>
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция перемножает многочлены <B>Pol1</B> и <B>Pol2</B>. В результате получается вектор <B>PolResult</B>. Умножение может выполняться в конечном поле Галуа. Для этого нужно указать степень поля Галуа с помощью аргумента <B>GaluaValue</B>. Если умножение в поле Галуа осуществляется в цикле, то для ускорения вычислений рекомендуется установить параметр <B>ClearGalua=False</B>. 
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Выполним умножение многочленов<BR>
+2X^5 - 13X^3 + X^2 + 15X - 5<BR>
+и<BR>
+X^2 - 5<BR>
+Распишем исходные многочлены более подробно:<BR>
+2X^5 + 0X^4 - 13X^3 + 1X^2 + 15X^1 - 5X^0,<BR>
+1X^2 + 0X^1 - 5X^0<BR>
+Для записи многочлена в форме массива будем просто записывать вподряд все коэффициенты, начиная с нулевой степени:<BR>
+A=[-5 15 1 -13 0 2];<BR>
+B=[-5 0 1]<BR>
+Выполним умножение многочленов с получением в результате массива С:<BR>
+
+<b>&nbsp;&nbsp;Base.MulPolinoms('А', 'B', 'C'); </b><BR>
+
+В результате получим массив<BR>
+C=[25 -75 -10 80 1 -23 0 2];<BR>
+Если полученный массив представить в форме многочлена, то получим:<BR>
+2X^7 - 23X^5 + X^4 + 80X^3 - 10X^2 - 75X^1 + 25
+
+</BODY>
+</HTML>

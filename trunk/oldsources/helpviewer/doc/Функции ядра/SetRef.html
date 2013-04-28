@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SetRef</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SetRef">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SetRef</FONT></H1>
+Запись ссылки на массив<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.SetRef(Ref: TArrayRef);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура записывает ссылку на массив, извлеченную с помощью функции <A HREF="GetRef.html"><B>GetRef()</B></A>. Обычно ссылка на массив записывается во временную рабочую область. Массив, переданный по ссылке нельзя удалять, можно удалить только ссылку с помощью метода <A HREF="DelRef.html"><B>DelRef()</B></A>.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Запись во временную рабочую область Ws ссылки на массив, хранящейся в переменной Ref:<BR>
+<b>
+&nbsp;&nbsp;Ws.SetRef(Ref);<BR>
+</b><BR>
+
+
+</BODY>
+</HTML>

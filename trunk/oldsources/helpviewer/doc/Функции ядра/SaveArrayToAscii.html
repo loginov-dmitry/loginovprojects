@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SaveArrayToAscii</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SaveArrayToAscii">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SaveArrayToAscii</FONT></H1>
+Запись элементов массива в ascii-файл<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;procedure TWorkspace.SaveArrayToAscii(const FileName, Name: String; Fixed: Boolean = False);<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура записывает элементы массива <B>Name</B> в файл <B>FileName</B> в ascii-формате. Элементы массива в ascii-файле представляются в текстовом виде и могут иметь фиксированную длину при <B>Fixed=True</B> (23 знака для положительных чисел и 24 знака для отрицательных чисел). Элементы строки отделяются символом пробела, а строки отделяются друг от друга символом перехода строки #13#10. Имя файла желательно задавать таким же, как и имя массива. Можно указывать любое расширение файла, однако если вы его не укажите, то программа присвоит файлу стандартное расширение '.asc'.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Запись элементов массива в ascii-файл:<BR>
+<b>
+&nbsp;&nbsp;Base.SaveArrayToAscii('D:\Temp\MatrixData\A', 'A');<BR>
+</b><BR>
+В результате будет создан файл 'D:\Temp\MatrixData\A.asc', в который будут записаны элементы массива A.
+
+
+</BODY>
+</HTML>

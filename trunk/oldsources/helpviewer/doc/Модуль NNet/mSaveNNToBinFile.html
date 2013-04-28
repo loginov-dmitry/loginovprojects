@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> NNet:  mSaveNNToBinFile</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mSaveNNToBinFile">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>NNet</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mSaveNNToBinFile</FONT></H1>
+Запись нейронной сети в двоичный файл<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>procedure</b> mSaveNNToBinFile(Ws: TWorkspace; NNName, FileName: <b>String</b>;
+     NewFile: Boolean=True);
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура осуществляет запись нейронной сети <B>NNName</B>, находящейся в рабочей области <B>Ws</B>, в двоичный файл <B>FileName</B>. При <B>NewFile=True</B> файл, имеющий имя <B>FileName</B>, будет удален. В файл будут сохранены веса, смещения и передаточные функции для каждого слоя нейронной сети
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Запись нейронной сети в двоичный файл:<BR>
+
+<pre>
+  mSaveNNToBinFile(Base, <span style="color: navy;">'Net_I'</span>, <span style="color: navy;">'D:\Matrix\Net_I.bin'</span>);
+</pre>
+
+</BODY>
+</HTML>

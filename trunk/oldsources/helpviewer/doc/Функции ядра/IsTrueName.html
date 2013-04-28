@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  IsTrueName</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, IsTrueName">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">IsTrueName</FONT></H1>
+Проверка правильности имени массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.IsTrueName(Name: String): Boolean;<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция определяет, верно ли задано имя массива <B>Name</B>. Имя массива должно состоять из латинских символов, цифр и символов подчеркивания '_', причем первым должен идти латинский символ. Если имя задано правильно, то функция возвратит <B>True</B>, а если нет, то <B>False</B>.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Проверка правильности имени массива:<BR>
+<b>
+&nbsp;&nbsp;Base.IsTrueName('_Array 1');<BR>
+&nbsp;&nbsp;Base.IsTrueName('Array_1');<BR>
+</b><BR>
+В первом случае функция вернет False, т.к. в имени массива две ошибки: первым идет символ подчеркивания, в имени содержится недопустимый символ пробела. Во втором случае функция вернет True, т.к. имя массива задано правильно.
+
+</BODY>
+</HTML>

@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  NewFillAr</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, NewFillAr">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">NewFillAr</FONT></H1>
+Создаем массив-диапазон<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;1. function TWorkspace.NewFillAr(Name: String; Rows, Cols: Integer; BaseValue: Real;
+  Step: Extended): String;<BR>
+&nbsp;&nbsp;2. function TWorkspace.NewFillAr(Name: String; FirstValue, LastValue: Real;
+  PointCount: Integer): String;<BR>
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+1. Функция создает массив размером <B>Rows</B> x <B>Cols</B> и заполняет его с помощью метода <A HREF="FillAr.html"><B>FillAr()</B></A>. Возвращает имя массива <B>Name</B>.<BR><BR>
+
+2. Функция создает вектор-строку с указанным числом элементов. <B>FirstValue</B> - значение первого элемента, <B>LastValue</B> - значение последнего элемента, <B>PointCount</B> - требуемое число элементов. Фактически данная функция расчитывает шаг и вызывает функцию <A HREF="FillAr.html"><B>FillAr()</B></A>, в которую передает значение первого элемента и значение шага заполнения. Возвращает имя массива <B>Name</B>.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+1. Создание массива-диапазона, заполненного последовательностью чисел, начиная с 10 с шагом 5:<BR>
+<b>&nbsp;&nbsp;Base.NewFillAr('А', 3, 4, 10, 5); </b><BR>
+В результате будет создан массив:<BR>
+A=<BR>
+
+[10 15 20 25<BR>
+30 35 40 45<BR>
+50 55 60 65]<BR><BR>
+
+2. Создание массива-диапазона с числом элементов равным 10, первое значение равно 1, а последнее равно 1000:<BR>
+<b>&nbsp;&nbsp;Base.NewFillAr('А', 1, 1000, 10); </b><BR>
+В результате будет создан массив:<BR>
+A=[1 112 223 334 445 556 667 778 889 1000]<BR>
+
+
+</BODY>
+</HTML>

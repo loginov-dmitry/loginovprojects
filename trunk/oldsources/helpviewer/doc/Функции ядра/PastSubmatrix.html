@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  PastSubmatrix</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, PastSubmatrix">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">PastSubmatrix</FONT></H1>
+Замена элементов прямоугольного участка матрицы<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;
+function TWorkspace.PastSubmatrix(SourAr, DestAr: String; FirstPastRow,
+  FirstPastCol: Integer): String;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция заменяет элементы прямоугольного участка матрицы <B>DestAr</B> элементами матрицы <B>SourAr</B>. Замена начинается со строки <B>FirstPastRow</B> и столбца <B>FirstPastCol</B>.
+Функция возвращает имя выходного массива <B>DestAr</B>.<BR>
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+Имеется матрица А=<BR>
+<TABLE>
+<TR>
+	<TD>[1</TD>
+	<TD>2</TD>
+	<TD>3</TD>
+	<TD>4</TD>
+	<TD>5</TD>
+</TR>
+<TR>
+	<TD>0.1&nbsp;&nbsp;</TD>
+	<TD>0.2&nbsp;&nbsp;</TD>
+	<TD>0.3&nbsp;&nbsp;</TD>
+	<TD>0.4&nbsp;&nbsp;</TD>
+	<TD>0.5&nbsp;&nbsp;</TD>
+</TR>
+<TR>
+	<TD>5</TD>
+	<TD>4</TD>
+	<TD>3</TD>
+	<TD>2</TD>
+	<TD>1</TD>
+</TR>
+<TR>
+	<TD>0.5</TD>
+	<TD>0.4</TD>
+	<TD>0.3</TD>
+	<TD>0.2</TD>
+	<TD>0.1]</TD>
+</TR>
+</TABLE>
+и матрица В=
+<TABLE>
+<TR>
+	<TD>[0.02&nbsp;&nbsp;</TD>
+	<TD>0.03&nbsp;&nbsp;</TD>
+	<TD>0.04&nbsp;&nbsp;</TD>
+</TR>
+<TR>
+	<TD>40</TD>
+	<TD>30</TD>
+	<TD>20]</TD>
+</TR>
+</TABLE>
+Заменим центральную часть матрицы А элементами матрицы В:<BR>
+<b>&nbsp;&nbsp;&nbsp;&nbsp;Base.PastSubmatrix('В', 'А', 2, 2); </b><BR><BR>
+В результате получим массив А=<BR>
+<TABLE>
+<TR>
+	<TD>[1</TD>
+	<TD>2</TD>
+	<TD>3</TD>
+	<TD>4</TD>
+	<TD>5</TD>
+</TR>
+<TR>
+	<TD>0.1&nbsp;&nbsp;</TD>
+	<TD>0.02&nbsp;&nbsp;</TD>
+	<TD>0.03&nbsp;&nbsp;</TD>
+	<TD>0.04&nbsp;&nbsp;</TD>
+	<TD>0.5&nbsp;&nbsp;</TD>
+</TR>
+<TR>
+	<TD>5</TD>
+	<TD>40</TD>
+	<TD>30</TD>
+	<TD>20</TD>
+	<TD>1</TD>
+</TR>
+<TR>
+	<TD>0.5</TD>
+	<TD>0.4</TD>
+	<TD>0.3</TD>
+	<TD>0.2</TD>
+	<TD>0.1]</TD>
+</TR>
+</TABLE><BR>
+
+</BODY>
+</HTML>

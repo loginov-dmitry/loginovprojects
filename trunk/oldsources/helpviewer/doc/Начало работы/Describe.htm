@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Начало работы </TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Начало работы matrix">
+<META NAME="Description" CONTENT="Начало работы">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;"><i>
+<h1 align=center>Начало работы</h1>
+
+<P>Перед тем, как начать серьезно изучать данный продукт, необходимо дать несколько простых примеров. При изучении этих примеров вы сможете хоть немного представить, о чем пойдет речь в дальнейшем.
+<P>Для начала вы должны указать среде Delphi, где находятся файлы системы Matrix. Для этого прочтите материал "Система Matrix -> Установка Matrix". Далее вы можете создать в Delphi новый проект и подключить в <B>uses</B> модуль Matrix.
+
+<H2>Пример1. Перемножение матриц</H2>
+<BR>Допустим, нам необходимо перемножить две матрицы A (5х4) и B (4х6), заполненные случайными числами от 0 до 1. В результате должна получиться матрица C (5х6). Вот пример реализации умножения в Matrix:
+
+<pre>
+  <b>with</b> Base <b>do</b> <b>begin</b>
+    <i style="color: navy;">// Создаем матрицы</i>
+    NewArray(<span style="color: navy;">'A'</span>, <span style="color: navy;">5</span>, <span style="color: navy;">4</span>);
+    NewArray(<span style="color: navy;">'B'</span>, <span style="color: navy;">4</span>, <span style="color: navy;">6</span>);
+
+    <i style="color: navy;">// Заполняем случайными числами</i>
+    RandomAr(<span style="color: navy;">'A'</span>);
+    RandomAr(<span style="color: navy;">'B'</span>);
+
+    <i style="color: navy;">// Перемножаем матрицы</i>
+    MulMatrix(<span style="color: navy;">'A'</span>, <span style="color: navy;">'B'</span>, <span style="color: navy;">'C'</span>)
+  <b>end</b>;
+</pre>
+
+<P>Этот код можно написать в любом обработчике (например, OnCreate()). Больше ничего писать не надо. С помощью функции NewArray() создаются матрицы A и B. Они будут расположены в рабочей области Base (<B>with</B> Base ...). Вообще, все массивы в Matrix располагаются в рабочих областях. Идея использования рабочих областей заимствована из Matlab, где каждая функция выполняется в своей рабочей области. С помощью функции RandomAr() происходит заполнение массивов случайными элементами, а функция MulMatrix() выполняет собственно умножение матриц.
+<P>Теперь модифицируем пример так, чтобы матрицы заполнялись поэлементно, а результат умножения выводился в текстовое поле Memo.
+
+<pre>
+ <span style="color: navy;">...........................</span>
+<b>var</b>
+ I, J: Integer;
+ S: <b>String</b>;
+<b>begin</b>
+ <b>with</b> Base <b>do</b> <b>begin</b>
+   <i style="color: navy;">// Создаем матрицы</i>
+   NewArray(<span style="color: navy;">'A'</span>, <span style="color: navy;">5</span>, <span style="color: navy;">4</span>);
+   NewArray(<span style="color: navy;">'B'</span>, <span style="color: navy;">4</span>, <span style="color: navy;">6</span>);
+
+   <i style="color: navy;">// Заполняем массив А</i>
+   <b>for</b> I := <span style="color: navy;">1</span> <b>to</b> <span style="color: navy;">5</span> <b>do</b>
+     <b>for</b> J := <span style="color: navy;">1</span> <b>to</b> <span style="color: navy;">4</span> <b>do</b>
+       Elem[<span style="color: navy;">'A'</span>, I, J] := I * J;
+
+   <i style="color: navy;">// Заполняем массив В</i>
+   <b>for</b> I := <span style="color: navy;">1</span> <b>to</b> <span style="color: navy;">4</span> <b>do</b>
+     <b>for</b> J := <span style="color: navy;">1</span> <b>to</b> <span style="color: navy;">6</span> <b>do</b>
+       Elem[<span style="color: navy;">'B'</span>, I, J] := I + J;
+
+   <i style="color: navy;">// Перемножаем матрицы</i>
+   MulMatrix(<span style="color: navy;">'A'</span>, <span style="color: navy;">'B'</span>, <span style="color: navy;">'C'</span>);
+
+   <i style="color: navy;">// Сохраняем весь массив</i>
+   SaveArrayToString(S, <span style="color: navy;">'C'</span>);
+ <b>end</b>;
+ <i style="color: navy;">// Выводим результат в Memo</i>
+ Memo1.Text := S;
+<b>end</b>;
+</pre>
+<P>Таким образом, вы можете использовать свойство Elem для изменения элементов матрицы (а также для просмотра элементов). В разделе <B>var</B> была объявлена текстовая переменная S, в которую с помощью функции SaveArrayToString() был записан массив C. Текст S был помещен в текстовое поле Memo1. В результате в Memo1 появится следующий текст:
+<PRE>
+C=[40 50 60 70 80 90;
+80 100 120 140 160 180;
+120 150 180 210 240 270;
+160 200 240 280 320 360;
+200 250 300 350 400 450];
+</PRE>
+
+<H2>Пример2. Сложение матриц</H2>
+
+Сложение - поэлементная операция, требующая равенства размеров обеих матриц (в крайнем случае, любая из матриц может быть числом). Массивы будут заданы вручную в стиле Matlab. Оба массива имеют размеры 4х4. Вот код:
+
+<pre>
+<span style="color: navy;">....................</span>
+<b>var</b> 
+  S: <b>String</b>;
+<b>begin</b>
+  <b>with</b> Base <b>do</b> <b>begin</b>
+    <i style="color: navy;">// Создаем матрицы</i>
+    SLoad(<span style="color: navy;">'A=[1 2 3 4; 5 6 7 8; 4 3 2 1; 8 7 6 5]'</span>);
+    SLoad(<span style="color: navy;">'B=[0 9 8 7; 5 6 7 8; 4 3 2 1; 5 4 3 2]'</span>);
+
+    <i style="color: navy;">// Суммируем матрицы</i>
+    ElWiseOp(<span style="color: navy;">'A'</span>, <span style="color: navy;">'B'</span>, <span style="color: navy;">'C'</span>, <span style="color: navy;">'+'</span>);
+
+    <i style="color: navy;">// Сохраняем элементы массива</i>
+    SaveArrayToValues(S, <span style="color: navy;">'C'</span>);
+  <b>end</b>;
+  <i style="color: navy;">// Выводим результат в Memo</i>
+  Memo1.Text := S;
+<b>end</b>;
+</pre>
+
+Функция SLoad() применяется для создания матрицы из текстовой строки. Элементы разделяются пробелами, а строки - символом ';'. Функция SaveArrayToValues() отличается от функции SaveArrayToString() тем, что сохраняет только элементы массива, таким образом в Memo1 мы получим следующий текст:
+
+<PRE>
+1 11 11 11;
+10 12 14 16;
+8 6 4 2;
+13 11 9 7
+</PRE>
+
+<H2>Пример3. Решение СЛАУ</H2>
+
+Решение систем линейных алгебраических уравнений - задача вычислительной математики. Существует множество методов решения СЛАУ. В Matrix применяется универсальный метод Гаусса. Пусть заданы массивы А (матрица коэффициентов) и В (вектор-столбец свободных членов). Требуется найти массив С (корни СЛАУ). Вот пример кода:
+
+<pre>
+<span style="color: navy;">....................</span>
+<b>var</b> 
+  S: <b>String</b>;
+<b>begin</b>
+  <b>with</b> Base <b>do</b> <b>begin</b>
+    <i style="color: navy;">// Создаем матрицы</i>
+    SLoad(<span style="color: navy;">'A=[2.5 -10 3.8; 0 3.2 -9.8; 0 0 -2.6]'</span>);
+    SLoad(<span style="color: navy;">'B=[-6.2; -6.5; -2.6]'</span>);
+
+    <i style="color: navy;">// Решаем СЛАУ</i>
+    SLAU(<span style="color: navy;">'A'</span>, <span style="color: navy;">'B'</span>, <span style="color: navy;">'C'</span>);
+
+    <i style="color: navy;">// Сохраняем в текстовую строку</i>
+    SaveArrayToString(S, <span style="color: navy;">'C'</span>);
+  <b>end</b>;
+  <i style="color: navy;">// Выводим результат в Memo</i>
+  Memo1.Text := S;
+<b>end</b>;
+</pre>
+В результате в Memo1 получим текст:
+
+<PRE>
+C=[0.125;
+1.03125;
+1];
+</PRE>
+
+<H2>Заключение</H2>
+<P>Итак, надеюсь вам понятно, что ничего сложного на самом деле в Matrix нет. Наоборот, работать с ним очень просто и удобно - намного удобнее, чем с любыми другими возможными аналогами. В Matrix вам не нужно объявлять массивы - такой возможности вы больше нигде не найдете.
+<P>Советую обязательно прочитать разделы справки "Система Matrix" и "Функции ядра" - в них вы узнаете наиболее полную информацию о системе.
+
+</BODY>
+</HTML>

@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> NNet:  mCalcKohon</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, mCalcKohon">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>NNet</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">mCalcKohon</FONT></H1>
+Расчет нейронной сети LVQ (гибридная сеть Кохонена)<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>procedure</b> mCalcKohon(Ws: TWorkspace; NNName, TestVek, ResVek: <b>string</b>;
+    <b>var</b> Per: Real; Euklid: <b>string</b> = <span style="color: navy;">''</span>);
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Процедура расчитывает гибридную сеть с конкурентным слоем Кохонена и сигмаидальным слоем с линейной функцией активации. Указывается имя сети <B>NNName</B>, имя анализируемого вектора <B>TestVek</B> и имя выходного вектора <B>ResVek</B>. Процедура возвращает также степень уверенности распознавания в процентах (аргумент <B>Per</B>) и, при желании, вектор близости (евклидовых расстояний между весами и входами НС) <B>Euklid</B>. Данная нейронная сеть (LVQ) используется для анализа сигналов ЭКГ в 12-ти стандартных отведениях.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Анализ входного вектора P нейронной сети LVQ NNet_I:<BR>
+
+<pre>
+  mCalcKohon(Base, <span style="color: navy;">'Net_I'</span>, <span style="color: navy;">'P'</span>, <span style="color: navy;">'Z'</span>, Per, <span style="color: navy;">'DistVek'</span>);
+</pre>
+
+В результате получим выходной вектор Z, процент уверенности распознавания Per, вектор близости DistVek.
+
+
+</BODY>
+</HTML>

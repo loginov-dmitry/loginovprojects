@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  AddCols</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, AddCols">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">AddCols</FONT></H1>
+Объединение массивов по столбцам<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;
+function TWorkspace.AddCols(SourAr1, SourAr2, DestAr: String): String;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция добавляет к массиву SourAr1 столбцы массива SourAr2, а на выходе формирует массив DestAr. Длина столбцов должна быть одинаковой. Разрешается в качестве одного из входных массивов указывать несуществующий выходной массив - эта возможность позволяет организовать формирование выходного массива в цикле по данным различных входных массивов. Возвращает имя выходного массива DestAr.<BR>
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Входные массивы:<BR>
+A=<BR>
+<TABLE>
+<TR>
+	<TD>[1&nbsp;&nbsp;</TD>
+	<TD>0.1</TD>
+</TR>
+<TR>
+	<TD>2</TD>
+	<TD>0.2</TD>
+</TR>
+<TR>
+	<TD>3</TD>
+	<TD>0.3</TD>
+</TR>
+<TR>
+	<TD>4</TD>
+	<TD>0.4</TD>
+</TR>
+<TR>
+	<TD>5</TD>
+	<TD>0.5]</TD>
+</TR>
+</TABLE>
+B=<BR>
+<TABLE>
+<TR>
+	<TD>[5&nbsp;&nbsp;</TD>
+	<TD>0.5</TD>
+</TR>
+<TR>
+	<TD>4</TD>
+	<TD>0.4</TD>
+</TR>
+<TR>
+	<TD>3</TD>
+	<TD>0.3</TD>
+</TR>
+<TR>
+	<TD>2</TD>
+	<TD>0.2</TD>
+</TR>
+<TR>
+	<TD>1</TD>
+	<TD>0.1]</TD>
+</TR>
+</TABLE>
+<BR>
+
+1. Объединение массивов А и В. Результат заносится в массив С:<BR>
+<b>&nbsp;&nbsp;
+Base.AddCols('А', 'В', 'C'); 
+</b><BR>
+В результате получим массив С=<BR>
+
+<TABLE>
+<TR>
+	<TD>[1&nbsp;&nbsp;</TD>
+	<TD>0.1&nbsp;&nbsp;</TD>
+	<TD>5&nbsp;&nbsp;</TD>
+	<TD>0.5</TD>
+</TR>
+<TR>
+	<TD>2</TD>
+	<TD>0.2</TD>
+	<TD>4</TD>
+	<TD>0.4</TD>
+</TR>
+<TR>
+	<TD>3</TD>
+	<TD>0.3</TD>
+	<TD>3</TD>
+	<TD>0.3</TD>
+</TR>
+<TR>
+	<TD>4</TD>
+	<TD>1.4</TD>
+	<TD>2</TD>
+	<TD>0.2</TD>
+</TR>
+<TR>
+	<TD>5</TD>
+	<TD>0.5</TD>
+	<TD>1</TD>
+	<TD>0.1]</TD>
+</TR>
+</TABLE>
+<BR>
+2. Объединение несуществующего массива С с массивом А. Результат заносится в массив С:<BR>
+<b>&nbsp;&nbsp;
+Base.AddCols('С', 'А', 'C'); <BR></b>
+В результате получим массив С=<BR>
+<TABLE>
+<TR>
+	<TD>[1&nbsp;&nbsp;</TD>
+	<TD>0.1</TD>
+</TR>
+<TR>
+	<TD>2</TD>
+	<TD>0.2</TD>
+</TR>
+<TR>
+	<TD>3</TD>
+	<TD>0.3</TD>
+</TR>
+<TR>
+	<TD>4</TD>
+	<TD>0.4</TD>
+</TR>
+<TR>
+	<TD>5</TD>
+	<TD>0.5]</TD>
+</TR>
+</TABLE>
+<BR>
+
+
+</BODY>
+</HTML>

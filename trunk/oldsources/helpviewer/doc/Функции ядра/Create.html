@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <title>Main functions: Create</title>
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="Логинов Д.С.">
+  <meta name="Keywords" content="Matrix, Create">
+  <meta name="Description" content="Описание функции">
+</head>
+<body>
+<font size='+1' style="font-family: courier new;">
+<table width="100%">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffe4b0" valign="baseline"><b>Main functions</b></td>
+    </tr>
+  </tbody>
+</table>
+<hr>
+<h1><font color="#cc3300">Create</font></h1>
+Создание новой рабочей области<br>
+<h2><font color="#cc3300">Объявление функции</font></h2>
+<b>&nbsp;&nbsp;constructor TWorkspace.Create(Name: string;<BR> TempWorkspace: Boolean = True);</b><br>
+<h2><font color="#cc3300">Назначение</font></h2>
+Данный метод предназначен для создания новой рабочей области. Имя
+рабочей области <B>Name</B> может содержать любой текст, однако рекомендуется задавать осмысленные имена. Имя используется для
+вывода сообщений об ошибках. Если <B>TempWorkspace=True</B>, то создается временная рабочая область, иначе - постоянная. Постоянные рабочие области, в отличие от временных, не разрушаются при возникновении исключения. Существует главная рабочая область - <B>Base</B>. Она создается и разрушается автоматически, поэтому программист не должен о ней заботиться.
+<h2><font color="#cc3300">Примеры</font></h2>
+Создание временной рабочей области с именем 'MyWorkspace'<br>
+<b>&nbsp;&nbsp;WS := TWorkspace.Create('MyWorkspace')</b>;
+</body>
+</html>

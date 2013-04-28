@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  ElemI</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, ElemI">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">ElemI</FONT></H1>
+Доступ к отдельному элементу массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<pre>
+  <b>property</b>  ElemI[Idx, Row, Col: DWORD]: Real <b>read</b> eGeti <b>write</b> ePuti;
+</pre>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+С помощью свойства <B>ElemI</B> вы можете считать или изменить значение любого элемента массива, заданного индексом <B>Idx</B>. Данное свойство для чтения использует функцию <B>eGeti()</B>, а для записи - функцию <B>ePuti()</B>. Например, если в обычном массиве изменить элемент можно с помощью кода <B>ArrayName[Row, Col] := Value</B>, то в <B>Matrix</B> для этого нужно писать: <B>ElemI[Index, Row, Col] := Value</B>.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+<pre>
+<b>with</b> Base <b>do</b> <b>begin</b>
+  <i style="color: navy;">// Имеется массив А, заданный своим индексом aIdx</i>
+  <i style="color: navy;">// Осуществляем запись в массив:</i>
+  ElemI[aIdx, <span style="color: navy;">1</span>, <span style="color: navy;">1</span>] := <span style="color: navy;">777</span>;
+
+  <i style="color: navy;">// Чтение из массива</i>
+  R := ElemI[aIdx, <span style="color: navy;">1</span>, <span style="color: navy;">1</span>];
+<b>end</b>;
+</pre>
+</BODY>
+</HTML>

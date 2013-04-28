@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  HandInput</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, HandInput">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">HandInput</FONT></H1>
+
+Создает временные массивы с заданными элементами<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.HandInput(var InputArray, TempArray: String): Integer;<BR>
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция используется для поддержки "константного" ввода массивов. Допустим, вы хотите создать подпрограмму, в которую входные массивы можно передавать двумя способами: именем массива или элементами массива. В этом случае можно воспользоваться функцией <B>HandInput()</B>. Данная функция ничего не делает, если массив <B>InputArray</B> задан именем, но если в строке <B>InputArray</B> хранятся только элементы массива, то создается временный массив <B>TempArray</B> с элементами строки <B>InputArray</B>, после чего строке <B>InputArray</B> присваивается имя временного массива <B>TempArray</B>. Функция возвращает индекс массива <B>InputArray</B>.
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+<PRE>function MyFunc(InputArray: String): Integer;
+var
+  TempArray: String;
+begin
+  Base.HandInput(InputArray, TempArray);
+  // Далее идет работа только с InputArray
+  ........................................
+  // В конце функции при необходимости удалить массив TempArray
+  if TempArray &lt;&gt; '' then Base.DelArray(TempArray);
+end;</PRE>
+
+Если в дальнейшем вызвать функцию следующим образом: MyFunc('A'), то функция HandInput() ничего не будет делать, т.к. задано имя массива, поэтому строка TempArray останется пустой.<BR>
+Если вызвать так: MyFunc('[1 2 3; 4 5 6]'), то будет создан временный массив (например 'I_1_TV=[1 2 3; 4 5 6]'), чье имя присвоится переменной TempArray. Далее текст строки TempArray присваивается строке InputArray. В конце функции MyFunc() произойдет удаление временного массива TempArray.
+
+</BODY>
+</HTML>

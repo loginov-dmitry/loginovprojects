@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  GetRef</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, GetRef">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">GetRef</FONT></H1>
+Извлечение ссылки на массив<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.GetRef(Name: String): TArrayRef;<BR>
+
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция возвращает ссылку на массив, т.е. структуру типа TArrayRef, которая описывается следующим образом:
+
+<PRE><B>type</B>
+  TArrayRef = <B>record</B>
+    Name: <B>String</B>;
+    Address: Integer;
+    Rows, Cols: Integer;
+  <B>end</B>;</PRE>
+  Таким образом в ссылке содержится имя, адрес массива, число строк и столбцов. 
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Извлечение ссылки на массив 'A':<BR>
+<b>
+&nbsp;&nbsp;Ref := Base.GetRef('A');<BR>
+</b><BR>
+
+
+</BODY>
+</HTML>

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  InsertRows</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, InsertRows">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">InsertRows</FONT></H1>
+Вставка строк из указанного массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>&nbsp;&nbsp;function TWorkspace.InsertRows(RowsAr, DestAr: String; Row: Integer): String;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+Функция вставляет строки массива <B>RowsAr</B> в массив <B>DestAr</B> перед строкой <B>Row</B>. У этой функции входной массив <B>DestAr</B> является также и выходным. Входные массивы <B>RowsAr</B> и <B>DestAr</B> могут быть одинаковыми, т.е. программа корректно обработает данный случай. Возвращает имя выходного массива <B>DestAr</B>.<BR>
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Вставка строк массива А перед 5-й строкой массива В :<BR>
+<b>&nbsp;&nbsp;Base.InsertRows('А', 'B', 5); </b><BR><BR>
+
+</BODY>
+</HTML>

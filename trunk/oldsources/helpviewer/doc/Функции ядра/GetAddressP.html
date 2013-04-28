@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  GetAddressP</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, GetAddressP">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">GetAddressP</FONT></H1>
+Определение адреса массива<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;function TWorkspace.GetAddressP(Name: String): Pointer;<BR>
+</b>
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+<P>Функция возвращает адрес массива <B>Name</B> в формате <B>"Pointer"</B>. Pointer - 4-байтный целочисленный тип данных, в котором хранится смещение относительно текущего сегмента данных. При создании массива операционная система сама назначает адрес его начала (т.е. смещение). Функция определяет именно этот адрес. 
+
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+Определение адреса массива:<BR>
+<b>&nbsp;&nbsp;Address := Base.GetAddressP('A');</b><BR>
+
+
+</BODY>
+</HTML>

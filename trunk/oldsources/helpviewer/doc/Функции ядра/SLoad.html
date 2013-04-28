@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Main functions:  SLoad</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="Логинов Д.С.">
+<META NAME="Keywords" CONTENT="Matrix, SLoad">
+<META NAME="Description" CONTENT="Описание функции">
+</HEAD>
+
+<BODY>
+<font size='+1' style="font-family: courier new;">
+<table width="100%"><tr><td valign=baseline bgcolor="#ffe4b0"><b>Main functions</b></td></tr><table> 
+<HR>
+
+<H1><FONT COLOR="#CC3300">SLoad</FONT></H1>
+Создание массива с заданными элементами<BR>
+
+<H2><FONT COLOR="#CC3300">Объявление функции</FONT></H2>
+
+<b>
+&nbsp;&nbsp;1. function TWorkspace.SLoad(Str: String): String;<BR>
+&nbsp;&nbsp;2. function TWorkspace.SLoad(Name, Values: String): String;<BR>
+&nbsp;&nbsp;3. function TWorkspace.SLoad(Name: String; Value: Real): String;
+</b><BR>
+
+<H2><FONT COLOR="#CC3300">Назначение</FONT></H2>
+
+<P>1. Функция создает новый массив в соответствии с данными, находящимися в строке <B>Str</B>. Текс строки должен быть записан следующем формате: Имя_массива=[Элементы_массива], где Имя_массива - правильное название массива, состоящее из латинских букв, чисел и символов '_', причем первой должна стоять латинская буква. Элементы_массива - последовательность элементов массива, в которой элементы одной строки отделяются друг от друга пробелом, а строки отделяются друг от друга символом ';'. Возвращает имя созданного массива.
+
+<P>2. Данная функция в отличие от предыдущей требует, чтобы имя <B>Name</B> и элементы <B>Values</B> были заданы отдельно. Возвращает имя созданного массива <B>Name</B>.
+
+<P>3. Данная функция аналогична предыдущей, но может создать только массив с одним элементом <B>Value</B>, заданным в числовой форме.
+
+<H2><FONT COLOR="#CC3300">Примеры</FONT></H2>
+
+1. Создание массива:<BR>
+<b>&nbsp;&nbsp;Base.SLoad('My_Array1=[1 2 3 4 5; .1 .2 .3 .4 .5; -.1 -.2 -.3 -.4 -.5]'); </b><BR>
+2. Создание массива:<BR>
+<b>&nbsp;&nbsp;Base.SLoad('My_Array2', '[10E8 5e305 -5E-305]'); </b><BR>
+3. Создание массива:<BR>
+<b>&nbsp;&nbsp;Base.SLoad('My_Array3', 1000); </b><BR>
+
+</BODY>
+</HTML>
