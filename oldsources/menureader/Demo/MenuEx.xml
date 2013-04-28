@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+
+<!-- 
+	В данном xml-документе описываются пункты меню, которые добавляются к вашей 
+программе с помощью средств модуля MenuReader.pas.
+	Количество вложенных пунктов меню не ограничивается. В каждом пункте
+обязательно должно присутствовать его название. Если в качестве атрибута
+"caption" задан дефис (-), то будет создан разделитель. В этом случае
+вы не должны описывать вложенные пункты.
+	Тэг "params" определяет параметры, которые будут переданы при
+запуске команды "command". Параметров может быть несколько, они разделяются пробелом.
+Если один из параметров состоит из нелькольких слов, то он должен ограничиваться
+кавычками. Кроме того, предусмотрен случай передачи каких-либо дополнительных
+параметров. В этом случае нужно указывать атрибут "paramid", отличный от нуля.
+Смысл использования дополнительных параметров такой: если указано одно число,
+то передается один набор дополнительных параметров. Если другое число, то
+другой набор.
+	В качестве имени файла вы можете указывать имя файла с абсолютным
+или относительным путем доступа. Допускаются относительные пути с возможностью
+перехода на предыдущую директорию (например, "..\..\FolderName\FileName").
+	В тэге "icon" необходимо указывать имя файла с расширением.
+
+	Схема описания пунктов меню приведена ниже:
+
+
+<menuitems>
+	<item caption="Название пунтка меню">
+		<command>Имя выполняемой команды</command>
+		<icon index="0">Имя файла с иконкой</icon>
+		<params paramid="0">Передаваемые параметры</params>
+		<item caption="Вложенное меню">
+		...
+			<item caption="Вложенное меню">
+
+			</item>
+		</item>
+	</item>
+	...
+
+</menuitems>
+ -->
+
+<!-- А вот и реальный пример описания пунктов меню -->
+
+
+<menuitems>
+	<item caption="Файл">
+
+		<item caption="-" /> <!-- Создание разделителя -->
+
+		<item caption="Стандартные приложения Windows">
+
+			<item caption="Блокноты">
+				<icon>Notepad.exe</icon>
+
+				<item caption="Пустой блокнот">
+					<command>Notepad</command>
+					<icon>Notepad.exe</icon>
+				</item>
+
+				<item caption="Блокнот (Menu.txt)">
+					<command>Notepad</command>
+					<icon index="0">Notepad.exe</icon>
+					<params>Menu.txt</params>
+				</item>
+			</item>  <!-- Блокноты -->
+
+			<item caption="-" />
+
+			<item caption="Калькулятор">
+				<command>Calc</command>
+				<icon>Calc.exe</icon>
+			</item>					
+
+			<item caption="Графический редактор">
+				<command>mspaint</command>
+				<icon>mspaint.exe</icon>
+			</item>
+
+			<item caption="(Демонстрация уровней вложенности) Level 1">
+				<item caption="Level 2">
+					<item caption="Level 3">
+						<item caption="Level 4">
+							<item caption="Графический редактор">
+								<command>mspaint</command>
+								<icon>mspaint.exe</icon>
+							</item>					
+						</item>						
+					</item>						
+				</item>				
+			</item>
+
+		</item>  <!-- Стандартные приложения Windows -->
+
+	</item>  <!-- Файл -->
+
+
+<!-- Демонстрируем возможности выполнения команд по управлению системой Windows -->
+
+	<item caption="Администрирование Windows">
+
+		<item caption="Утилита администрирования">
+		   <command>Calc</command>
+		</item>
+
+		<item caption="Дефрагментация">
+		   <command>dfrg.msc</command>
+		</item>
+
+		<item caption="Спящий режим">
+		   <command>rundll32.exe</command>
+		   <params>powrprof.dll,SetSuspendState</params>
+		</item>
+
+		<item caption="Перезагрузка">
+		   <command>shutdown</command>
+		   <params>-r -t 0</params>
+		</item>
+
+		<item caption="Залочить Windows">
+		   <command>rundll32.exe</command>
+		   <params>user32.dll,LockWorkStation</params>
+		</item>
+	</item>  <!-- Администрирование Windows -->
+
+	<aaa a="a">
+
+	</aaa>
+
+</menuitems>
