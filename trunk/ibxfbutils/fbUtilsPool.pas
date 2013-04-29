@@ -220,10 +220,12 @@ begin
   Result := nil;
   pPool := nil;
 
-  if ReadTran = nil then
-    ReadTranType := trNone;
   if WriteTran = nil then
     WriteTranType := trNone;
+
+  if WriteTranType <> trNone then
+    if ReadTran = nil then
+      ReadTranType := trNone;
 
   try
     DeleteOldConnections; // Удаляем старые подключения
@@ -291,7 +293,11 @@ begin
       end;
 
       if WriteTranType > trNone then // Создаем транзакцию для записи
+      begin
         pPool.dpWriteTran := FBCreateTransaction(Result, WriteTranType, False, Result, '');
+        if Result.DefaultTransaction = nil then
+          Result.DefaultTransaction := pPool.dpWriteTran;
+      end;
 
       // Если транзакция не активна, то запускаем ее
       if Assigned(Result.DefaultTransaction) then
@@ -352,10 +358,15 @@ var
   DefTran: TIBTransaction;
 begin
   DefTran := pPool.dpConnect.DefaultTransaction;
-  if Assigned(DefTran) and (DefTran <> pPool.dpReadTran) then
+  if Assigned(DefTran) then
   begin
-    if DefTran.InTransaction then
-      DefTran.Rollback;
+    if (DefTran = pPool.dpReadTran) or (DefTran = pPool.dpWriteTran) then
+      pPool.dpConnect.DefaultTransaction := nil
+    else
+    begin
+      if DefTran.InTransaction then
+        DefTran.Rollback;
+    end;
   end;
 
   if Assigned(pPool.dpReadTran) then
