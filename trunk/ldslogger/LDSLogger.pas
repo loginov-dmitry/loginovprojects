@@ -56,7 +56,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  потока, символы событий и наименования событий, префикс сообщения DefaultPrefix.
  Логгер позволяет запретить либо разрешить вывод любого сообщения в лог с
  помощью свойства UsedLogTypes. Для полного запрета на вывод в лог используйте
- Enabled := False либо UsedLogTypes := [].
+ Enabled := False либо UsedLogTypes := [].}
 
  {Перечень изменений
   20.05.2008
