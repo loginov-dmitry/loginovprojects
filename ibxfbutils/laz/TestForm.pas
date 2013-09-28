@@ -40,6 +40,15 @@ type
 
   TForm1 = class(TForm)
     IBTransaction1: TIBTransaction;
+    labConnCount: TLabel;
+    Label10: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    labErrCount: TLabel;
+    labInsCount: TLabel;
+    labThreadCount: TLabel;
     Memo1: TMemo;
     Memo2: TMemo;
     Button2: TButton;
@@ -59,15 +68,9 @@ type
     edCharSet: TEdit;
     Label6: TLabel;
     btnTestConnection: TButton;
+    Panel1: TPanel;
     rgSelectTest: TRadioGroup;
-    GroupBox2: TGroupBox;
-    Label7: TLabel;
-    labConnCount: TLabel;
     Timer1: TTimer;
-    Label8: TLabel;
-    labErrCount: TLabel;
-    labThreadCount: TLabel;
-    Label10: TLabel;
     Label9: TLabel;
     edSharedPath: TEdit;
     Label11: TLabel;
@@ -76,8 +79,6 @@ type
     edSharedPathOnServer: TEdit;
     btnChooseSharedPathOnServer: TButton;
     Label13: TLabel;
-    labInsCount: TLabel;
-    Label15: TLabel;
     Label14: TLabel;
     procedure Button2Click(Sender: TObject);
     procedure btnChooseDBClick(Sender: TObject);
@@ -204,6 +205,7 @@ begin
 
   Memo2.Lines.Add(DateTimeToStr(Now) + Format(' - Программа запущена. Компьютер: %s. Пользователь: %s',
     [GetCurrentComputerName, GetCurrentUserName]));
+  Memo2.Lines.Add('Каталог запуска: ' + Application.ExeName);
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -560,16 +562,16 @@ begin
   ATable := fb.DBStruct.DefDBDesc.AddTable('CONFIGPARAMS');
   with ATable do
   begin
-    AddField('FILENAME',      'VARCHAR(100)',   '', NotNull);
-    AddField('COMPUTERNAME',  'VARCHAR(100)',   '', NotNull);
-    AddField('USERNAME',      'VARCHAR(100)',   '', NotNull);
-    AddField('SECTIONNAME',   'VARCHAR(100)',   '', NotNull);
-    AddField('PARAMNAME',     'VARCHAR(100)',   '', NotNull);
-    AddField('PARAMVALUE',    'VARCHAR(10000)', '', CanNull);
+    AddField('FILENAME',      'VARCHAR(50)',    '', NotNull);
+    AddField('COMPUTERNAME',  'VARCHAR(50)',    '', NotNull);
+    AddField('USERNAME',      'VARCHAR(50)',    '', NotNull);
+    AddField('SECTIONNAME',   'VARCHAR(50)',    '', NotNull);
+    AddField('PARAMNAME',     'VARCHAR(50)',    '', NotNull);
+    AddField('PARAMVALUE',    'VARCHAR(5000)',  '', CanNull);
     AddField('PARAMBLOB',     'BLOB',           '', CanNull);
     AddField('PARAMBLOBHASH', 'VARCHAR(50)',    '', CanNull);
     AddField('MODIFYDATE',    'TIMESTAMP',      '', CanNull);
-    AddField('MODIFYUSER',    'VARCHAR(100)',   '', CanNull);
+    AddField('MODIFYUSER',    'VARCHAR(50)',   '', CanNull);
 
     SetPrimaryKey('CONFIGPARAMS_PK', 'FILENAME, COMPUTERNAME, USERNAME, SECTIONNAME, PARAMNAME');
   end;

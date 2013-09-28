@@ -25,15 +25,15 @@ object Form1: TForm1
   object Label14: TLabel
     Left = 17
     Height = 14
-    Top = 250
+    Top = 264
     Width = 104
     Caption = 'Результаты тестов:'
     ParentColor = False
   end
   object Memo1: TMemo
     Left = 17
-    Height = 128
-    Top = 263
+    Height = 111
+    Top = 280
     Width = 783
     Anchors = [akTop, akLeft, akRight]
     ScrollBars = ssBoth
@@ -63,11 +63,11 @@ object Form1: TForm1
   end
   object GroupBox1: TGroupBox
     Left = 8
-    Height = 198
-    Top = 8
+    Height = 220
+    Top = 3
     Width = 553
     Caption = 'Параметры подключения к тестовой базе данных'
-    ClientHeight = 180
+    ClientHeight = 202
     ClientWidth = 549
     Font.Color = clWindowText
     Font.Height = -13
@@ -292,79 +292,89 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 4
   end
-  object GroupBox2: TGroupBox
-    Left = 8
-    Height = 35
-    Top = 212
-    Width = 553
-    Caption = 'Информация по ходу многопоточного тестирования пула подключений'
-    ClientHeight = 17
-    ClientWidth = 549
+  object Panel1: TPanel
+    Left = 16
+    Height = 40
+    Top = 224
+    Width = 546
+    ClientHeight = 40
+    ClientWidth = 546
+    Font.CharSet = RUSSIAN_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
     Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
     ParentFont = False
     TabOrder = 5
-    object Label7: TLabel
-      Left = 7
+    object Label16: TLabel
+      Left = 9
       Height = 17
-      Top = 2
+      Top = 0
+      Width = 421
+      Caption = 'Информация по ходу многопоточного тестирования пула подключений'
+      ParentColor = False
+    end
+    object Label7: TLabel
+      Left = 9
+      Height = 17
+      Top = 19
       Width = 128
       Caption = 'Подключений в пуле:'
       ParentColor = False
     end
     object labConnCount: TLabel
-      Left = 135
+      Left = 137
       Height = 17
-      Top = 2
+      Top = 19
       Width = 22
       Caption = '000'
       ParentColor = False
     end
     object Label8: TLabel
-      Left = 386
+      Left = 388
       Height = 17
-      Top = 2
+      Top = 19
       Width = 52
       Caption = 'Ошибок:'
       ParentColor = False
     end
     object labErrCount: TLabel
-      Left = 443
+      Left = 445
       Height = 17
-      Top = 2
+      Top = 19
       Width = 22
       Caption = '000'
       ParentColor = False
     end
     object labThreadCount: TLabel
-      Left = 226
+      Left = 228
       Height = 17
-      Top = 2
+      Top = 19
       Width = 22
       Caption = '000'
       ParentColor = False
     end
     object Label10: TLabel
-      Left = 167
+      Left = 169
       Height = 17
-      Top = 2
+      Top = 19
       Width = 54
       Caption = 'Потоков:'
       ParentColor = False
     end
     object labInsCount: TLabel
-      Left = 344
+      Left = 346
       Height = 17
-      Top = 2
+      Top = 19
       Width = 22
       Caption = '000'
       ParentColor = False
     end
     object Label15: TLabel
-      Left = 259
+      Left = 261
       Height = 17
-      Top = 2
+      Top = 19
       Width = 84
       Caption = 'Доб. записей:'
       ParentColor = False
