@@ -28,6 +28,9 @@ program fbUtilsTest;
 {$MODE Delphi}
 
 uses
+  {$IFDEF UNIX}
+  cthreads,
+  {$ENDIF}
   Forms, Interfaces,
   TestForm in 'TestForm.pas' {Form1},
   fbUtilsBase in 'fbUtilsBase.pas',
