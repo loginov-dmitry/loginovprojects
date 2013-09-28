@@ -39,7 +39,6 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
-    Button1: TButton;
     IBTransaction1: TIBTransaction;
     Memo1: TMemo;
     Memo2: TMemo;
@@ -80,7 +79,6 @@ type
     labInsCount: TLabel;
     Label15: TLabel;
     Label14: TLabel;
-    procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure btnChooseDBClick(Sender: TObject);
     procedure btnTestConnectionClick(Sender: TObject);
@@ -180,15 +178,6 @@ begin
 
 end;
 
-procedure TForm1.Button1Click(Sender: TObject);
-var
-  s: string;
-begin
-
-  s := edFileName.Text;
-  Caption:=s;
-end;
-
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   if ThreadCounter > 0 then
@@ -212,6 +201,9 @@ begin
   edSharedPath.Text := ini.ReadString('DB', 'SharedPath', '\\VBOXSVR\Shared\TEMP\');
   edSharedPathOnServer.Text := ini.ReadString('DB', 'SharedPathOnServer', 'f:\Общая\TEMP\');
 
+
+  Memo2.Lines.Add(DateTimeToStr(Now) + Format(' - Программа запущена. Компьютер: %s. Пользователь: %s',
+    [GetCurrentComputerName, GetCurrentUserName]));
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);

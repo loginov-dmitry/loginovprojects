@@ -52,7 +52,8 @@ unit fbSomeFuncs;
 interface
 
 uses
-  LCLIntf, LCLType, LMessages, SysUtils, Classes, IniFiles, IB, FileUtil;
+  {$IFDEF WINDOWS}Windows,{$ELSE}LCLIntf, LCLType, LCLProc, LMessages, Process,{$ENDIF WINDOWS}
+  SysUtils, Classes, IniFiles, IB, FileUtil;
 
 {$OVERFLOWCHECKS OFF}
 
@@ -371,36 +372,87 @@ begin
 end;
 }
 
-function GetCurrentComputerName: string;
-{
 var
+  sSavedComputerName: string;
+
+function GetCurrentComputerName: string;
+var
+  {$IFDEF WINDOWS}
   AComputerName: string;
   ASize: Cardinal;
-}
+  {$ELSE}
+  p: TProcess;
+  sl: TStringList;
+  {$ENDIF WINDOWS}
 begin
-  Result := 'Comp';
-  {
-  SetLength(AComputerName, MAX_COMPUTERNAME_LENGTH + 1);
-  ASize := MAX_COMPUTERNAME_LENGTH + 1;
-  GetComputerName(PChar(AComputerName), ASize);
-  Result := PChar(AComputerName);
-  }
+  if sSavedComputerName <> '' then
+  begin
+    Result := sSavedComputerName;
+  end else
+  begin
+    {$IFDEF WINDOWS}
+    SetLength(AComputerName, MAX_COMPUTERNAME_LENGTH + 1);
+    ASize := MAX_COMPUTERNAME_LENGTH + 1;
+    GetComputerName(PChar(AComputerName), ASize);
+    Result := PChar(AComputerName);
+    Result := SysToUTF8(Result);
+    {$ELSE}
+    Result := GetEnvironmentVariableUTF8('HOSTNAME');
+    if Result = '' then
+      Result := GetEnvironmentVariableUTF8('HOST');
+    if Result = '' then
+    begin
+      p := TProcess.Create(nil);
+      sl := TStringList.Create;
+      try
+        p.CommandLine := 'hostname';
+        p.Options := p.Options + [poWaitOnExit, poUsePipes];
+        p.ShowWindow := swoHIDE;
+        p.Execute;
+        sl.LoadFromStream(p.Output);
+        Result := Trim(sl.Text);
+        Result := SysToUTF8(Result);
+      finally
+        p.Free;
+        sl.Free;
+      end;
+    end;
+    {$ENDIF WINDOWS}
+    if Result = '' then
+      Result := 'unknown_comp';
+    sSavedComputerName := Result;
+  end;
 end;
 
+var
+  sSavedUserName: string;
+
 function GetCurrentUserName: string;
-{
+{$IFDEF WINDOWS}
 var
   AUserName: string;
   ASize: Cardinal;
-}
+{$ENDIF WINDOWS}
 begin
-  Result := 'User';
-  {
-  SetLength(AUserName, 100);
-  ASize := 100;
-  GetUserName(PChar(AUserName), ASize);
-  Result := PChar(AUserName);
-  }
+  if sSavedUserName <> '' then
+    Result := sSavedUserName
+  else
+  begin
+    {$IFDEF WINDOWS}
+    SetLength(AUserName, 100);
+    ASize := 100;
+    GetUserName(PChar(AUserName), ASize);
+    Result := PChar(AUserName);
+    Result := SysToUTF8(Result);
+    {$ELSE}
+    Result := GetEnvironmentVariableUTF8('USERNAME');
+    if Result = '' then
+      Result := GetEnvironmentVariableUTF8('USER');
+    {$ENDIF WINDOWS}
+    if Result = '' then
+      Result := 'unknown_user';
+    sSavedUserName := Result;
+  end;
 end;
 
 
@@ -566,4 +618,4 @@ begin
   ClearObjectRef(Obj);
 end;
 
-end.
+end.
