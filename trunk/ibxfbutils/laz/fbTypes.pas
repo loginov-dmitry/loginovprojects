@@ -158,7 +158,8 @@ implementation
 
 procedure FBUpdateFormatSettings;
 begin
-  GetLocaleFormatSettings(0, FBFormatSettings);
+  //GetLocaleFormatSettings(0, FBFormatSettings);
+  FBFormatSettings := DefaultFormatSettings;
   FBFormatSettings.LongDateFormat := 'yyyy/mm/dd';
   FBFormatSettings.ShortDateFormat := 'yyyy/mm/dd';
   FBFormatSettings.LongTimeFormat := 'hh:nn:ss.zzz';

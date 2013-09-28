@@ -370,15 +370,6 @@ object Form1: TForm1
       ParentColor = False
     end
   end
-  object Button1: TButton
-    Left = 630
-    Height = 22
-    Top = 220
-    Width = 48
-    Caption = 'Button1'
-    OnClick = Button1Click
-    TabOrder = 6
-  end
   object IBTransaction1: TIBTransaction
     Active = False
     left = 480
