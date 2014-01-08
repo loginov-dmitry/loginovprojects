@@ -229,6 +229,10 @@ uses
    {$DEFINE D2009PLUS}
 {$IFEND}
 
+{$IF RTLVersion >= 24.00}
+   {$DEFINE DXE3PLUS}
+{$IFEND}
+
 const
   {:Максимальная длина имени объекта. Ее нельзя устанавливать больше, чем 255}
 {$IFDEF CheckMatrixName}
@@ -2816,7 +2820,7 @@ const
  
 {$Include Matrix32Messages.inc}
 
-implementation     
+implementation
 
 const
 {$IFDEF UseLifeGuid}
@@ -2840,6 +2844,10 @@ var
 
   {Критическая секция, защищающая все операции, связанные с работой списка FFieldList}
   FieldListCriticalSection: TCriticalSection;
+
+{$IFDEF DXE3PLUS}
+  DecimalSeparator: Char = '.';
+{$ENDIF DXE3PLUS}
 
 {$IFNDEF UseLifeGuid}
   MatrixInstanceList: TThreadList;
@@ -11109,6 +11117,10 @@ initialization
   ALog := TLDSLogger.Create('MatrixDebug.log');
   ALog.CanWriteThreadID := True;
 {$ENDIF}
+
+{$IFDEF DXE3PLUS}
+  DecimalSeparator := FormatSettings.DecimalSeparator;
+{$ENDIF DXE3PLUS}
 
 {$IFDEF CreateBaseWorkspace}
   Base := TWorkspace.Create(nil, matSBaseWorkspace);

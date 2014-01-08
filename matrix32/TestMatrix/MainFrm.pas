@@ -2,15 +2,22 @@ unit MainFrm;
 
 interface
 
+{$IF RTLVersion >= 24.00}
+   {$DEFINE DXE3PLUS}
+{$IFEND}
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Matrix32, StdCtrls, ExtCtrls, ComCtrls, ImgList, Buttons,
   TeEngine, Series, TeeProcs, Chart, matrixMatlab, strutils, Spin, SafeIniFiles,
-  Grids, Mask, CommCtrl, ActnList, ToolWin, matrixLapack, matrixBlas;
+  Grids, Mask, CommCtrl, ActnList, ToolWin, matrixLapack, matrixBlas,
+  VclTee.TeeGDIPlus, Actions;
+
+{Внимание! Модули VclTee.TeeGDIPlus и System.Actions добавляются средой
+ разработки Delphi XE5 по умолчанию. Удалите их, если используете более
+ старую версию Delphi!}
 
 type
-  TMyMatrix = class(TMatrix);
-
   TMainForm = class(TForm)
     Panel3: TPanel;
     Panel5: TPanel;
@@ -321,10 +328,13 @@ type
 var
   MainForm: TMainForm;
   CurFloatFormat: string = '%g';
+{$IFDEF DXE3PLUS}
+  ThousandSeparator: Char;
+{$ENDIF DXE3PLUS}
 
 implementation
 
-uses Math, cUtils, matrixFourier, matrixNNet, matrixTests, matrixDemos,
+uses Math, {cUtils,} matrixFourier, matrixNNet, matrixTests, matrixDemos,
   matrixNNetLVQ, EditFormatFrm, UtilsUnit, AddMatrixFrm, MoveToCellFrm;
 
 {$R *.dfm}
@@ -2189,6 +2199,11 @@ begin
   EditingString := edCellEditor.Text;
   ApplyEditingValue;
 end;
+
+initialization
+{$IFDEF DXE3PLUS}
+  ThousandSeparator := FormatSettings.ThousandSeparator;
+{$ENDIF DXE3PLUS}
 
 end.
 
