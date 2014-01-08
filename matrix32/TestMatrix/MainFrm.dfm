@@ -376,7 +376,6 @@ object MainForm: TMainForm
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 546
     object Splitter2: TSplitter
       Left = 1
       Top = 186
@@ -406,11 +405,9 @@ object MainForm: TMainForm
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      ExplicitWidth = 544
       object TabSheet1: TTabSheet
         Tag = 1
         Caption = #1052#1072#1089#1089#1080#1074
-        ExplicitWidth = 536
         object Panel2: TPanel
           Left = 0
           Top = 0
@@ -418,7 +415,6 @@ object MainForm: TMainForm
           Height = 322
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 536
           object panCategTitle: TPanel
             Left = 1
             Top = 1
@@ -435,7 +431,6 @@ object MainForm: TMainForm
             Font.Style = [fsBold]
             ParentFont = False
             TabOrder = 0
-            ExplicitWidth = 534
           end
           object Panel22: TPanel
             Left = 1
@@ -444,8 +439,6 @@ object MainForm: TMainForm
             Height = 296
             Align = alClient
             TabOrder = 1
-            ExplicitTop = 31
-            ExplicitWidth = 534
             object Label15: TLabel
               Left = 453
               Top = 240
@@ -607,6 +600,7 @@ object MainForm: TMainForm
               Width = 89
               Height = 24
               Style = csDropDownList
+              ItemHeight = 16
               TabOrder = 6
             end
             object Button10: TButton
@@ -624,6 +618,7 @@ object MainForm: TMainForm
               Width = 89
               Height = 24
               Style = csDropDownList
+              ItemHeight = 16
               TabOrder = 8
             end
             object btnReshape: TButton
@@ -686,7 +681,10 @@ object MainForm: TMainForm
         Tag = 2
         Caption = #1057#1090#1072#1090#1080#1089#1090#1080#1082#1072
         ImageIndex = 5
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 536
+        ExplicitHeight = 0
         object Panel25: TPanel
           Left = 0
           Top = 0
@@ -803,6 +801,7 @@ object MainForm: TMainForm
               Font.Height = -11
               Font.Name = 'MS Sans Serif'
               Font.Style = []
+              ItemHeight = 0
               ItemIndex = 0
               ParentFont = False
               TabOrder = 1
@@ -840,7 +839,10 @@ object MainForm: TMainForm
         Tag = 3
         Caption = #1044#1080#1072#1075#1088#1072#1084#1084#1072
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 536
+        ExplicitHeight = 0
         object Panel8: TPanel
           Left = 0
           Top = 0
@@ -902,9 +904,7 @@ object MainForm: TMainForm
           TabOrder = 1
           ExplicitWidth = 536
           object Series1: TLineSeries
-            Marks.Arrow.Visible = True
             Marks.Callout.Brush.Color = clBlack
-            Marks.Callout.Arrow.Visible = True
             Marks.Visible = False
             Pointer.InflateMargins = True
             Pointer.Style = psRectangle
@@ -920,7 +920,10 @@ object MainForm: TMainForm
         Tag = 4
         Caption = #1055#1072#1088#1072#1084#1077#1090#1088#1099
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 536
+        ExplicitHeight = 0
         object Label3: TLabel
           Left = 32
           Top = 49
@@ -990,7 +993,10 @@ object MainForm: TMainForm
         Tag = 5
         Caption = #1056#1072#1073#1086#1090#1072' '#1089' Matlab'
         ImageIndex = 4
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 536
+        ExplicitHeight = 0
         object Panel13: TPanel
           Left = 0
           Top = 0
@@ -1275,7 +1281,10 @@ object MainForm: TMainForm
         Tag = 6
         Caption = 'Blas, Lapack'
         ImageIndex = 4
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 536
+        ExplicitHeight = 0
         object Panel23: TPanel
           Left = 0
           Top = 0
@@ -1389,6 +1398,7 @@ object MainForm: TMainForm
         ExplicitLeft = 5
         ExplicitTop = 23
         ExplicitWidth = 536
+        ExplicitHeight = 0
         object Panel26: TPanel
           Left = 0
           Top = 0
@@ -1468,7 +1478,6 @@ object MainForm: TMainForm
       Align = alTop
       Constraints.MinHeight = 100
       TabOrder = 1
-      ExplicitWidth = 544
       object panMatrixView: TPanel
         Left = 1
         Top = 28
@@ -1476,7 +1485,6 @@ object MainForm: TMainForm
         Height = 156
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 542
         object Panel11: TPanel
           Left = 1
           Top = 1
@@ -1491,7 +1499,6 @@ object MainForm: TMainForm
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          ExplicitWidth = 540
           object Panel20: TPanel
             Left = 0
             Top = 0
@@ -1537,6 +1544,7 @@ object MainForm: TMainForm
               Width = 153
               Height = 21
               Style = csDropDownList
+              ItemHeight = 13
               ItemIndex = 0
               TabOrder = 0
               Text = '%g ('#1054#1073#1099#1095#1085#1099#1081')'
@@ -1577,7 +1585,6 @@ object MainForm: TMainForm
             ParentShowHint = False
             ShowHint = True
             TabOrder = 1
-            ExplicitLeft = 408
             object ToolButton7: TToolButton
               Left = 0
               Top = 0
@@ -1628,7 +1635,6 @@ object MainForm: TMainForm
           Height = 129
           Align = alClient
           TabOrder = 1
-          ExplicitWidth = 540
           object dgElems: TDrawGrid
             Left = 1
             Top = 1
@@ -1642,12 +1648,10 @@ object MainForm: TMainForm
             Font.Height = -13
             Font.Name = 'Courier New'
             Font.Style = []
-            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goEditing, goThumbTracking, goFixedColClick, goFixedRowClick]
             ParentFont = False
             TabOrder = 1
             OnDrawCell = dgElemsDrawCell
             OnGetEditText = dgElemsGetEditText
-            ExplicitWidth = 538
           end
           object edCellEditor: TEdit
             Left = 176
@@ -1683,7 +1687,6 @@ object MainForm: TMainForm
         Font.Style = []
         ParentFont = False
         TabOrder = 1
-        ExplicitWidth = 542
         object Label1: TLabel
           Left = 5
           Top = 12
@@ -1731,7 +1734,7 @@ object MainForm: TMainForm
     Left = 18
     Top = 24
     Bitmap = {
-      494C010105000900D40010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010105000900DC0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2033,7 +2036,7 @@ object MainForm: TMainForm
     Left = 184
     Top = 40
     Bitmap = {
-      494C010109008001040110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101090080010C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
