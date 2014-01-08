@@ -10,8 +10,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Matrix32, StdCtrls, ExtCtrls, ComCtrls, ImgList, Buttons,
   TeEngine, Series, TeeProcs, Chart, matrixMatlab, strutils, Spin, SafeIniFiles,
-  Grids, Mask, CommCtrl, ActnList, ToolWin, matrixLapack, matrixBlas,
-  VclTee.TeeGDIPlus, Actions;
+  Grids, Mask, CommCtrl, ActnList, ToolWin, matrixLapack, matrixBlas;
 
 {Внимание! Модули VclTee.TeeGDIPlus и System.Actions добавляются средой
  разработки Delphi XE5 по умолчанию. Удалите их, если используете более
