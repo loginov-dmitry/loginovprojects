@@ -384,9 +384,9 @@ function WaitAndCreateLogFileStream(AFileName: string; AMode: Word; WaitTime: In
 
 {$IFDEF UseResStr}
 resourcestring
-  resSProcessID = '<P:%d>';
-  resSThreadID = '<T:%d>';
-  resSProcessAndThreadID = '<P:%d;T:%d>';
+  resSProcessID = '<P:%u>';
+  resSThreadID = '<T:%u>';
+  resSProcessAndThreadID = '<P:%u;T:%u>';
   resSCreateMutexError = 'Ошибка при создании объекта "мьютекс": %s';
   resSLogErrorsWriterMessage = 'Ошибка при попытке записи (%0:s) в лог "%1:s" строки [%2:s]: %3:s <%4:s>';
   resSLogWriteError = '<Ошибка при записи в лог>';
@@ -402,9 +402,9 @@ resourcestring
 
 {$ELSE}
 var
-  resSProcessID: string = '<P:%d>';
-  resSThreadID: string = '<T:%d>';
-  resSProcessAndThreadID: string = '<P:%d;T:%d>';
+  resSProcessID: string = '<P:%u>';
+  resSThreadID: string = '<T:%u>';
+  resSProcessAndThreadID: string = '<P:%u;T:%u>';
   resSCreateMutexError: string = 'Ошибка при создании объекта "мьютекс": %s';
   resSLogErrorsWriterMessage: string = 'Ошибка при попытке записи (%0:s) в лог "%1:s" строки [%2:s]: %3:s <%4:s>';
   resSLogWriteError: string = '<Ошибка при записи в лог>';
@@ -1008,17 +1008,20 @@ begin
 end;
 
 procedure TLDSLogger.LogStr(MsgText: string; LogType: TLDSLogType);
+var
+  ThreadId: DWORD;
 begin
   if Assigned(Self) then
   begin
     if LazyWrite then
       CheckLazyWriteThread;
 
-    if LazyWrite and (GetCurrentThreadId <> LazyWriteThread.LazyThreadID) then
+    ThreadId := GetCurrentThreadId;
+    if LazyWrite and (ThreadId <> LazyWriteThread.LazyThreadID) then
     begin
       LazyWriteThread.RegisterLogMsg(Self, LogType, MsgText);
     end else
-      DoLogStr(MsgText, LogType, Now, GetCurrentThreadId);
+      DoLogStr(MsgText, LogType, Now, ThreadId);
   end;
 end;
 
@@ -1265,6 +1268,8 @@ begin
       if UseMutex then
         FMutexHandle := LDSLoggerCreateMutex(GenerateMutexName);
     end;
+    {$ELSE}
+    FFileName := Value;
     {$ENDIF}
   finally
     FCritSect.Leave;
@@ -1541,4 +1546,4 @@ finalization
       Sleep(5);
   end;
   FreeAndNil(LogErrorsWriter);
-end.
+end.
