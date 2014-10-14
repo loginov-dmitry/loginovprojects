@@ -519,6 +519,7 @@ var
   SQL: TStringList;
   SWhere: string;
   I, LastIndex: Integer;
+  ds: TIBDataSet;
 begin
   try
     SQL := TStringList.Create;
@@ -545,18 +546,18 @@ begin
         end;
       end;
 
-      with FBCreateDataSet(FDB, FTran, True, nil, AModuleName) do
+      ds := FBCreateDataSet(FDB, FTran, True, nil, AModuleName);
       try
-        SelectSQL.Assign(SQL);
+        ds.SelectSQL.Assign(SQL);
         for I := 0 to High(FieldNames) do
-          ParamByName(FieldNames[I]).Value := AFieldValues[I];
+          ds.ParamByName(FieldNames[I]).Value := AFieldValues[I];
 
         for I := 0 to High(KeyFields) do
-          ParamByName(KeyFields[I]).Value := KeyValues[I];
+          ds.ParamByName(KeyFields[I]).Value := KeyValues[I];
 
-        ExecSQL;
+        ds.ExecSQL;
       finally
-        Free;
+        ds.Free;
       end;
     finally
       SQL.Free;
