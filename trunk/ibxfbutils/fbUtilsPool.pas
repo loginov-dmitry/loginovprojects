@@ -41,7 +41,7 @@ unit fbUtilsPool;
 interface
 
 uses
-  SysUtils, Classes, SyncObjs, DateUtils, fbUtilsBase, fbSomeFuncs, IBDatabase, IBCustomDataSet, fbTypes;
+  Windows, SysUtils, Classes, SyncObjs, DateUtils, fbUtilsBase, fbSomeFuncs, IBDatabase, IBCustomDataSet, fbTypes;
 
 type
 
@@ -478,6 +478,9 @@ var
   FDB: TIBDatabase;
 begin
   try
+    if GetModuleHandle('GDS32.dll') = 0 then
+      raise Exception.Create('GetModuleHandle(GDS32.dll)=NULL');
+
     DBPoolCS.Enter;
     try
       for I := 0 to DBPoolList.Count - 1 do
@@ -568,5 +571,7 @@ end;
 initialization
   FBPool := TFBConnectionPool.Create;
 finalization
+  //MessageBox(0, 'POOL finalization - BEGIN', '', 0);
   FBPool.Free;
+  //MessageBox(0, 'POOL finalization - END', '', 0);
 end.
