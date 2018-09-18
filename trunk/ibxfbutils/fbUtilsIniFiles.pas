@@ -510,10 +510,13 @@ begin
 
     if Assigned(FDB) then
     begin
-      FBPoolReturnConnection(FDB, '');
-      FDB := nil;
-      FTranW := nil;
-      FTranR := nil;
+      try
+        FBPoolReturnConnection(FDB, '');
+      finally
+        FDB := nil;
+        FTranW := nil;
+        FTranR := nil;
+      end;
     end;
   end;
 end;
