@@ -51,7 +51,20 @@ unit fbUtilsBase;
 interface
 
 uses
-  Windows, SysUtils, Classes, IB, IBDatabase, IBCustomDataSet, Variants, fbTypes, fbSomeFuncs;
+  Windows, SysUtils, Classes, IB, IBDatabase, IBCustomDataSet, Variants, fbTypes, fbSomeFuncs,
+  IniFiles, StrUtils;
+
+type
+  TFBDatasetList = class(TComponent)
+  private
+    FList: THashedStringList; // Список датасетов
+  protected
+    procedure Notification(AComponent: TComponent;
+      Operation: TOperation); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+  end;
 
 {Создает объект соединения в базой данных. Дополнительно позволяет создать
  транзакцию (если TranType>trNone), а также открыть соединение с базой данных.
@@ -84,23 +97,36 @@ function FBCreateTransaction(FDB: TIBDataBase; TranType: TTransactionType; AutoS
 function FBCreateDataSet(FDB: TIBDatabase; FTran: TIBTransaction; TranAutoStart: Boolean;
   AOwner: TComponent; AModuleName: string): TIBDataSet;
 
-{Создает набор данных TIBDataSet и автоматически открывает простейший запрос. Пример:
+{Создает набор данных TIBDataSet и автоматически открывает заданный запрос. Пример:
  ds := FBCreateAndOpenDataSet(MyDB, MyTran, 'SELECT * FROM MYTABLE', [], [], nil, '')
  FetchAll вызывается автоматически}
 function FBCreateAndOpenDataSet(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string;
   ParamNames: array of string; ParamValues: array of Variant;
   AOwner: TComponent; AModuleName: string): TIBDataSet;
 
-{Создает набор данных TIBDataSet и выполняет SELECT-запрос к одной таблице}  
-function FBCreateAndOpenTable(FDB: TIBDatabase; FTran: TIBTransaction; 
+{Создает набор данных TIBDataSet и выполняет SELECT-запрос к одной таблице}
+function FBCreateAndOpenTable(FDB: TIBDatabase; FTran: TIBTransaction;
   ATable, AFilter, AOrder: string;
   ParamNames: array of string; ParamValues: array of Variant;
   AOwner: TComponent; AModuleName: string): TIBDataSet;
+
+{Возвращает набор данных TIBDataSet по SQL-запросу. Если объект TIBDataSet не был создан,
+ то создаёт его. Объекты TIBDataSet будут уничтожены автоматически при удалении транзакции, т.е.
+ удалять объект TIBDataSet не обязательно! }
+function FBGetDataSet(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string; AModuleName: string): TIBDataSet;
+
+{ Получает набор данных (с помощью функции FBGetDataSet), выставляет параметры и выполняет запрос }
+function FBGetAndOpenDataSet(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string;
+  ParamNames: array of string; ParamValues: array of Variant; AModuleName: string): TIBDataSet;
 
 {Выполняет указанный SQL-запрос.
  Внимание! Транзакция НЕ ЗАВЕРШАЕТСЯ!}
 procedure FBExecQuery(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string;
   ParamNames: array of string; ParamValues: array of Variant; AModuleName: string);
+
+{ Возвращает массив значений заданных полей указанной таблицы для первой найденной записи }
+function FBGetTableFieldValues(FDB: TIBDataBase; FTran: TIBTransaction; TableName: string; FieldNames: array of string;
+  KeyFields: array of string; KeyValues: array of Variant; DefValues: array of Variant; AModuleName: string): OleVariant;
 
 {Изменение записи. В FieldNames должны быть все поля, в том числе и ключевые.
  Ключевые поля подставляются в секцию WHERE}
@@ -119,7 +145,7 @@ procedure FBDeleteRecordBase(FDB: TIBDataBase; FTran: TIBTransaction;
 
 {Добавляет или обновляет запись (появилось в FB v.2.1)}
 procedure FBUpdateOrInsertRecordBase(FDB: TIBDataBase; FTran: TIBTransaction;
-  TableName: string; FieldNames: array of string; AFieldValues: array of Variant; 
+  TableName: string; FieldNames: array of string; AFieldValues: array of Variant;
   KeyFields: array of string; AModuleName: string);
 
 {Возвращает версию библиотеки. Эту информацию имеет смысл использовать только
@@ -145,6 +171,8 @@ procedure FBRecomputeIndexStatistics(FDB: TIBDatabase; AModuleName: string);
 {Увеличивает значение генератора GeneratorName на IncValue и возвращает полученное значение.
  Указывайте двойные кавычки в имени генератора, если в этом есть необходимость}
 function FBGenID(FDB: TIBDatabase; GeneratorName: string; IncValue: Integer; AModuleName: string): Int64;
+
+function FBGenIDEx(FDB: TIBDatabase; TranW: TIBTransaction; GeneratorName: string; IncValue: Integer; AModuleName: string): Int64;
 
 {Выполняет команду EXECUTE BLOCK (аналог хранимой процедуры).
  Внимание! Не забывайте про команду SUSPEND, иначе не вернет ни одной строки
@@ -204,6 +232,7 @@ exports
   FBCreateAndOpenTable name 'ibxFBCreateAndOpenTable',
   FBExecQuery name 'ibxFBExecQuery',
   FBUpdateRecordBase name 'ibxFBUpdateRecordBase',
+  FBGetTableFieldValues name 'ibxFBGetTableFieldValues',
   FBInsertRecordBase name 'ibxFBInsertRecordBase',
   FBDeleteRecordBase name 'ibxFBDeleteRecordBase',
   FBUpdateOrInsertRecordBase name 'ibxFBUpdateOrInsertRecordBase',
@@ -214,9 +243,12 @@ exports
   FBGetPassword name 'ibxFBGetPassword',
   FBRecomputeIndexStatistics name 'ibxFBRecomputeIndexStatistics',
   FBGenID name 'ibxFBGenID',
+  FBGenIDEx name 'ibxFBGenIDEx',
   FBExecuteBlockFunc name 'ibxFBExecuteBlockFunc',
   FBExecuteBlockProc name 'ibxFBExecuteBlockProc',
-  FBClearTable name 'ibxFBClearTable';
+  FBClearTable name 'ibxFBClearTable',
+  FBGetDataSet name 'ibxFBGetDataSet',
+  FBGetAndOpenDataSet name 'ibxFBGetAndOpenDataSet';
 {$ENDIF}
 
 resourcestring
@@ -226,7 +258,9 @@ resourcestring
   FBStrFreeConnection = 'Удаление подключения к базе данных';
   FBStrCreateTransaction = 'Создание транзакции';
   FBStrCreateDataSet = 'Создание набора данных';
+  FBStrGetDataSet = 'Получение набора данных';
   FBStrCreateAndOpenDataSet = 'Создание и открытие набора данных';
+  FBStrGetAndOpenDataSet = 'Получение и открытие набора данных';
   FBStrCreateAndOpenTable = 'Открытие таблицы';
   FBStrExecQuery = 'Выполнить запрос';
   FBStrUpdateRec = 'Изменение записи в "%s"';
@@ -241,15 +275,20 @@ var
 
   {Пароль пользователя для подключения к БД}
   FBPassword: string = FBDefPassword; {По умолчанию равно FBDefPassword}
-  
+
 function FBGetFullDatabaseName(AServerName: string; APort: Integer; ADBName: string): string;
 begin
-  Result := AServerName;
-  if (Result <> '') and (APort > 0) then
-    Result := Result +  '/' + IntToStr(APort);
-  if Result <> '' then
-    Result := Result + ':';
-  Result := Result + ADBName;
+  if APort = 0 then
+    Result := ADBName
+  else
+  begin
+    Result := AServerName;
+    if (Result <> '') and (APort > 0) then
+      Result := Result +  '/' + IntToStr(APort);
+    if Result <> '' then
+      Result := Result + ':';
+    Result := Result + ADBName;
+  end;
 end;
 
 function FBCreateConnection(AServerName: string; APort: Integer; ADataBase: string;
@@ -311,9 +350,19 @@ end;
 procedure FBDisconnectDB(FDB: TIBDatabase; AModuleName: string);
 begin
   try
+    if FDB = nil then
+      raise Exception.Create('FBDisconnectDB -> FDB = nil');
+    if not (FDB is TIBDatabase) then
+      raise Exception.Create('FBDisconnectDB -> FDB is not TIBDatabase');
+
     if WaitForSingleObject(FBConnectMutex, INFINITE) = WAIT_OBJECT_0 then
     try
-      FDB.Connected := False;
+      try
+        FDB.Connected := False;
+      except
+        // Не следует выбрасывать исключение, т.к. работа с БД завершена.
+        // Всё-равно ПО не сможет обработать такое исключение!
+      end;
     finally
       ReleaseMutex(FBConnectMutex);
     end
@@ -426,6 +475,71 @@ begin
   end;
 end;
 
+function FBGetDataSet(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string; AModuleName: string): TIBDataSet;
+var
+  I, Idx: Integer;
+  DSList: TFBDatasetList;
+  ds: TIBDataSet;
+begin
+  try
+    FBCheckDBAndTransObjects(FDB, FTran);
+    if FTran = nil then
+      raise Exception.Create('transaction is not assigned');
+    if SQL = '' then
+      raise Exception.Create('SQL is empty');
+
+    // Ищем в списке дочерних объектов транзакции объект TFBDatasetList
+    DSList := nil;
+    for I := 0 to FTran.ComponentCount - 1 do
+      if FTran.Components[I] is TFBDatasetList then
+      begin
+        DSList := FTran.Components[I] as TFBDatasetList;
+        Break;
+      end;
+    if DSList = nil then
+      DSList := TFBDatasetList.Create(FTran);
+
+    // Пытаемся найти датасет по SQL-запросу
+    Idx := DSList.FList.IndexOf(SQL);
+    if Idx = -1 then
+    begin
+      ds := FBCreateDataSet(FDB, FTran, True, DSList, AModuleName);
+      ds.SelectSQL.Text := SQL;
+      Idx := DSList.FList.AddObject(SQL, ds);
+    end;
+
+    Result := DSList.FList.Objects[Idx] as TIBDataSet;
+  except
+    on E: Exception do
+      raise ReCreateEObject(E, FBStrGetDataSet);
+  end;
+end;
+
+function FBGetAndOpenDataSet(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string;
+  ParamNames: array of string; ParamValues: array of Variant; AModuleName: string): TIBDataSet;
+var
+  I: Integer;
+begin
+  try
+    if Length(ParamNames) <> Length(ParamValues) then
+      raise Exception.Create('Params and values have different size');
+      
+    Result := FBGetDataSet(FDB, FTran, SQL, AModuleName);
+    Result.Active := False;
+    for I := 0 to High(ParamNames) do
+      if VarIsNull(ParamValues[I]) then
+        Result.ParamByName(ParamNames[I]).Clear
+      else
+        Result.ParamByName(ParamNames[I]).Value := ParamValues[I];
+
+    Result.Open;
+    Result.FetchAll;
+  except
+    on E: Exception do
+      raise ReCreateEObject(E, FBStrGetAndOpenDataSet);
+  end;
+end;
+
 function FBCreateAndOpenDataSet(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string;
   ParamNames: array of string; ParamValues: array of Variant;
   AOwner: TComponent; AModuleName: string): TIBDataSet;
@@ -441,7 +555,10 @@ begin
       Result.SelectSQL.Text := SQL;
 
       for I := 0 to High(ParamNames) do
-        Result.ParamByName(ParamNames[I]).Value := ParamValues[I];
+        if VarIsNull(ParamValues[I]) then
+          Result.ParamByName(ParamNames[I]).Clear
+        else
+          Result.ParamByName(ParamNames[I]).Value := ParamValues[I];
 
       Result.Open;
       Result.FetchAll;
@@ -500,7 +617,10 @@ begin
       ds.SelectSQL.Text := SQL;
 
       for I := 0 to High(ParamNames) do
-        ds.ParamByName(ParamNames[I]).Value := ParamValues[I];
+        if VarIsNull(ParamValues[I]) then
+          ds.ParamByName(ParamNames[I]).Clear
+        else
+          ds.ParamByName(ParamNames[I]).Value := ParamValues[I];
 
       ds.ExecSQL;
     finally
@@ -509,6 +629,74 @@ begin
   except
     on E: Exception do
       raise ReCreateEObject(E, FBStrExecQuery); // TODO: учесть AModuleName
+  end;
+end;
+
+function FBGetTableFieldValues(FDB: TIBDataBase; FTran: TIBTransaction; TableName: string; FieldNames: array of string;
+  KeyFields: array of string; KeyValues: array of Variant; DefValues: array of Variant; AModuleName: string): OleVariant;
+var
+  ds: TIBDataSet;
+  SQL: TStringList;
+  DenyQuote: Boolean;
+  SWhere, sFields, s, sf: string;
+  I: Integer;
+begin
+  try
+    if Length(KeyFields) <> Length(KeyValues) then
+      raise Exception.Create('Key fields and key values arrays have different size');
+
+    if Length(FieldNames) = 0 then
+      raise Exception.Create('FieldNames array is empty');
+
+    SQL := TStringList.Create;
+    try
+      for I := 0 to High(FieldNames) do
+      begin
+        if sFields <> '' then
+          sFields := sFields + ', ';
+
+        DenyQuote := (Pos(' AS ', UpperCase(FieldNames[I])) > 0) or (Pos('(', FieldNames[I]) > 0);
+        s  := IfThen(DenyQuote, '', '"');
+        sf := IfThen(DenyQuote, FieldNames[I], UpperCase(FieldNames[I]));
+        sFields := sFields + s + sf + s;
+      end;
+
+      SQL.Add(Format('SELECT FIRST 1 %s FROM "%s"', [sFields, UpperCase(TableName)]));
+      for I := 0 to High(KeyFields) do
+        SWhere := Format('%s ("%s" = :%1:s) AND', [SWhere, UpperCase(KeyFields[I])]);
+      if SWhere <> '' then
+      begin
+        SetLength(SWhere, Length(SWhere) - 4);
+        SQL.Add('WHERE ' + SWhere);
+      end;
+
+      ds := FBGetAndOpenDataSet(FDB, FTran, SQL.Text, KeyFields, KeyValues, AModuleName);
+      try
+        Result := VarArrayCreate([0, ds.Fields.Count - 1], varVariant);
+        for I := 0 to ds.Fields.Count - 1 do
+        begin
+          if ds.Fields[I].IsNull then
+          begin
+            if Length(DefValues) > I then
+              Result[I] := DefValues[I]
+            else
+              Result[I] := Null;
+          end else
+          begin
+            Result[I] := ds.Fields[I].Value;
+          end;
+        end;
+      finally
+        ds.Close;
+      end;
+
+    finally
+      //ds.Free;
+      SQL.Free;
+    end;
+  except
+    on E: Exception do
+      raise ReCreateEObject(E, 'FBGetTableFieldValue')
   end;
 end;
 
@@ -538,7 +726,7 @@ begin
       if Length(KeyFields) > 0 then
       begin
         for I := 0 to High(KeyFields) do
-          SWhere := Format('%s ("%s" = :%1:s) AND', [SWhere, UpperCase(KeyFields[I])]);
+          SWhere := Format('%s ("%s" = :FBPARAM_%1:s) AND', [SWhere, UpperCase(KeyFields[I])]);
         if SWhere <> '' then
         begin
           SetLength(SWhere, Length(SWhere) - 4);
@@ -546,19 +734,21 @@ begin
         end;
       end;
 
-      ds := FBCreateDataSet(FDB, FTran, True, nil, AModuleName);
-      try
-        ds.SelectSQL.Assign(SQL);
-        for I := 0 to High(FieldNames) do
+      ds := FBGetDataSet(FDB, FTran, SQL.Text, AModuleName);
+
+      for I := 0 to High(FieldNames) do
+        if VarIsNull(AFieldValues[I]) then
+          ds.ParamByName(FieldNames[I]).Clear
+        else
           ds.ParamByName(FieldNames[I]).Value := AFieldValues[I];
 
-        for I := 0 to High(KeyFields) do
-          ds.ParamByName(KeyFields[I]).Value := KeyValues[I];
+      for I := 0 to High(KeyFields) do
+        if VarIsNull(KeyValues[I]) then
+          ds.ParamByName('FBPARAM_' + KeyFields[I]).Clear
+        else
+          ds.ParamByName('FBPARAM_' + KeyFields[I]).Value := KeyValues[I];
 
-        ds.ExecSQL;
-      finally
-        ds.Free;
-      end;
+      ds.ExecSQL;
     finally
       SQL.Free;
     end;
@@ -574,6 +764,7 @@ var
   I: Integer;
   SQL: TStringList;
   Fields, Params, ErrStr: string;
+  ds: TIBDataSet;
 begin
   try
     SQL := TStringList.Create;
@@ -593,18 +784,17 @@ begin
       SQL.Add(Format('(%s)', [Fields]));
       SQL.Add(Format('VALUES (%s)', [Params]));
 
-      with FBCreateDataSet(FDB, FTran, True, nil, AModuleName) do
-      try
-        SelectSQL.Assign(SQL);
-        for I := 0 to High(FieldNames) do
-        begin
-          ParamByName(FieldNames[I]).Value := AFieldValues[I];
-          ErrStr := Format('%s %s=%s;', [ErrStr, FieldNames[I], VarToStr(AFieldValues[I])]);
-        end;
-        ExecSQL;
-      finally
-        Free;
+      ds := FBGetDataSet(FDB, FTran, SQL.Text, AModuleName);
+      for I := 0 to High(FieldNames) do
+      begin
+        if VarIsNull(AFieldValues[I]) then
+          ds.ParamByName(FieldNames[I]).Clear
+        else
+          ds.ParamByName(FieldNames[I]).Value := AFieldValues[I];
+
+        ErrStr := Format('%s %s=%s;', [ErrStr, FieldNames[I], VarToStr(AFieldValues[I])]);
       end;
+      ds.ExecSQL;
     finally
       SQL.Free;
     end;
@@ -621,6 +811,7 @@ var
   I: Integer;
   SQL: TStringList;
   Fields, Params, ErrStr, Keys: string;
+  ds: TIBDataSet;
 begin
   try
     SQL := TStringList.Create;
@@ -650,18 +841,18 @@ begin
        end;
        SQL.Add('MATCHING (' + Keys + ')');
 
-      with FBCreateDataSet(FDB, FTran, True, nil, AModuleName) do
-      try
-        SelectSQL.Assign(SQL);
-        for I := 0 to High(FieldNames) do
-        begin
-          ParamByName(FieldNames[I]).Value := AFieldValues[I];
-          ErrStr := Format('%s %s=%s;', [ErrStr, FieldNames[I], VarToStr(AFieldValues[I])]);
-        end;
-        ExecSQL;
-      finally
-        Free;
+      ds := FBGetDataSet(FDB, FTran, SQL.Text, AModuleName);
+      for I := 0 to High(FieldNames) do
+      begin
+        if VarIsNull(AFieldValues[I]) then
+          ds.ParamByName(FieldNames[I]).Clear
+        else
+          ds.ParamByName(FieldNames[I]).Value := AFieldValues[I];
+
+        ErrStr := Format('%s %s=%s;', [ErrStr, FieldNames[I], VarToStr(AFieldValues[I])]);
       end;
+      ds.ExecSQL;
+
     finally
       SQL.Free;
     end;
@@ -677,6 +868,7 @@ var
   SQL: TStringList;
   SWhere: string;
   I: Integer;
+  ds: TIBDataSet;
 begin
   try
     SQL := TStringList.Create;
@@ -695,17 +887,14 @@ begin
         end;
       end;
 
-      with FBCreateDataSet(FDB, FTran, True, nil, AModuleName) do
-      try
-        SelectSQL.Assign(SQL);
+      ds := FBGetDataSet(FDB, FTran, SQL.Text, AModuleName);
+      for I := 0 to High(KeyFields) do
+        if VarIsNull(KeyValues[I]) then
+          ds.ParamByName(KeyFields[I]).Clear
+        else
+          ds.ParamByName(KeyFields[I]).Value := KeyValues[I];
+      ds.ExecSQL;
 
-        for I := 0 to High(KeyFields) do
-          ParamByName(KeyFields[I]).Value := KeyValues[I];
-
-        ExecSQL;
-      finally
-        Free;
-      end;
     finally
       SQL.Free;
     end;
@@ -717,7 +906,7 @@ end;
 
 function FBUtilsVersion: Integer;
 begin
-  Result := 1;
+  Result := 4;
 end;
 
 procedure FBSetUserName(AUserName: string);
@@ -768,27 +957,29 @@ begin
   end;
 end;
 
-function FBGenID(FDB: TIBDatabase; GeneratorName: string; IncValue: Integer; AModuleName: string): Int64;
+function FBGenIDEx(FDB: TIBDatabase; TranW: TIBTransaction; GeneratorName: string; IncValue: Integer; AModuleName: string): Int64;
 var
+  TranExists: Boolean;
   ds: TIBDataSet;
-  tran: TIBTransaction;
+  sql: string;
 begin
+  TranExists := Assigned(TranW);
+  if not TranExists then
+    TranW := FBCreateTransaction(FDB, trRCRW, True, nil, AModuleName);
   try
-    ds := nil;
-    tran := FBCreateTransaction(FDB, trRCRW, True, nil, AModuleName);
-    try
-      ds := FBCreateAndOpenDataSet(FDB, tran,
-         Format('SELECT GEN_ID(%s, %d) AS ID FROM RDB$DATABASE',[GeneratorName, IncValue]),
-         [], [], nil, AModuleName);
-      Result := Round(ds.Fields[0].AsFloat); // AsInt64 отсутствует в Delphi7
-    finally
-      ds.Free;
-      tran.Free;
-    end;
-  except
-    on E: Exception do
-      raise ReCreateEObject(E, 'FBGenID'); // TODO: учесть AModuleName
-  end;
+    sql := Format('SELECT GEN_ID(%s, CAST(:v AS INTEGER)) AS ID FROM RDB$DATABASE', [GeneratorName]);
+    ds := FBGetAndOpenDataSet(FDB, TranW, sql, ['v'], [IncValue], AModuleName);
+    Result := Round(ds.Fields[0].AsFloat); // AsInt64 отсутствует в Delphi7
+    ds.Close;
+  finally
+    if not TranExists then   
+      TranW.Free;
+  end;  
+end;
+
+function FBGenID(FDB: TIBDatabase; GeneratorName: string; IncValue: Integer; AModuleName: string): Int64;
+begin
+  Result := FBGenIDEx(FDB, nil, GeneratorName, IncValue, AModuleName);
 end;
 
 function FBCorrectDeclareVarSection(VarDesc: string): string;
@@ -917,6 +1108,33 @@ end;
 function FBPackagesIsCorrect(IBDBClass: TClass): Boolean;
 begin
   Result := IBDBClass = TIBDatabase;
+end;
+
+{ TFBDatasetList }
+
+constructor TFBDatasetList.Create(AOwner: TComponent);
+begin
+  inherited;
+  FList := THashedStringList.Create;
+end;
+
+destructor TFBDatasetList.Destroy;
+begin
+  FreeAndNil(FList);
+  inherited;
+end;
+
+procedure TFBDatasetList.Notification(AComponent: TComponent; Operation: TOperation);
+var
+  Idx: Integer;
+begin
+  inherited;
+  if Assigned(FList) and (Operation = opRemove) then
+  begin
+    Idx := FList.IndexOfObject(AComponent);
+    if Idx >= 0 then
+      FList.Delete(Idx);
+  end;
 end;
 
 initialization

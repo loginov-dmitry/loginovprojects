@@ -80,7 +80,8 @@ type
   public { Подключение к БД и отключение. Работа с пулом. }
 
     {Возвращает подключение, параметры которого ранее были сохранены в профиле AProfileName. Пример:
-     FDB := GetConnection('MyDB', ReadTran, WriteTran, trRCRO, trRCRW) }
+     FDB := GetConnection('MyDB', ReadTran, WriteTran, trRCRO, trRCRW)
+     2018-08-30 - транзакция для чтения создаётся в любом случае - trRCRO }
     function GetConnection(AProfileName: string; ReadTran, WriteTran: PIBTransaction;
       ReadTranType, WriteTranType: TTransactionType): TIBDatabase; overload;
 
@@ -223,9 +224,7 @@ begin
   if WriteTran = nil then
     WriteTranType := trNone;
 
-  if WriteTranType <> trNone then
-    if ReadTran = nil then
-      ReadTranType := trNone;
+  ReadTranType := trRCRO; // Транзакцию для чтения создаём в любом случае, она - долгоживущая
 
   try
     DeleteOldConnections; // Удаляем старые подключения
@@ -286,11 +285,16 @@ begin
         end;
       end;
 
-      if ReadTranType > trNone then // Создает транзакцию для чтения
-      begin
+      Result.DefaultTransaction := nil;
+
+      // В любом случае создаём транзакцию для чтения
+      if pPool.dpReadTran = nil then
         pPool.dpReadTran := FBCreateTransaction(Result, ReadTranType, False, Result, '');
+      pPool.dpReadTran.Active := True;
+
+      // Если передана ссылка, то делаем читающую транзакцию - по умолчанию
+      if Assigned(ReadTran) then
         Result.DefaultTransaction := pPool.dpReadTran;
-      end;
 
       if WriteTranType > trNone then // Создаем транзакцию для записи
       begin
@@ -299,10 +303,11 @@ begin
           Result.DefaultTransaction := pPool.dpWriteTran;
       end;
 
-      // Если транзакция не активна, то запускаем ее
-      if Assigned(Result.DefaultTransaction) then
-        if not Result.DefaultTransaction.InTransaction then
-          Result.DefaultTransaction.StartTransaction;
+      // Если не переданы ссылки ни на читающую ни на пишущую транзакцию, то делаем читающую транзакцию - по умолчанию
+      if Result.DefaultTransaction = nil then
+        Result.DefaultTransaction := pPool.dpReadTran;
+
+      Result.DefaultTransaction.Active := True;
 
       if Assigned(ReadTran) then
         ReadTran^ := pPool.dpReadTran;
@@ -353,32 +358,55 @@ begin
   end;
 end;
 
-procedure PoolFreeTransactions(pPool: TDBPool);
+function PoolFreeTransactions(pPool: TDBPool; MustFree: Boolean): Boolean;
 var
   DefTran: TIBTransaction;
 begin
-  DefTran := pPool.dpConnect.DefaultTransaction;
-  if Assigned(DefTran) then
-  begin
-    if (DefTran = pPool.dpReadTran) or (DefTran = pPool.dpWriteTran) then
-      pPool.dpConnect.DefaultTransaction := nil
-    else
+  Result := True;
+  try
+    DefTran := pPool.dpConnect.DefaultTransaction;
+    if Assigned(DefTran) then
     begin
-      if DefTran.InTransaction then
-        DefTran.Rollback;
+      if (DefTran <> pPool.dpReadTran) then
+      begin
+        if DefTran.InTransaction then
+        try
+          DefTran.Rollback;
+        except
+          Result := False;
+          // По хорошему нужно вывести в лог
+        end;
+      end;
+      pPool.dpConnect.DefaultTransaction := nil;
     end;
-  end;
 
-  if Assigned(pPool.dpReadTran) then
-  begin
-    pPool.dpReadTran.Free;
-    pPool.dpReadTran := nil;
-  end;
+    if MustFree and Assigned(pPool.dpReadTran) then
+    begin
+      try
+        pPool.dpReadTran.Free;
+      except
+        Result := False;
+        // По хорошему нужно вывести в лог
+      end;
 
-  if Assigned(pPool.dpWriteTran) then
-  begin
-    pPool.dpWriteTran.Free;
-    pPool.dpWriteTran := nil;
+      pPool.dpReadTran := nil;
+    end;
+
+    if Assigned(pPool.dpWriteTran) then
+    begin
+      try
+        pPool.dpWriteTran.Free;
+      except
+        Result := False;
+        // По хорошему нужно вывести в лог
+      end;
+
+      pPool.dpWriteTran := nil;
+    end;
+
+  except
+    on E: Exception do
+      raise ReCreateEObject(E, 'PoolFreeTransactions');
   end;
 end;
 
@@ -386,6 +414,7 @@ procedure TFBConnectionPool.ReturnConnection(FDB: TIBDatabase);
 var
   pPool: TDBPool;
   I: Integer;
+  TranOk, DSOk: Boolean;
 begin
   try
     DBPoolCS.Enter;
@@ -396,9 +425,20 @@ begin
         if pPool.dpConnect = FDB then
         begin
           pPool.dpUsed := False;
-          pPool.dpCloseTime := Now;
-          pPool.dpConnect.CloseDataSets; // Закрываем все открытые наборы данных
-          PoolFreeTransactions(pPool); // Закрываем транзакции
+
+          try
+            pPool.dpConnect.CloseDataSets; // Закрываем все открытые наборы данных
+            DSOk := True;
+          except
+            DSOk := False;
+            // По хорошему нужно вывести ошибку в лог
+          end;
+
+          TranOk := PoolFreeTransactions(pPool, False); // Закрываем транзакции (кроме транзакции для чтения)
+
+          if TranOk and DSOk then
+            pPool.dpCloseTime := Now; // Устанавливаем время закрытия только после успешного выполнения операций
+
           Break;
         end;
       end;
@@ -486,10 +526,15 @@ begin
       for I := 0 to DBPoolList.Count - 1 do
       begin
         pPool := TDBPool(DBPoolList[I]);
-        PoolFreeTransactions(pPool);
+        PoolFreeTransactions(pPool, True);
         FDB := pPool.dpConnect;
         pPool.Free;
-        FBFreeConnection(FDB, '');
+
+        try
+          FBFreeConnection(FDB, '');
+        except
+          // По хорошему нужно вывести в лог
+        end;
       end;
       DBPoolList.Clear;
     finally
@@ -533,7 +578,7 @@ begin
 
               // Закрываем транзакции. От БД здесь нельзя отключаться, чтобы
               // ничего не тормозило
-              PoolFreeTransactions(pPool);
+              PoolFreeTransactions(pPool, True);
               pPool.Free;
             end;
         end;
@@ -547,7 +592,7 @@ begin
       try
         FBFreeConnection(TIBDatabase(AList[I]), '');
       except
-        //raise; // На будущее! Возможно, есть смысл заблокировать выдачу исключения при ошибке
+        // По хорошему нужно вывести в лог
       end;
     finally
       AList.Free;

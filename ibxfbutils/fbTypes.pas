@@ -1,5 +1,5 @@
 {
-Copyright (c) 2012-2013,  Loginov Dmitry Sergeevich
+Copyright (c) 2012-2013, Loginov Dmitry Sergeevich
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -117,7 +117,7 @@ const
 
   FBDefParamCheck = True;      // По умолчанию проверка параметров - ВКЛЮЧЕНА (при отключении тесты не проходят)
 
-  FBPoolConnectionMaxTime = 60; // Максимальное время жизни неиспользуемых подключений в пуле, сек
+  FBPoolConnectionMaxTime = 60 * 5; // Максимальное время жизни неиспользуемых подключений в пуле, сек
 
   FBDefBackupOptions: TFBBackupOptions = [];              // Опции резервирования БД по умолчанию
   FBDefRestoreOptions: TFBRestoreOptions = [CreateNewDB]; // Опции восстановления БД по умолчанию

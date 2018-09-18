@@ -554,10 +554,19 @@ type
     function CreateDataSet(FDB: TIBDatabase; FTran: TIBTransaction; TranAutoStart: Boolean = True;
       AOwner: TComponent = nil): TIBDataSet;
 
-    {Создает набор данных TIBDataSet и автоматически открывает простейший запрос}
+    {Создает набор данных TIBDataSet и автоматически выполняет SELECT-запрос}
     function CreateAndOpenDataSet(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string;
       ParamNames: array of string; ParamValues: array of Variant;
       AOwner: TComponent = nil): TIBDataSet;
+
+    {Возвращает набор данных TIBDataSet по SQL-запросу. Если объект TIBDataSet не был создан,
+     то создаёт его. Объекты TIBDataSet будут уничтожены автоматически при удалении транзакции, т.е.
+     удалять объект TIBDataSet не обязательно! }
+    function GetDataSet(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string): TIBDataSet;
+
+    {Возвращает набор данных TIBDataSet по SQL-запросу и автоматически выполняет SELECT-запрос}
+    function GetAndOpenDataSet(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string;
+      ParamNames: array of string; ParamValues: array of Variant): TIBDataSet;
 
     {Создает набор данных TIBDataSet и выполняет SELECT-запрос к одной таблице}
     function CreateAndOpenTable(FDB: TIBDatabase; FTran: TIBTransaction;
@@ -568,6 +577,17 @@ type
     {Выполняет указанный SQL-запрос}
     procedure ExecQuery(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string;
       ParamNames: array of string; ParamValues: array of Variant);
+
+    { Возвращает массив значений заданных полей указанной таблицы для первой найденной записи }
+    function GetTableFieldValues(FDB: TIBDatabase; FTran: TIBTransaction; TableName: string; FieldNames: array of string;
+    KeyFields: array of string; KeyValues: array of Variant; DefValues: array of Variant): OleVariant;
+
+    { Возвращает значение заданного поля указанной таблицы для первой найденной записи}
+    function GetTableFieldValue(FDB: TIBDatabase; FTran: TIBTransaction; TableName: string; FieldName: string;
+      KeyFields: array of string; KeyValues: array of Variant; DefValue: Variant): OleVariant;
+
+    { Возвращает текущие дату / время на сервере Firebird }
+    function GetCurrentDateTime(FDB: TIBDataBase; FTran: TIBTransaction): TDateTime;
 
     {Изменение записи в указанной таблице}
     procedure UpdateRecord(FDB: TIBDataBase; FTran: TIBTransaction;
@@ -590,8 +610,12 @@ type
     {Пересчет индексной статистики (используется EXECUTE BLOCK)}
     procedure RecomputeIndexStatistics(FDB: TIBDatabase);
 
-    {Увеличивает значение генератора GeneratorName на IncValue и возвращает полученное значение}
-    function GenID(FDB: TIBDatabase; GeneratorName: string; IncValue: Integer = 1): Int64;
+    {Увеличивает значение генератора GeneratorName на IncValue и возвращает полученное значение.
+     Вариант без указания транзакции для записи}
+    function GenID(FDB: TIBDatabase; GeneratorName: string; IncValue: Integer = 1): Int64; overload;
+
+    {Вариант с указанием транзакции для записи}
+    function GenID(FDB: TIBDatabase; TranW: TIBTransaction; GeneratorName: string; IncValue: Integer = 1): Int64; overload;
 
     {Выполняет команду EXECUTE BLOCK и возвращает набор данных с полями OutFieldsDesc}
     function ExecuteBlock(FDB: TIBDataBase; FTran: TIBTransaction; OutFieldsDesc,
@@ -679,6 +703,11 @@ var
     ParamNames: array of string; ParamValues: array of Variant;
     AOwner: TComponent; AModuleName: string): TIBDataSet;
 
+  FBGetDataSet: function(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string; AModuleName: string): TIBDataSet;
+
+  FBGetAndOpenDataSet: function(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string;
+    ParamNames: array of string; ParamValues: array of Variant; AModuleName: string): TIBDataSet;
+
   FBCreateAndOpenTable: function(FDB: TIBDatabase; FTran: TIBTransaction;
     ATable, AFilter, AOrder: string;
     ParamNames: array of string; ParamValues: array of Variant;
@@ -686,6 +715,9 @@ var
 
   FBExecQuery: procedure(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string;
     ParamNames: array of string; ParamValues: array of Variant; AModuleName: string);
+
+  FBGetTableFieldValues: function(fdb: TIBDatabase; tran: TIBTransaction; TableName: string; FieldNames: array of string;
+    KeyFields: array of string; KeyValues: array of Variant; DefValues: array of Variant; AModuleName: string): OleVariant;
 
   FBUpdateRecordBase: procedure(FDB: TIBDataBase; FTran: TIBTransaction;
     TableName: string; KeyFields: array of string; KeyValues: array of Variant;
@@ -713,6 +745,7 @@ var
   FBRecomputeIndexStatistics: procedure(FDB: TIBDatabase; AModuleName: string);
 
   FBGenID: function(FDB: TIBDatabase; GeneratorName: string; IncValue: Integer; AModuleName: string): Int64;
+  FBGenIDEx: function(FDB: TIBDatabase; FTran: TIBTransaction; GeneratorName: string; IncValue: Integer; AModuleName: string): Int64;
 
   FBExecuteBlockFunc: function(FDB: TIBDataBase; FTran: TIBTransaction; OutFieldsDesc,
     VarDesc, Body: string; AModuleName: string): TIBDataSet;
@@ -826,14 +859,17 @@ begin
     end;
 
     @FBCreateConnection     := GetProcAddress(fbUtilsHlib, 'ibxFBCreateConnection');
-    @FBConnectDB         := GetProcAddress(fbUtilsHlib, 'ibxFBConnectDB');
-    @FBDisconnectDB      := GetProcAddress(fbUtilsHlib, 'ibxFBDisconnectDB');
+    @FBConnectDB            := GetProcAddress(fbUtilsHlib, 'ibxFBConnectDB');
+    @FBDisconnectDB         := GetProcAddress(fbUtilsHlib, 'ibxFBDisconnectDB');
     @FBFreeConnection       := GetProcAddress(fbUtilsHlib, 'ibxFBFreeConnection');
-    @FBCreateTransaction := GetProcAddress(fbUtilsHlib, 'ibxFBCreateTransaction');
+    @FBCreateTransaction    := GetProcAddress(fbUtilsHlib, 'ibxFBCreateTransaction');
     @FBCreateDataSet        := GetProcAddress(fbUtilsHlib, 'ibxFBCreateDataSet');
     @FBCreateAndOpenDataSet := GetProcAddress(fbUtilsHlib, 'ibxFBCreateAndOpenDataSet');
+    @FBGetDataSet           := GetProcAddress(fbUtilsHlib, 'ibxFBGetDataSet');
+    @FBGetAndOpenDataSet    := GetProcAddress(fbUtilsHlib, 'ibxFBGetAndOpenDataSet');
     @FBCreateAndOpenTable   := GetProcAddress(fbUtilsHlib, 'ibxFBCreateAndOpenTable');
     @FBExecQuery            := GetProcAddress(fbUtilsHlib, 'ibxFBExecQuery');
+    @FBGetTableFieldValues  := GetProcAddress(fbUtilsHlib, 'ibxFBGetTableFieldValues');
     @FBUpdateRecordBase     := GetProcAddress(fbUtilsHlib, 'ibxFBUpdateRecordBase');
     @FBInsertRecordBase     := GetProcAddress(fbUtilsHlib, 'ibxFBInsertRecordBase');
     @FBDeleteRecordBase     := GetProcAddress(fbUtilsHlib, 'ibxFBDeleteRecordBase');
@@ -845,6 +881,7 @@ begin
     @FBGetPassword          := GetProcAddress(fbUtilsHlib, 'ibxFBGetPassword');
     @FBRecomputeIndexStatistics := GetProcAddress(fbUtilsHlib, 'ibxFBRecomputeIndexStatistics');
     @FBGenID                := GetProcAddress(fbUtilsHlib, 'ibxFBGenID');
+    @FBGenIDEx              := GetProcAddress(fbUtilsHlib, 'ibxFBGenIDEx');
     @FBExecuteBlockFunc     := GetProcAddress(fbUtilsHlib, 'ibxFBExecuteBlockFunc');
     @FBExecuteBlockProc     := GetProcAddress(fbUtilsHlib, 'ibxFBExecuteBlockProc');
     @FBClearTable           := GetProcAddress(fbUtilsHlib, 'ibxFBClearTable');
@@ -879,14 +916,17 @@ begin
   {$ELSE}
     {Загружаем адреса функций, реализованных в fbUtilsBase.pas}
     @FBCreateConnection     := @fbUtilsBase.FBCreateConnection;
-    @FBConnectDB         := @fbUtilsBase.FBConnectDB;
-    @FBDisconnectDB      := @fbUtilsBase.FBDisconnectDB;
+    @FBConnectDB            := @fbUtilsBase.FBConnectDB;
+    @FBDisconnectDB         := @fbUtilsBase.FBDisconnectDB;
     @FBFreeConnection       := @fbUtilsBase.FBFreeConnection;
-    @FBCreateTransaction := @fbUtilsBase.FBCreateTransaction;
+    @FBCreateTransaction    := @fbUtilsBase.FBCreateTransaction;
     @FBCreateDataSet        := @fbUtilsBase.FBCreateDataSet;
     @FBCreateAndOpenDataSet := @fbUtilsBase.FBCreateAndOpenDataSet;
+    @FBGetDataSet           := @fbUtilsBase.FBGetDataSet;
+    @FBGetAndOpenDataSet    := @fbUtilsBase.FBGetAndOpenDataSet;
     @FBCreateAndOpenTable   := @fbUtilsBase.FBCreateAndOpenTable;
     @FBExecQuery            := @fbUtilsBase.FBExecQuery;
+    @FBGetTableFieldValues  := @fbUtilsBase.FBGetTableFieldValues;
     @FBUpdateRecordBase     := @fbUtilsBase.FBUpdateRecordBase;
     @FBInsertRecordBase     := @fbUtilsBase.FBInsertRecordBase;
     @FBDeleteRecordBase     := @fbUtilsBase.FBDeleteRecordBase;
@@ -898,6 +938,7 @@ begin
     @FBGetPassword          := @fbUtilsBase.FBGetPassword;
     @FBRecomputeIndexStatistics := @fbUtilsBase.FBRecomputeIndexStatistics;
     @FBGenID                := @fbUtilsBase.FBGenID;
+    @FBGenIDEx              := @fbUtilsBase.FBGenIDEx;
     @FBExecuteBlockFunc     := @fbUtilsBase.FBExecuteBlockFunc;
     @FBExecuteBlockProc     := @fbUtilsBase.FBExecuteBlockProc;
     @FBClearTable           := @fbUtilsBase.FBClearTable;
@@ -1045,9 +1086,68 @@ begin
   Result := FBGenID(FDB, GeneratorName, IncValue, FModuleName);
 end;
 
+function TfbUtils.GenID(FDB: TIBDatabase; TranW: TIBTransaction; GeneratorName: string;
+  IncValue: Integer): Int64;
+begin
+  if Assigned(FBGenIDEx) then
+    Result := FBGenIDEx(FDB, TranW, GeneratorName, IncValue, FModuleName)
+  else
+    raise Exception.Create('TfbUtils: FBGenIDEx = nil');
+end;
+
+function TfbUtils.GetAndOpenDataSet(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string;
+  ParamNames: array of string; ParamValues: array of Variant): TIBDataSet;
+begin
+  if Assigned(FBGetAndOpenDataSet) then
+    Result := FBGetAndOpenDataSet(FDB, FTran, SQL, ParamNames, ParamValues, FModuleName)
+  else
+    raise Exception.Create('TfbUtils: FBGetAndOpenDataSet = nil');
+end;
+
+function TfbUtils.GetCurrentDateTime(FDB: TIBDataBase; FTran: TIBTransaction): TDateTime;
+var
+  ds: TIBDataSet;
+begin
+  ds := fb.GetAndOpenDataSet(FDB, FTran, 'SELECT CURRENT_TIMESTAMP FROM RDB$DATABASE', [], []);
+  Result := ds.Fields[0].AsDateTime;
+  ds.Close;
+end;
+
+function TfbUtils.GetDataSet(FDB: TIBDatabase; FTran: TIBTransaction; SQL: string): TIBDataSet;
+begin
+  if Assigned(FBGetDataSet) then
+    Result := FBGetDataSet(FDB, FTran, SQL, FModuleName)
+  else
+    raise Exception.Create('TfbUtils: FBGetDataSet = nil');
+end;
+
 function TfbUtils.GetPassword: string;
 begin
   Result := FBGetPassword;
+end;
+
+function TfbUtils.GetTableFieldValue(FDB: TIBDatabase; FTran: TIBTransaction; TableName,
+  FieldName: string; KeyFields: array of string; KeyValues: array of Variant;
+  DefValue: Variant): OleVariant;
+var
+  v: OleVariant;
+begin
+  if Assigned(FBGetTableFieldValues) then
+  begin
+    v := FBGetTableFieldValues(FDB, FTran, TableName, [FieldName], KeyFields, KeyValues, [DefValue], FModuleName);
+    Result := v[0];
+  end
+  else
+    raise Exception.Create('TfbUtils: FBGetTableFieldValues = nil');
+end;
+
+function TfbUtils.GetTableFieldValues(FDB: TIBDatabase; FTran: TIBTransaction; TableName: string;
+  FieldNames, KeyFields: array of string; KeyValues, DefValues: array of Variant): OleVariant;
+begin
+  if Assigned(FBGetTableFieldValues) then
+    Result := FBGetTableFieldValues(FDB, FTran, TableName, FieldNames, KeyFields, KeyValues, DefValues, FModuleName)
+  else
+    raise Exception.Create('TfbUtils: FBGetTableFieldValues = nil');
 end;
 
 function TfbUtils.GetUserName: string;
