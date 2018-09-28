@@ -1,5 +1,5 @@
 {
-Copyright (c) 2007-2013, Loginov Dmitry Sergeevich
+Copyright (c) 2007-2017, Loginov Dmitry Sergeevich
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -28,8 +28,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {                                                                             }
 {                                                                             }
 { Модуль LDSLogger - модуль для ведения логов                                 }
-{ (c) 2007-2013 Логинов Дмитрий Сергеевич                                     }
-{ Последнее обновление: 13.03.2013                                            }
+{ (c) 2007-2017 Логинов Дмитрий Сергеевич                                     }
+{ Последнее обновление: 20.07.2017                                            }
 { Адрес сайта: http://www.loginovprojects.ru/                                 }
 { e-mail: loginov_d@inbox.ru                                                  }
 {                                                                             }
@@ -56,7 +56,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  потока, символы событий и наименования событий, префикс сообщения DefaultPrefix.
  Логгер позволяет запретить либо разрешить вывод любого сообщения в лог с
  помощью свойства UsedLogTypes. Для полного запрета на вывод в лог используйте
- Enabled := False либо UsedLogTypes := [].}
+ Enabled := False либо UsedLogTypes := [].
 
  {Перечень изменений
   20.05.2008
@@ -116,16 +116,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
      - исправлена ошибка в методе ProcessFile. Процесс поиска места для обрезки файла
        мог привести к зависанию программы.
 
-   09.12.2010
-     - теперь проверка входимости символа в множество осуществляется с помощью CharInSet
-
-   15.01.2013
+   15.02.2013
      - добавлено свойство LazyWrite, благодаря которому возможна "отложенная" запись
        информации в лог. Добавлена директива компиляции LDSLoggerLazy, разрешающая
        отложенную запись в лог сразу для всех объектов, используемых в проекте.
+       ОСТОРОЖНО! Если модуль LDSLogger.pas находится в DLL-библиотеке, то не забывайте
+       выгружать данную библиотеку в том случае, если вы её загружали с помощью
+       LoadLibrary. В противном случае поток отложенной записи может "неожиданно"
+       исчезать.
 
    13.03.2013
      - добавлен заголовок свободной лицензии BSD 2
+
+   05.10.2016
+     - значительно ускорена (более чем в 10 раз) запись в лог-файлы при использовании режима LazyWrite
+     - добавлена Call-back функция LDSOnWriteToFile, которая вызывается каждый раз после записи в лог-файл.
  }
 
 
@@ -150,10 +155,6 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, SyncObjs, DateUtils, IniFiles;
 
-{Директива D2009PLUS определяет, что текущая версия Delphi: 2009 или выше}
-{$IF RTLVersion >= 20.00}
-   {$DEFINE D2009PLUS}
-{$IFEND}
 type
   TLDSLogType = (tlpNone, tlpInformation, tlpError, tlpCriticalError, tlpWarning,
     tlpEvent, tlpDebug, tlpOther);
@@ -179,6 +180,7 @@ type
     FCanWriteLogWords: Boolean;
     FUseMutex: Boolean;
     FMaxOldLogFileCount: Integer;
+    FRenameFilesMode: Integer;
 
     FIsErrorWriter: Boolean;
     FUsedLogTypes: TLDSLogTypes;
@@ -190,6 +192,8 @@ type
     FLastCheckTime: TDateTime;
     FLazyWrite: Boolean;
     FLazyWriteCounter: Integer; // Количество строк, ожидающих запись в лог 
+
+    FFinalStrings: TStringList; // Подготовленные строки для ускоренной пакетной записи
 
     {Генерирует имя мьютекса}
     function GenerateMutexName: string;
@@ -214,7 +218,10 @@ type
     procedure SetListBufferMaxCount(const Value: Integer);
     procedure SetDateTimeTrimInterval(const Value: TDateTime);
 
-    procedure DoLogStr(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: DWORD);    
+    procedure DoLogStr(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: DWORD; ReadyBuf: TMemoryStream);
+    function GetLazyWrite: Boolean;
+    function GetFinalLogString(MsgText: string; LogType: TLDSLogType;
+      CurDateTime: TDateTime; AThreadID: DWORD): string;
   public
     {Конструктор. AFileName определяет имя лог-файла. Если указывается имя файла
      без пути, то в качестве него подставляется путь к исполняемому файлу. Имя
@@ -250,6 +257,10 @@ type
      лишние файлы удаляются}
     property MaxOldLogFileCount: Integer read FMaxOldLogFileCount write FMaxOldLogFileCount;
 
+    {Режим переименования лог-файлов. 0-в старых файлах в конце допивывается ".logXXX",
+     1-в старых файлах в конце допивывается ".log.X" }
+    property RenameFilesMode: Integer read FRenameFilesMode write FRenameFilesMode;
+
     {Определяет, что нужно делать в случае, если размер LOG-файла превысит
      MaxFileSize, либо сработает ограничение DateTimeTrimInterval.
      Если ClearOldLogData=True, то старые строки в файле будут
@@ -270,7 +281,7 @@ type
      TStringList, окну посылается сообщение NotifyMessage с помощью PostMessage,
      после чего в оконной процедуре окна можно считать накопленный в буффере
      текст путем вызова метода GetStringListBufferText}
-    procedure LogStr(MsgText: string = ''; LogType: TLDSLogType = tlpNone);
+    procedure LogStr(MsgText: string = ''; LogType: TLDSLogType = tlpNone; EventTime: TDateTime = 0);
     procedure LogStrFmt(MsgText: string; Args: array of const; LogType: TLDSLogType = tlpNone);
 
     {Управляет возможностью записи данных в LOG-файл}
@@ -338,7 +349,7 @@ type
 
     {Позволяет включить режим "ленивой" (отложенной) записи в лог. По умолчанию
      "ленивая" запись отключена (т.е. данные пишутся в лог незамедлительно)}
-    property LazyWrite: Boolean read FLazyWrite write FLazyWrite;
+    property LazyWrite: Boolean read GetLazyWrite write FLazyWrite;
   end;
 
 {Выполняет перевод всех  текстовых сообщений модуля LDSLogger. LangFileName -
@@ -351,6 +362,11 @@ procedure TranslateLoggerMessages(const LangFileName: string;
   защита кода открытия файла с помощью мьютекса. }
 function WaitAndCreateLogFileStream(AFileName: string; AMode: Word; WaitTime: Integer): TFileStream;
 
+{ Уничтожает поток записи в лог-файлы.
+  Если модуль используется в DLL, а вызов на очистку объектов DLL исходит из EXE, то можно
+  передавать FromDLL = False }
+procedure DestroyLazyWriteThread(FromDLL: Boolean);
+
 {$IFDEF UseResStr}
 resourcestring
   resSProcessID = '<P:%d>';
@@ -360,13 +376,13 @@ resourcestring
   resSLogErrorsWriterMessage = 'Ошибка при попытке записи (%0:s) в лог "%1:s" строки [%2:s]: %3:s <%4:s>';
   resSLogWriteError = '<Ошибка при записи в лог>';
 
-  resSLogInformation = ' [инф]';
+  resSLogInformation = ' [инфо]';
   resSLogError       = ' [ошиб]';
   resSLogCritError   = ' [сбой]';
   resSLogWarning     = ' [вним]';
-  resSLogEvent       = ' [событ]';
-  resSLogDebug       = ' [отлад]';
-  resSLogOther       = ' [другое]';
+  resSLogEvent       = ' [соб.]';
+  resSLogDebug       = ' [отл.]';
+  resSLogOther       = ' [друг]';
   DATE_TIME_FORMAT = 'dd/mm/yyyy hh:nn:ss.zzz';
 
 {$ELSE}
@@ -378,13 +394,13 @@ var
   resSLogErrorsWriterMessage: string = 'Ошибка при попытке записи (%0:s) в лог "%1:s" строки [%2:s]: %3:s <%4:s>';
   resSLogWriteError: string = '<Ошибка при записи в лог>';
 
-  resSLogInformation: string = ' [инф]';
+  resSLogInformation: string = ' [инфо]';
   resSLogError: string       = ' [ошиб]';
   resSLogCritError: string   = ' [сбой]';
   resSLogWarning: string     = ' [вним]';
-  resSLogEvent: string       = ' [событ]';
-  resSLogDebug: string       = ' [отлад]';
-  resSLogOther: string       = ' [другое]';
+  resSLogEvent: string       = ' [соб.]';
+  resSLogDebug: string       = ' [отл.]';
+  resSLogOther: string       = ' [друг]';
   DATE_TIME_FORMAT: string = 'dd/mm/yyyy hh:nn:ss.zzz';
 {$ENDIF}
 
@@ -446,12 +462,16 @@ var
    только в исследовательских целях}
   LDSGlobalUseMutex: Boolean = True;
 
-  {Определяет, должна ли использоваться "отложенная" запись в лог по умолчанию}
+  {Определяет, должна ли использоваться "отложенная" запись в лог по умолчанию }
   {$IFDEF LDSLoggerLazy}
-  LDSLoggerLazyWrite: Boolean = True;   
+  LDSLoggerLazyWrite: Boolean = True;
   {$ELSE}
   LDSLoggerLazyWrite: Boolean = False;
   {$ENDIF}
+
+  { Данная процедура, если она указана, будет вызываться каждый раз, когда поток
+    записи TLazyWriteThread завершает итерацию записи в файл }
+  LDSOnWriteToFile: procedure;
 
 implementation
 
@@ -468,7 +488,7 @@ type
     destructor Destroy; override;
 
     // Добавляет сообщение для записи в лог в очередь
-    procedure RegisterLogMsg(ALogObj: TLDSLogger; ALogType: TLDSLogType; ALogMsg: string);
+    procedure RegisterLogMsg(ALogObj: TLDSLogger; ALogType: TLDSLogType; ALogMsg: string; EventTime: TDateTime);
 
     // Позволяет "разбудить" поток, если требуется записать сообщения в лог
     procedure WakeUp;
@@ -486,6 +506,10 @@ type
 
 var
   LazyWriteThread: TLazyWriteThread;
+
+  // TRUE, произошел вход в секцию finalization
+  WasFinalization: Boolean = False;
+
   LazyWriteCreateCS: TCriticalSection;
 
 procedure CheckLazyWriteThread;
@@ -501,12 +525,6 @@ begin
     end;
   end;
 end;
-{$IFNDEF D2009PLUS}
-function CharInSet(C: Char; const CharSet: TSysCharSet): Boolean;
-begin
-  Result := C in CharSet;
-end;
-{$ENDIF}
 
 function WaitAndCreateLogFileStream(AFileName: string; AMode: Word; WaitTime: Integer): TFileStream;
 const
@@ -758,8 +776,10 @@ begin
   FileName := AFileName;
   FEnabled := True;
   FCanWriteLogWords := True;
-  FClearOldLogData := True;
-  FMaxOldLogFileCount := 10;
+  //FClearOldLogData := True;
+  FClearOldLogData := False;
+  //FMaxOldLogFileCount := 10;
+  FMaxOldLogFileCount := 2;
   FUsedLogTypes :=
     [tlpNone, tlpInformation, tlpError, tlpCriticalError, 
      tlpWarning, tlpEvent, tlpDebug, tlpOther];
@@ -767,6 +787,7 @@ begin
   FNotifyMessage := LOGGER_NOTIFY_MESSAGE;
   FListBufferMaxCount := LIST_BUFFER_MAX_COUNT;
   FLazyWrite := LDSLoggerLazyWrite;
+  FFinalStrings := TStringList.Create;
 end;
 
 destructor TLDSLogger.Destroy;
@@ -782,6 +803,7 @@ begin
   FreeAndNil(FCritSect); 
   FreeAndNil(FStringListBuffer);
   FreeAndNil(FBufferCS);
+  FreeAndNil(FFinalStrings);
   inherited;
 end;
 
@@ -791,8 +813,13 @@ var
 begin
   Result := AnsiLowerCase(FileName);
   for I := 1 to Length(Result) do
-    if CharInSet(Result[I], ['\', '/', ':', '*', '"', '?', '|', '<', '>']) then
+    if AnsiChar(Result[I]) in ['\', '/', ':', '*', '"', '?', '|', '<', '>'] then
       Result[I] := '_';
+end;
+
+function TLDSLogger.GetLazyWrite: Boolean;
+begin
+  Result := FLazyWrite and (not WasFinalization);
 end;
 
 function TLDSLogger.GetStringListBufferText(ClearBuffer: Boolean): string;
@@ -815,51 +842,58 @@ begin
     WaitForSingleObject(FMutexHandle, INFINITE);
 end;
 
-procedure TLDSLogger.DoLogStr(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: DWORD);
+function TLDSLogger.GetFinalLogString(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: DWORD): string;
+begin
+  Result := '';
+  MsgText := Trim(MsgText);
+  if MsgText <> '' then
+  begin
+    if LDSUseSystemLocalSettings then
+      Result := FormatDateTime(DateTimeFormat, CurDateTime)
+    else
+      Result := FormatDateTime(DateTimeFormat, CurDateTime, LDSLoggerFormatSettings);
+
+    if CanWriteLogSymbols then
+      Result := LDSLogSymbols[LogType] + ' ' + Result;
+    if CanWriteLogWords then
+      Result := Result + LDSLogWords[LogType];
+
+    if DefaultPrefix <> '' then
+      Result := Result + ' ' + DefaultPrefix;
+
+    if CanWriteProcessID and CanWriteThreadID then
+      Result := Result + ' ' + Format(resSProcessAndThreadID,
+        [GetCurrentProcessId, AThreadID])
+    else if CanWriteProcessID then
+      Result := Result + ' ' + Format(resSProcessID, [GetCurrentProcessId])
+    else if CanWriteThreadID then
+      Result := Result + ' ' + Format(resSThreadID, [AThreadID]);
+
+    Result := Result + ' ' + MsgText;
+  end;
+end;
+
+procedure TLDSLogger.DoLogStr(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: DWORD; ReadyBuf: TMemoryStream);
 var
   Fs: TFileStream;
   SFileMode: string;
   BufferMsgText: string;
-
-  function GetLogString: string;
-  begin
-    Result := '';
-    MsgText := Trim(MsgText);
-    if MsgText <> '' then
-    begin
-      if LDSUseSystemLocalSettings then
-        Result := FormatDateTime(DateTimeFormat, CurDateTime)
-      else
-        Result := FormatDateTime(DateTimeFormat, CurDateTime, LDSLoggerFormatSettings);
-        
-      if CanWriteLogSymbols then
-        Result := LDSLogSymbols[LogType] + ' ' + Result;
-      if CanWriteLogWords then
-        Result := Result + LDSLogWords[LogType];
-
-      if DefaultPrefix <> '' then
-        Result := Result + ' ' + DefaultPrefix;
-
-      if CanWriteProcessID and CanWriteThreadID then
-        Result := Result + ' ' + Format(resSProcessAndThreadID,
-          [GetCurrentProcessId, AThreadID])
-      else if CanWriteProcessID then
-        Result := Result + ' ' + Format(resSProcessID, [GetCurrentProcessId])
-      else if CanWriteThreadID then
-        Result := Result + ' ' + Format(resSThreadID, [AThreadID]);
-
-      Result := Result + ' ' + MsgText;
-    end;
-  end;
-
 begin
   if Enabled and (FileName <> '') and Assigned(FCritSect) and (LogType in FUsedLogTypes) then
   begin
     Lock;
     try
       try
-
-        BufferMsgText := GetLogString;
+        if ReadyBuf = nil then
+        begin
+          BufferMsgText := GetFinalLogString(MsgText, LogType, CurDateTime, AThreadID);
+          MsgText := BufferMsgText + sLineBreak;
+        end
+        else
+        begin
+          SetString(BufferMsgText, PChar(ReadyBuf.Memory), ReadyBuf.Size);
+          MsgText := BufferMsgText;
+        end;
 
         if FileExists(FileName) then
         begin
@@ -887,7 +921,7 @@ begin
           Fs := WaitAndCreateLogFileStream(FileName, fmCreate, LDSMaxWaitFileTime);
         end;
         SFileMode := SFileMode + '-OK';
-        MsgText := BufferMsgText + sLineBreak;
+
         try
           Fs.Seek(0, soFromEnd);
           Fs.Write(AnsiString(MsgText)[1], Length(MsgText) * SizeOf(AnsiChar));
@@ -935,18 +969,18 @@ begin
   end;
 end;
 
-procedure TLDSLogger.LogStr(MsgText: string; LogType: TLDSLogType);
+procedure TLDSLogger.LogStr(MsgText: string; LogType: TLDSLogType; EventTime: TDateTime);
 begin
-  if Assigned(Self) then
+  if Assigned(Self) and Self.Enabled then
   begin
     if LazyWrite then
       CheckLazyWriteThread;
 
     if LazyWrite and (GetCurrentThreadId <> LazyWriteThread.LazyThreadID) then
     begin
-      LazyWriteThread.RegisterLogMsg(Self, LogType, MsgText);
+      LazyWriteThread.RegisterLogMsg(Self, LogType, MsgText, EventTime);
     end else
-      DoLogStr(MsgText, LogType, Now, GetCurrentThreadId);
+      DoLogStr(MsgText, LogType, Now, GetCurrentThreadId, nil);
   end;
 end;
 
@@ -954,12 +988,11 @@ procedure TLDSLogger.LogStrFmt(MsgText: string; Args: array of const;
   LogType: TLDSLogType);
 begin
   try
-    MsgText := Format(MsgText, Args);
+    LogStr(Format(MsgText, Args), LogType);
   except
     on E: Exception do
       raise Exception.Create('Error args for string [' + MsgText + ']: ' + E.Message);
   end;
-  LogStr(MsgText, LogType);
 end;
 
 procedure TLDSLogger.ProcessFile(var fs: TFileStream);
@@ -988,7 +1021,7 @@ begin
         fs.Read(ar[0], BufSize);          // Читаем. При этом указатель сдвинется вправо
 
         for I := High(ar) downto Low(ar) do
-          if CharInSet(ar[I], [#13, #10]) then
+          if ar[I] in [#13, #10] then
           begin
             WasFind := True;
             Break;
@@ -1028,46 +1061,59 @@ begin
   end;         
 end;
 
-function DoStringListSortCompare(AList: TStringList; Index1, Index2: Integer): Integer;
-var
-  NumExt1, NumExt2: Integer;
-  AFileName: string;
-  S: string;
-begin
-  AFileName := TLDSLogger(AList.Objects[Index1]).FileName;
-  S := Copy(AList[Index1], Length(AFileName) + 1,
-    Length(AList[Index1]) - Length(AFileName));
-  NumExt1 := StrToInt(S);
-
-  S := Copy(AList[Index2], Length(AFileName) + 1,
-    Length(AList[Index2]) - Length(AFileName));
-  NumExt2 := StrToInt(S);
-
-  if NumExt1 > NumExt2 then
-    Result := 1
-  else if NumExt1 < NumExt2 then
-    Result := -1
-  else
-    Result := 0;
-
-end;
-
 procedure TLDSLogger.RenameFiles;
 var
   AList: TStringList;
   Index: Integer;
+  APos: Integer;
+  fName: string;
 
   { Возвращает список переименованных лог-файлов }
   function GetOldFilesList(List: TStringList): Integer;
   var
     SR: TSearchRec;
     APath: string;
-    AFileExt, SRExt: string;
+    AFileExt: string;
+    //SRExt: string;
     NumExt: string;
+
+    function StringListSortCompare(AList: TStringList; Index1, Index2: Integer): Integer;
+    var
+      NumExt1, NumExt2: Integer;
+      AFileName: string;
+      S: string;
+    begin
+      AFileName := TLDSLogger(AList.Objects[Index1]).FileName;
+      S := Copy(AList[Index1], Length(AFileName) + 1,
+        Length(AList[Index1]) - Length(AFileName));
+      if S[1] = '.' then
+        Delete(S, 1, 1);
+
+      NumExt1 := StrToInt(S);
+
+      S := Copy(AList[Index2], Length(AFileName) + 1,
+        Length(AList[Index2]) - Length(AFileName));
+
+      if S[1] = '.' then
+        Delete(S, 1, 1);
+      NumExt2 := StrToInt(S);
+
+      if NumExt1 > NumExt2 then
+        Result := 1
+      else if NumExt1 < NumExt2 then
+        Result := -1
+      else
+        Result := 0;
+
+    end;
   begin
     APath := ExtractFilePath(FileName);
     AFileExt := AnsiLowerCase(ExtractFileExt(FileName));
+    fName := ExtractFileName(FileName);
     List.Clear;
+
+    //AZSOffice.log.7
+    //AZSWebService.log005
 
     // Заполняем список переименованных LOG-файлов
     if FindFirst(FileName + '*', faAnyFile, SR) = 0 then
@@ -1075,16 +1121,30 @@ var
       repeat
         if FileExists(APath + SR.Name) then
         begin
+          APos := Pos(AFileExt, AnsiLowerCase(SR.Name));
+          if APos > 1 then
+          begin
+            if Length(SR.Name) > Length(fName) then
+            begin
+              NumExt := Copy(SR.Name, APos + Length(AFileExt), MAXWORD);
+              if NumExt <> '' then
+                if NumExt[1] = '.' then
+                  Delete(NumExt, 1, 1);
+                if StrToIntDef(NumExt, -1) >= 0 then
+                  List.AddObject(APath + SR.Name, Self);
+            end;
+          end;
+          {
           SRExt := ExtractFileExt(SR.Name);
           if not AnsiSameText(AFileExt, SRExt) then
           begin
-            NumExt := Copy(SRExt, Length(AFileExt) + 1, Length(SRExt) - Length(AFileExt));     
+            NumExt := Copy(SRExt, Length(AFileExt) + 1, Length(SRExt) - Length(AFileExt));
 
             // Добавляем имя файла и Self (Self используется для определения
             // FileName внутри функции StringListSortCompare)
             if StrToIntDef(NumExt, -1) >= 0 then
               List.AddObject(APath + SR.Name, Self);
-          end;
+          end; }
         end;
       until FindNext(SR) <> 0;
     finally
@@ -1092,7 +1152,7 @@ var
     end;
 
     // Сортируем список в порядке возрастания номера
-    List.CustomSort(@DoStringListSortCompare);
+    List.CustomSort(@StringListSortCompare);
     Result := List.Count;
   end;
 
@@ -1104,10 +1164,21 @@ var
     for I := List.Count - 1 downto 0 do
     begin
       S := Copy(AList[I], Length(FileName) + 1, Length(AList[I]) - Length(FileName));
+      if S[1] = '.' then
+        Delete(S, 1, 1);
+
       NumExt := StrToInt(S);
       S := IntToStr(NumExt + 1);
-      while Length(S) < 3 do
-        S := '0' + S;
+
+      if RenameFilesMode = 0 then
+      begin
+        while Length(S) < 3 do
+          S := '0' + S;
+      end else
+      begin
+        S := '.' + S;
+      end;
+      
       RenameFile(List[I], FileName + S);
     end;
   end;
@@ -1129,7 +1200,10 @@ begin
     RenameOldLogFiles(AList);
 
     // Переименовываем исходный файл (даем ему индекс = 000)
-    RenameFile(FileName, FileName +  '000');
+    if RenameFilesMode = 0 then
+      RenameFile(FileName, FileName +  '000')
+    else
+      RenameFile(FileName, FileName +  '.0');
   finally
     AList.Free;
   end;
@@ -1335,10 +1409,22 @@ end;
 { TLazyWriteThread }
 
 procedure TLazyWriteThread.CheckWriteToLog;
+const
+  MaxBufSize = 1024 * 1024;
 var
   TmpList: TList;
-  I: Integer;
+  I, J, RecCnt: Integer;
   ARec: TLogMessageRec;
+  LogObjects: TList;
+  ALog: TLDSLogger;
+  ms: TMemoryStream;
+  s: string;
+  procedure InitMS();
+  begin
+    ms.Clear;
+    ms.SetSize(MaxBufSize + 1024); // За один раз пишем максимум 1 МБ
+    ms.Position := 0;
+  end;
 begin
   if FRecList.Count > 0 then // Если есть строки, ожидающие добавления в лог
   begin
@@ -1346,20 +1432,64 @@ begin
     try
       FCritSect.Enter; // Захватывает кр.секция на очень коротное время
       try
-        TmpList.Assign(FRecList);  // Копируем данные из рабочего списка
+        TmpList.Assign(FRecList);  // Сразу копируем все данные из рабочего списка
         FRecList.Clear;            // Очищаем рабочий список
       finally
         FCritSect.Leave;
       end;
 
-      for I := 0 to TmpList.Count - 1 do
-      begin
-        ARec := TLogMessageRec(TmpList[I]);
-        ARec.LogObj.DoLogStr(ARec.LogMsg, ARec.LogType, ARec.LogTime, ARec.LogThreadID);
-        InterlockedDecrement(ARec.LogObj.FLazyWriteCounter);
-        ARec.Free;
-      end;
+      LogObjects := TList.Create;
+      ms := TMemoryStream.Create;
+      try
+        // Составляем список объектов, которые будут использоваться для пакетной записи
+        for I := 0 to TmpList.Count - 1 do
+        begin
+          ARec := TLogMessageRec(TmpList[I]);
+          if LogObjects.IndexOf(ARec.LogObj) < 0 then
+          begin
+            LogObjects.Add(ARec.LogObj);
+            ARec.LogObj.FFinalStrings.Clear;
+          end;
 
+          // Добавляем строку в FFinalStrings
+          ARec.LogObj.FFinalStrings.Add(ARec.LogObj.GetFinalLogString(ARec.LogMsg, ARec.LogType, ARec.LogTime, ARec.LogThreadID));
+
+          ARec.Free; // Объект ARec больше не требуется
+        end;
+
+        for I := 0 to LogObjects.Count - 1 do
+        begin
+          ALog := LogObjects[I];
+          InitMS();
+
+          RecCnt := ALog.FFinalStrings.Count;
+          for J := 0 to RecCnt - 1 do
+          begin
+            s := ALog.FFinalStrings[J] + sLineBreak;
+
+            ms.Write(s[1], Length(s) * SizeOf(Char));
+
+            if (ms.Position > MaxBufSize) or (J = RecCnt - 1) then
+            begin
+              ms.SetSize(ms.Position);
+              ms.Position := 0;
+              ALog.DoLogStr('', tlpNone, 0, 0, ms);
+              InitMS();
+            end;
+          end;
+
+          ALog.FFinalStrings.Clear;
+
+          FCritSect.Enter;
+          Dec(ALog.FLazyWriteCounter, RecCnt);
+          FCritSect.Leave;
+
+          // Дальше не должно быть никаких обращений к ALog
+        end;
+      finally
+        LogObjects.Free;
+        ms.Free;
+      end;
     finally
       TmpList.Free;
     end;
@@ -1372,6 +1502,7 @@ begin
   FEvent := CreateEvent(nil, False, False, nil);
   FRecList := TList.Create;
   FCritSect := TCriticalSection.Create;
+  FreeOnTerminate := True;
 end;
 
 destructor TLazyWriteThread.Destroy;
@@ -1382,36 +1513,51 @@ begin
   CloseHandle(FEvent);
   FRecList.Free;
   FCritSect.Free;
+
+  if FreeOnTerminate then
+    LazyWriteThread := nil;
 end;
 
 procedure TLazyWriteThread.Execute;
+var
+  wr: DWORD;
 begin
   LazyThreadID := GetCurrentThreadId;
-  
+  //messagebox(0, pchar('LazyThreadID='+inttostr(LazyThreadID)), '', 0);
+
   while not Terminated do
   begin
     try
       // Ожидаем запись в лог
-      WaitForSingleObject(FEvent, 5000);
+      wr := WaitForSingleObject(FEvent, 5000);
+
+      if wr = WAIT_OBJECT_0 then
+      begin
+        // Кто-то вызвал SetEvent 
+      end;
 
       // Записывает в лог при необходимости
       CheckWriteToLog;
+
+      if Assigned(LDSOnWriteToFile) then
+        LDSOnWriteToFile();
     except
       // ошибки игнорируем (пока)
     end;
   end;
-
-  LazyWriteThread := nil;
 end;
 
 procedure TLazyWriteThread.RegisterLogMsg(ALogObj: TLDSLogger;
-  ALogType: TLDSLogType; ALogMsg: string);
+  ALogType: TLDSLogType; ALogMsg: string; EventTime: TDateTime);
 var
   ARec: TLogMessageRec;
 begin
   ARec := TLogMessageRec.Create;
   ARec.LogObj := ALogObj;
-  ARec.LogTime := Now;
+  if EventTime = 0 then
+    ARec.LogTime := Now
+  else
+    ARec.LogTime := EventTime;
   ARec.LogType := ALogType;
   UniqueString(ALogMsg);
   ARec.LogMsg := ALogMsg;
@@ -1420,7 +1566,7 @@ begin
   FCritSect.Enter;
   try
     FRecList.Add(ARec);
-    InterlockedIncrement(ARec.LogObj.FLazyWriteCounter);
+    Inc(ARec.LogObj.FLazyWriteCounter);
   finally
     FCritSect.Leave;
   end;
@@ -1432,19 +1578,35 @@ begin
   SetEvent(FEvent);
 end;
 
+procedure DestroyLazyWriteThread(FromDLL: Boolean);
+begin
+  WasFinalization := True;
+
+  if Assigned(LazyWriteThread) then
+  begin
+    if FromDLL then
+    begin
+      LazyWriteThread.Terminate;
+      LazyWriteThread.WakeUp;            // Надеемся, что объект сразу не уничтожится после Terminate :)
+      while Assigned(LazyWriteThread) do // Код грязный! Но работать должен и внутри DLL-лек
+        Sleep(5);
+      Sleep(10); // Даём дополнительное время для выгрузки библиотеки
+    end else
+    begin
+      LazyWriteThread.FreeOnTerminate := False;
+      LazyWriteThread.Free;
+      LazyWriteThread := nil;
+    end;
+  end;
+end;
+
 initialization
   FillLDSLogWords;
   CreateLogErrorsWriter;
   InitFormatSettings;
   LazyWriteCreateCS := TCriticalSection.Create;
 finalization
-  FreeAndNil(LogErrorsWriter);
+  DestroyLazyWriteThread(ModuleIsLib);
   LazyWriteCreateCS.Free;
-  if Assigned(LazyWriteThread) then
-  begin
-    LazyWriteThread.Terminate;
-    LazyWriteThread.WakeUp;            // Надеемся, что объект сразу не уничтожится после Terminate :)
-    while Assigned(LazyWriteThread) do // Код грязный! Но работать должен и внутри DLL-лек
-      Sleep(5);
-  end;
+  FreeAndNil(LogErrorsWriter);
 end.
