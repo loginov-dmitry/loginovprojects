@@ -1,5 +1,5 @@
 {
-Copyright (c) 2007-2017, Loginov Dmitry Sergeevich
+Copyright (c) 2007-2019, Loginov Dmitry Sergeevich
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -469,6 +469,9 @@ var
   LDSLoggerLazyWrite: Boolean = False;
   {$ENDIF}
 
+  {Задержка в миллисекундах после пробуждения потока TLazyWriteThread и перед дальнейшими действиями}
+  LDSLoggerLazyWriteDelay: Integer = 0;
+
   { Данная процедура, если она указана, будет вызываться каждый раз, когда поток
     записи TLazyWriteThread завершает итерацию записи в файл }
   LDSOnWriteToFile: procedure;
@@ -482,6 +485,7 @@ type
     FRecList: TList;
     FCritSect: TCriticalSection; // Критическая секция для защиты списка
     LazyThreadID: DWORD;
+    SkipDelay: Boolean;
     procedure CheckWriteToLog;
   public
     constructor Create;
@@ -491,7 +495,7 @@ type
     procedure RegisterLogMsg(ALogObj: TLDSLogger; ALogType: TLDSLogType; ALogMsg: string; EventTime: TDateTime);
 
     // Позволяет "разбудить" поток, если требуется записать сообщения в лог
-    procedure WakeUp;
+    procedure WakeUp(ASkipDelay: Boolean);
   protected
     procedure Execute; override;
   end;
@@ -794,7 +798,7 @@ destructor TLDSLogger.Destroy;
 begin
   if FLazyWriteCounter > 0 then
   begin // Задерживаем уничтожение объекта, пока не завершится запись в лог
-    LazyWriteThread.WakeUp;
+    LazyWriteThread.WakeUp(True);
     while FLazyWriteCounter > 0 do
       Sleep(5);
   end;
@@ -891,7 +895,7 @@ begin
         end
         else
         begin
-          SetString(BufferMsgText, PChar(ReadyBuf.Memory), ReadyBuf.Size);
+          SetString(BufferMsgText, PChar(ReadyBuf.Memory), ReadyBuf.Size div SizeOf(Char));
           MsgText := BufferMsgText;
         end;
 
@@ -1521,6 +1525,7 @@ end;
 procedure TLazyWriteThread.Execute;
 var
   wr: DWORD;
+  WaitCount: Integer;
 begin
   LazyThreadID := GetCurrentThreadId;
   //messagebox(0, pchar('LazyThreadID='+inttostr(LazyThreadID)), '', 0);
@@ -1531,9 +1536,23 @@ begin
       // Ожидаем запись в лог
       wr := WaitForSingleObject(FEvent, 5000);
 
-      if wr = WAIT_OBJECT_0 then
-      begin
-        // Кто-то вызвал SetEvent 
+      if wr = WAIT_OBJECT_0 then // Кто-то вызвал SetEvent
+      begin        
+        if (LDSLoggerLazyWriteDelay > 0) then
+        begin
+          if not SkipDelay then
+          begin
+            WaitCount := 0;
+            while WaitCount < LDSLoggerLazyWriteDelay do
+            begin
+              if Terminated or SkipDelay then Break;
+              Sleep(10);
+              Inc(WaitCount, 10);
+            end;
+          end;
+
+          SkipDelay := False;
+        end;
       end;
 
       // Записывает в лог при необходимости
@@ -1570,11 +1589,12 @@ begin
   finally
     FCritSect.Leave;
   end;
-  LazyWriteThread.WakeUp;
+  LazyWriteThread.WakeUp(False);
 end;
 
-procedure TLazyWriteThread.WakeUp;
+procedure TLazyWriteThread.WakeUp(ASkipDelay: Boolean);
 begin
+  SkipDelay := ASkipDelay;
   SetEvent(FEvent);
 end;
 
@@ -1587,7 +1607,7 @@ begin
     if FromDLL then
     begin
       LazyWriteThread.Terminate;
-      LazyWriteThread.WakeUp;            // Надеемся, что объект сразу не уничтожится после Terminate :)
+      LazyWriteThread.WakeUp(True);      // Надеемся, что объект сразу не уничтожится после Terminate :)
       while Assigned(LazyWriteThread) do // Код грязный! Но работать должен и внутри DLL-лек
         Sleep(5);
       Sleep(10); // Даём дополнительное время для выгрузки библиотеки
