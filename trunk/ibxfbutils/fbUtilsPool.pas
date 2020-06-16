@@ -41,7 +41,8 @@ unit fbUtilsPool;
 interface
 
 uses
-  Windows, SysUtils, Classes, SyncObjs, DateUtils, fbUtilsBase, fbSomeFuncs, IBDatabase, IBCustomDataSet, fbTypes;
+  Windows, SysUtils, Classes, SyncObjs, DateUtils, fbUtilsBase, fbSomeFuncs, IBDatabase, IBCustomDataSet,
+  fbTypes, IniFiles;
 
 type
 
@@ -49,7 +50,7 @@ type
   private
     DBPoolList: TList; // Пул подключений к базе данных
     DBPoolCS: TCriticalSection;
-    FProfileList: TStringList; // Список зарегистрированных профилей
+    FProfileList: THashedStringList; // Список зарегистрированных профилей
 
     procedure ClearPool;
 
@@ -466,6 +467,7 @@ begin
 
   DBPoolCS.Enter;
   try
+    UniqueString(AProfileName);
     Idx := FProfileList.IndexOf(AProfileName);
     if Idx >= 0 then
       cp := TConnectionProfile(FProfileList.Objects[Idx])
@@ -474,11 +476,21 @@ begin
       cp := TConnectionProfile.Create;
       FProfileList.AddObject(AProfileName, cp);
     end;
+    UniqueString(AServerName);
     cp.cpServerName := AServerName;
+
     cp.cpPort := APort;
+
+    UniqueString(ADataBase);
     cp.cpDataBase := ADataBase;
+
+    UniqueString(AUserName);
     cp.cpUserName := AUserName;
+
+    UniqueString(APassword);
     cp.cpPassword := APassword;
+
+    UniqueString(ACharSet);
     cp.cpCharSet := ACharSet;
   finally
     DBPoolCS.Leave;
@@ -518,8 +530,10 @@ var
   FDB: TIBDatabase;
 begin
   try
+    {$IFDEF FBUTILSDLL}
     if GetModuleHandle('GDS32.dll') = 0 then
       raise Exception.Create('GetModuleHandle(GDS32.dll)=NULL');
+    {$ENDIF}
 
     DBPoolCS.Enter;
     try
@@ -552,7 +566,7 @@ begin
 
   RegObj(DBPoolList, TList.Create);
   RegObj(DBPoolCS, TCriticalSection.Create);
-  FProfileList := CreateStringList;
+  FProfileList := CreateHashedStringList;
 end;
 
 procedure TFBConnectionPool.DeleteOldConnections;
