@@ -497,6 +497,11 @@ type
       ACharSet: string; LogProc: TFBLogEventsProc);
   end;
 
+  TfbFieldsNamesValuesRec = record
+    Names: array of string;
+    Values: array of Variant;
+  end;
+
 
   TfbUtils = class(TObject)
   private
@@ -509,6 +514,7 @@ type
     function GetPassword: string;
     procedure SetPassword(const Value: string);
     procedure InitFBUtils;
+    function SplitFieldNamesValuesArray(FieldNamesValues: array of Variant; const ErrPrefix: string): TfbFieldsNamesValuesRec;
   public
     constructor Create;
     destructor Destroy; override;
@@ -589,6 +595,13 @@ type
     { ¬озвращает текущие дату / врем€ на сервере Firebird }
     function GetCurrentDateTime(FDB: TIBDataBase; FTran: TIBTransaction): TDateTime;
 
+    {»зменение записи в указанной таблице (названи€ полей чередуютс€ со значени€ми
+     через зап€тую, как это сделано в библиотеке SuperObject). —охранить название
+     процедуры UpdateRecord не удалось, из-за непон€тливости компил€тора}
+    procedure UpdateRecordDB(FDB: TIBDataBase; FTran: TIBTransaction;
+      TableName: string; KeyNamesValues: array of Variant;
+      FieldNamesValues: array of Variant);
+
     {»зменение записи в указанной таблице}
     procedure UpdateRecord(FDB: TIBDataBase; FTran: TIBTransaction;
       TableName: string; KeyFields: array of string; KeyValues: array of Variant;
@@ -598,9 +611,17 @@ type
     procedure InsertRecord(FDB: TIBDataBase; FTran: TIBTransaction;
       TableName: string; FieldNames: array of string; AFieldValues: array of Variant);
 
+    {ƒобавление записи в указанную таблицу (более читабельна€ верси€)}
+    procedure InsertRecordDB(FDB: TIBDataBase; FTran: TIBTransaction;
+      TableName: string; FieldNamesValues: array of Variant);
+
     {”даление записи из указанной таблицу}
     procedure DeleteRecord(FDB: TIBDataBase; FTran: TIBTransaction;
       TableName: string; KeyFields: array of string; KeyValues: array of Variant);
+
+    {”даление записи из указанной таблицу (более читабельна€ верси€)}
+    procedure DeleteRecordDB(FDB: TIBDataBase; FTran: TIBTransaction;
+      TableName: string; KeyNamesValues: array of Variant);
 
     {ќбновл€ет или добавл€ет запись в указанную таблицу}
     procedure UpdateOrInsertRecord(FDB: TIBDataBase; FTran: TIBTransaction;
@@ -1037,6 +1058,17 @@ begin
   FBDeleteRecordBase(FDB, FTran, TableName, KeyFields, KeyValues, FModuleName);
 end;
 
+procedure TfbUtils.DeleteRecordDB(FDB: TIBDataBase; FTran: TIBTransaction;
+  TableName: string; KeyNamesValues: array of Variant);
+const
+  ErrPrefix = 'TfbUtils.DeleteRecordDB error: ';
+var
+  FieldsRec: TfbFieldsNamesValuesRec;
+begin
+  FieldsRec := SplitFieldNamesValuesArray(KeyNamesValues, ErrPrefix);
+  DeleteRecord(FDB, FTran, TableName, FieldsRec.Names, FieldsRec.Values);
+end;
+
 destructor TfbUtils.Destroy;
 begin
   Pool.Free;
@@ -1167,6 +1199,17 @@ begin
   FBInsertRecordBase(FDB, FTran, TableName, FieldNames, AFieldValues, FModuleName)
 end;
 
+procedure TfbUtils.InsertRecordDB(FDB: TIBDataBase; FTran: TIBTransaction;
+  TableName: string; FieldNamesValues: array of Variant);
+const
+  ErrPrefix = 'TfbUtils.InsertRecordDB error: ';
+var
+  FieldsRec: TfbFieldsNamesValuesRec;
+begin
+  FieldsRec := SplitFieldNamesValuesArray(FieldNamesValues, ErrPrefix);
+  InsertRecord(FDB, FTran, TableName, FieldsRec.Names, FieldsRec.Values);
+end;
+
 procedure TfbUtils.RecomputeIndexStatistics(FDB: TIBDatabase);
 begin
   FBRecomputeIndexStatistics(FDB, FModuleName);
@@ -1182,6 +1225,25 @@ begin
   FBSetUserName(Value);
 end;
 
+function TfbUtils.SplitFieldNamesValuesArray(
+  FieldNamesValues: array of Variant; const ErrPrefix: string): TfbFieldsNamesValuesRec;
+var
+  I, Idx: Integer;
+begin
+  if Odd(Length(FieldNamesValues)) then
+    raise Exception.Create(ErrPrefix + 'wrong params count in NamesValues array');
+
+  SetLength(Result.Names,  Length(FieldNamesValues) div 2);
+  SetLength(Result.Values, Length(FieldNamesValues) div 2);
+
+  Idx := 0;
+  for I := 0 to High(Result.Names) do
+  begin
+    Result.Names[I]  := FieldNamesValues[Idx]; Inc(Idx);
+    Result.Values[I] := FieldNamesValues[Idx]; Inc(Idx);
+  end;
+end;
+
 function TfbUtils.TimeToString(Value: TDateTime): string;
 begin
   Result := FormatDateTime('hh:nn:ss.zzz', Value, FBFormatSettings);
@@ -1193,6 +1255,20 @@ procedure TfbUtils.UpdateOrInsertRecord(FDB: TIBDataBase; FTran: TIBTransaction;
 begin
   FBUpdateOrInsertRecordBase(FDB, FTran, TableName,
     FieldNames, AFieldValues, KeyFields, FModuleName);
+end;
+
+procedure TfbUtils.UpdateRecordDB(FDB: TIBDataBase; FTran: TIBTransaction;
+  TableName: string; KeyNamesValues, FieldNamesValues: array of Variant);
+const
+  ErrPrefix = 'TfbUtils.UpdateRecordDB error: ';
+var
+  KeysRec: TfbFieldsNamesValuesRec;
+  FieldsRec: TfbFieldsNamesValuesRec;
+begin
+  KeysRec   := SplitFieldNamesValuesArray(KeyNamesValues,   ErrPrefix);
+  FieldsRec := SplitFieldNamesValuesArray(FieldNamesValues, ErrPrefix);
+
+  UpdateRecord(FDB, FTran, TableName, KeysRec.Names, KeysRec.Values, FieldsRec.Names, FieldsRec.Values);
 end;
 
 procedure TfbUtils.UpdateRecord(FDB: TIBDataBase; FTran: TIBTransaction;
