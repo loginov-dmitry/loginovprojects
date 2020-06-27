@@ -51,6 +51,6 @@ begin
   Application.MainFormOnTaskbar := True;
   ReportMemoryLeaksOnShutdown := True;
   {$ENDIF}
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TForm1,  Form1);
   Application.Run;
 end.
