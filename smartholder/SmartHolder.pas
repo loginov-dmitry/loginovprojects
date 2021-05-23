@@ -58,7 +58,7 @@ type
      h: TSmartHolder;
    begin
      AList := h.CreateList();
-     // or universal way:  L := h.RegObj(TList.Create) as TList;
+     // or universal way:  AList := h.RegObj(TList.Create) as TList;
      AList.Add('Hello!');
      // object "AList" will be destroyed automatically
      // you shouldn't use fry..finally or call destructor to destroy an object
@@ -238,19 +238,29 @@ begin
   ObjsHolder := nil;
 end;
 
+{$IFDEF UseButlerDict}
+
 function TSmartHolder.CreateDoubleDictionary: TDoubleDictionary;
 begin
   Result := RegObj(TDoubleDictionary.Create) as TDoubleDictionary;
 end;
 
-function TSmartHolder.CreateHashedStringList: THashedStringList;
-begin
-  Result := RegObj(THashedStringList.Create) as THashedStringList;
-end;
-
 function TSmartHolder.CreateIntegerDictionary: TIntegerDictionary;
 begin
   Result := RegObj(TIntegerDictionary.Create) as TIntegerDictionary;
+end;
+
+function TSmartHolder.CreateObjectDictionary(
+  IsItemOwner: Boolean): TObjectDictionary;
+begin
+  Result := RegObj(TObjectDictionary.CreateEx(nil, nil, IsItemOwner)) as TObjectDictionary;
+end;
+
+{$ENDIF UseButlerDict}
+
+function TSmartHolder.CreateHashedStringList: THashedStringList;
+begin
+  Result := RegObj(THashedStringList.Create) as THashedStringList;
 end;
 
 function TSmartHolder.CreateList: TList;
@@ -263,11 +273,7 @@ begin
   Result := RegObj(TMemoryStream.Create) as TMemoryStream;
 end;
 
-function TSmartHolder.CreateObjectDictionary(
-  IsItemOwner: Boolean): TObjectDictionary;
-begin
-  Result := RegObj(TObjectDictionary.CreateEx(nil, nil, IsItemOwner)) as TObjectDictionary;
-end;
+
 
 function TSmartHolder.CreateObjectList: TObjectList;
 begin
