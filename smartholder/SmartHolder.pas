@@ -29,6 +29,10 @@ Butler fundamentals url: https://github.com/fundamentalslib/fundamentals5
 
 unit SmartHolder;
 
+{$IFDEF FPC}
+  {$MODE Delphi}
+{$ENDIF FPC}
+
 interface
 
 uses
