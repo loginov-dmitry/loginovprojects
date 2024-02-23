@@ -1,43 +1,22 @@
-{
-Copyright (c) 2005-2013, Loginov Dmitry Sergeevich
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-}
+п»ї{$IFDEF FPC}
+{$MODE DELPHI}{$H+}{$CODEPAGE UTF8}
+{$ENDIF}
 
 { *************************************************************************** }
 {                                                                             }
 {                                                                             }
 {                                                                             }
-{ Модуль matrixTests - тестирование основных возможностей Matrix32            }
-{ (c) 2005 - 2007 Логинов Дмитрий Сергеевич                                   }
-{ Адрес сайта: http://loginovprojects.ru/                                     }
+{ РњРѕРґСѓР»СЊ matrixTests - С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ РѕСЃРЅРѕРІРЅС‹С… РІРѕР·РјРѕР¶РЅРѕСЃС‚РµР№ Matrix32            }
+{ (c) 2005 - 2007 Р›РѕРіРёРЅРѕРІ Р”РјРёС‚СЂРёР№ РЎРµСЂРіРµРµРІРёС‡                                   }
+{ РђРґСЂРµСЃ СЃР°Р№С‚Р°: http://matrix.kladovka.net.ru/                                 }
 { e-mail: loginov_d@inbox.ru                                                  }
 {                                                                             }
 { *************************************************************************** }
 
-{Данный модуль решено было разработать по той причине, что Matrix32 - динамично
- развивающаяся вычислительная система, и в любой момент при добавлении новых
- возможностей или при исправлении старых можно что-либо сломать. Данный модуль
- позволяет избежать подобных ситуаций}
+{Р”Р°РЅРЅС‹Р№ РјРѕРґСѓР»СЊ СЂРµС€РµРЅРѕ Р±С‹Р»Рѕ СЂР°Р·СЂР°Р±РѕС‚Р°С‚СЊ РїРѕ С‚РѕР№ РїСЂРёС‡РёРЅРµ, С‡С‚Рѕ Matrix32 - РґРёРЅР°РјРёС‡РЅРѕ
+ СЂР°Р·РІРёРІР°СЋС‰Р°СЏСЃСЏ РІС‹С‡РёСЃР»РёС‚РµР»СЊРЅР°СЏ СЃРёСЃС‚РµРјР°, Рё РІ Р»СЋР±РѕР№ РјРѕРјРµРЅС‚ РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё РЅРѕРІС‹С…
+ РІРѕР·РјРѕР¶РЅРѕСЃС‚РµР№ РёР»Рё РїСЂРё РёСЃРїСЂР°РІР»РµРЅРёРё СЃС‚Р°СЂС‹С… РјРѕР¶РЅРѕ С‡С‚Рѕ-Р»РёР±Рѕ СЃР»РѕРјР°С‚СЊ. Р”Р°РЅРЅС‹Р№ РјРѕРґСѓР»СЊ
+ РїРѕР·РІРѕР»СЏРµС‚ РёР·Р±РµР¶Р°С‚СЊ РїРѕРґРѕР±РЅС‹С… СЃРёС‚СѓР°С†РёР№}
 
 unit matrixTests;
 
@@ -46,21 +25,21 @@ interface
 uses
   Matrix32, SysUtils;
 
-{Запускает на выполнение друг за другом все остальные тесты}
+{Р—Р°РїСѓСЃРєР°РµС‚ РЅР° РІС‹РїРѕР»РЅРµРЅРёРµ РґСЂСѓРі Р·Р° РґСЂСѓРіРѕРј РІСЃРµ РѕСЃС‚Р°Р»СЊРЅС‹Рµ С‚РµСЃС‚С‹}
 procedure RunTests;
 
-{Проверяет правильность работы конструктора и деструктора при работе
- со всеми видами объектов}
+{РџСЂРѕРІРµСЂСЏРµС‚ РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ СЂР°Р±РѕС‚С‹ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° Рё РґРµСЃС‚СЂСѓРєС‚РѕСЂР° РїСЂРё СЂР°Р±РѕС‚Рµ
+ СЃРѕ РІСЃРµРјРё РІРёРґР°РјРё РѕР±СЉРµРєС‚РѕРІ}
 procedure CheckCreateDestroy;
 
-{Matrix32 позволяет задавать рабочим областям любые имена длиной до 255 символов.
- Для других объектов выполняется проверка правильности имен. Родительский
- объект должен следить, чтобы в нем не было нескольких объектов с одним и тем же
- именем (старые объекты с тем же именем, что и новые, удаляются автоматически)}
+{Matrix32 РїРѕР·РІРѕР»СЏРµС‚ Р·Р°РґР°РІР°С‚СЊ СЂР°Р±РѕС‡РёРј РѕР±Р»Р°СЃС‚СЏРј Р»СЋР±С‹Рµ РёРјРµРЅР° РґР»РёРЅРѕР№ РґРѕ 255 СЃРёРјРІРѕР»РѕРІ.
+ Р”Р»СЏ РґСЂСѓРіРёС… РѕР±СЉРµРєС‚РѕРІ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РїСЂРѕРІРµСЂРєР° РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё РёРјРµРЅ. Р РѕРґРёС‚РµР»СЊСЃРєРёР№
+ РѕР±СЉРµРєС‚ РґРѕР»Р¶РµРЅ СЃР»РµРґРёС‚СЊ, С‡С‚РѕР±С‹ РІ РЅРµРј РЅРµ Р±С‹Р»Рѕ РЅРµСЃРєРѕР»СЊРєРёС… РѕР±СЉРµРєС‚РѕРІ СЃ РѕРґРЅРёРј Рё С‚РµРј Р¶Рµ
+ РёРјРµРЅРµРј (СЃС‚Р°СЂС‹Рµ РѕР±СЉРµРєС‚С‹ СЃ С‚РµРј Р¶Рµ РёРјРµРЅРµРј, С‡С‚Рѕ Рё РЅРѕРІС‹Рµ, СѓРґР°Р»СЏСЋС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё)}
 procedure CheckSetMatrixName;
 
-{Для любого объекта в Matrix32 можно поменять владельца. Владелец - это объект,
- который автоматически удаляет все дочерние объекты при своем уничтожении.}
+{Р”Р»СЏ Р»СЋР±РѕРіРѕ РѕР±СЉРµРєС‚Р° РІ Matrix32 РјРѕР¶РЅРѕ РїРѕРјРµРЅСЏС‚СЊ РІР»Р°РґРµР»СЊС†Р°. Р’Р»Р°РґРµР»РµС† - СЌС‚Рѕ РѕР±СЉРµРєС‚,
+ РєРѕС‚РѕСЂС‹Р№ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё СѓРґР°Р»СЏРµС‚ РІСЃРµ РґРѕС‡РµСЂРЅРёРµ РѕР±СЉРµРєС‚С‹ РїСЂРё СЃРІРѕРµРј СѓРЅРёС‡С‚РѕР¶РµРЅРёРё.}
 procedure CheckChangeOwner;
 
 implementation
@@ -75,8 +54,8 @@ begin
     with TWorkspace.Create() do
     try
 
-      // Проверяем, вызоватся ли перекрытый конструктор
-      // Если он не вызовется, то обращение к FieldCount выдаст ошибку
+      // РџСЂРѕРІРµСЂСЏРµРј, РІС‹Р·РѕРІР°С‚СЃСЏ Р»Рё РїРµСЂРµРєСЂС‹С‚С‹Р№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
+      // Р•СЃР»Рё РѕРЅ РЅРµ РІС‹Р·РѕРІРµС‚СЃСЏ, С‚Рѕ РѕР±СЂР°С‰РµРЅРёРµ Рє FieldCount РІС‹РґР°СЃС‚ РѕС€РёР±РєСѓ
       ATempClass := TRecordMatrix;
       ATempClass.Create(ThisWorkspace).FieldCount;     
 
@@ -112,7 +91,7 @@ end;
 
 procedure CheckSetMatrixName;
 begin
-  with TWorkspace.Create(nil, 'Имя рабочей области') do
+  with TWorkspace.Create(nil, 'РРјСЏ СЂР°Р±РѕС‡РµР№ РѕР±Р»Р°СЃС‚Рё') do
   try
     TSingleMatrix.Create(ThisWorkspace, 'Name1');
     TDoubleMatrix.Create(ThisWorkspace, 'Name2');
@@ -123,15 +102,15 @@ begin
     TCellMatrix.Create(ThisWorkspace, 'Name3');
     MatrixByName['Name3'].MatrixName := 'Name2';
 
-    {Должны остаться:
-     - 1 массив с именем 'Name1'
-     - 2 массива без имени
-     - 1 массив с именем 'Name2'}
+    {Р”РѕР»Р¶РЅС‹ РѕСЃС‚Р°С‚СЊСЃСЏ:
+     - 1 РјР°СЃСЃРёРІ СЃ РёРјРµРЅРµРј 'Name1'
+     - 2 РјР°СЃСЃРёРІР° Р±РµР· РёРјРµРЅРё
+     - 1 РјР°СЃСЃРёРІ СЃ РёРјРµРЅРµРј 'Name2'}
 
     if (MatrixCount <> 4) or not (MatrixExists('Name1') and (MatrixExists('Name2')))
       or MatrixExists('Name3')
     then
-      raise Exception.Create('Функция CheckSetMatrixName тест не прошла');
+      raise Exception.Create('Р¤СѓРЅРєС†РёСЏ CheckSetMatrixName С‚РµСЃС‚ РЅРµ РїСЂРѕС€Р»Р°');
   finally
     Free;
   end;
@@ -140,7 +119,7 @@ end;
 procedure CheckChangeOwner;
 const
   SFuncName = 'procedure CheckChangeOwner';
-  SErrorMsg = 'Функция CheckChangeOwner тест не прошла';
+  SErrorMsg = 'Р¤СѓРЅРєС†РёСЏ CheckChangeOwner С‚РµСЃС‚ РЅРµ РїСЂРѕС€Р»Р°';
 var
   Temp1, Temp2, Temp3: TMatrix;
 begin
@@ -156,14 +135,14 @@ begin
       if Temp1.MatrixCount <> 1 then
         raise Exception.Create(SErrorMsg);
 
-      // Объект Temp2 уничтожен. Объект Temp3 существует. 
+      // РћР±СЉРµРєС‚ Temp2 СѓРЅРёС‡С‚РѕР¶РµРЅ. РћР±СЉРµРєС‚ Temp3 СЃСѓС‰РµСЃС‚РІСѓРµС‚. 
       if Temp2 <> Temp3 then
         if Temp2.IsLiving or not Temp3.IsLiving then
           raise Exception.Create(SErrorMsg);
 
       Temp3.OwnerMatrix := ThisWorkspace;
       
-      // В результате этого объект Temp1 должен уничтожится, так как у него тоже самое имя
+      // Р’ СЂРµР·СѓР»СЊС‚Р°С‚Рµ СЌС‚РѕРіРѕ РѕР±СЉРµРєС‚ Temp1 РґРѕР»Р¶РµРЅ СѓРЅРёС‡С‚РѕР¶РёС‚СЃСЏ, С‚Р°Рє РєР°Рє Сѓ РЅРµРіРѕ С‚РѕР¶Рµ СЃР°РјРѕРµ РёРјСЏ
       if Temp1.IsLiving then
         raise Exception.Create(SErrorMsg);
       

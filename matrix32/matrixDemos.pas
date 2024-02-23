@@ -1,36 +1,15 @@
-{
-Copyright (c) 2005-2013, Loginov Dmitry Sergeevich
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-}
+п»ї{$IFDEF FPC}
+{$MODE DELPHI}{$H+}{$CODEPAGE UTF8}
+{$ENDIF}
 
 { *************************************************************************** }
 {                                                                             }
 {                                                                             }
 {                                                                             }
-{ Модуль matrixDemos - сборник авторских примеров                             }
-{ (c) 2005 - 2007 Логинов Дмитрий Сергеевич                                   }
-{ Последнее обновление: 11.03.2007                                            }
-{ Адрес сайта: http://loginovprojects.ru/                                     }
+{ РњРѕРґСѓР»СЊ matrixDemos - СЃР±РѕСЂРЅРёРє Р°РІС‚РѕСЂСЃРєРёС… РїСЂРёРјРµСЂРѕРІ                             }
+{ (c) 2005 - 2007 Р›РѕРіРёРЅРѕРІ Р”РјРёС‚СЂРёР№ РЎРµСЂРіРµРµРІРёС‡                                   }
+{ РџРѕСЃР»РµРґРЅРµРµ РѕР±РЅРѕРІР»РµРЅРёРµ: 11.03.2007                                            }
+{ РђРґСЂРµСЃ СЃР°Р№С‚Р°: http://matrix.kladovka.net.ru/                                 }
 { e-mail: loginov_d@inbox.ru                                                  }
 {                                                                             }
 { *************************************************************************** }
@@ -42,53 +21,53 @@ unit matrixDemos;
 interface
 
 uses
-  Windows, Messages, Classes, SysUtils, Math, Matrix32, dialogs;
+  Classes, SysUtils, Math, Matrix32, dialogs;
 
 resourcestring
-  matSlauNotSolutions = 'СЛАУ не имеет решений';
-  matSMustBeLessOne = 'Значение длины массива должно быть больше единицы';
+  matSlauNotSolutions = 'РЎР›РђРЈ РЅРµ РёРјРµРµС‚ СЂРµС€РµРЅРёР№';
+  matSMustBeLessOne = 'Р—РЅР°С‡РµРЅРёРµ РґР»РёРЅС‹ РјР°СЃСЃРёРІР° РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ РµРґРёРЅРёС†С‹';
 
-{Тестирует функции данного модуля на работоспособность.}  
+{РўРµСЃС‚РёСЂСѓРµС‚ С„СѓРЅРєС†РёРё РґР°РЅРЅРѕРіРѕ РјРѕРґСѓР»СЏ РЅР° СЂР°Р±РѕС‚РѕСЃРїРѕСЃРѕР±РЅРѕСЃС‚СЊ.}  
 procedure RunTests;
 
-{Быстрая 3-точечная (параболическая) интерполяция с помощью
- интерполяционных полиномов Ньютона.
-  Values - перечень значений
-  OldSteps - перечень координат Х, соответствующих значениям Values
-  NewSteps - точки, в которых нужно вычислить приближенные значения
-  ResultVec - новые (приближенные) значения в точках NewSteps
-  Faster - позволяет значительно ускорить вычислений, если сетка NewSteps является
-    регулярной. Используется для работы функции масштабирования StretchRows() 
+{Р‘С‹СЃС‚СЂР°СЏ 3-С‚РѕС‡РµС‡РЅР°СЏ (РїР°СЂР°Р±РѕР»РёС‡РµСЃРєР°СЏ) РёРЅС‚РµСЂРїРѕР»СЏС†РёСЏ СЃ РїРѕРјРѕС‰СЊСЋ
+ РёРЅС‚РµСЂРїРѕР»СЏС†РёРѕРЅРЅС‹С… РїРѕР»РёРЅРѕРјРѕРІ РќСЊСЋС‚РѕРЅР°.
+  Values - РїРµСЂРµС‡РµРЅСЊ Р·РЅР°С‡РµРЅРёР№
+  OldSteps - РїРµСЂРµС‡РµРЅСЊ РєРѕРѕСЂРґРёРЅР°С‚ РҐ, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёС… Р·РЅР°С‡РµРЅРёСЏРј Values
+  NewSteps - С‚РѕС‡РєРё, РІ РєРѕС‚РѕСЂС‹С… РЅСѓР¶РЅРѕ РІС‹С‡РёСЃР»РёС‚СЊ РїСЂРёР±Р»РёР¶РµРЅРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ
+  ResultVec - РЅРѕРІС‹Рµ (РїСЂРёР±Р»РёР¶РµРЅРЅС‹Рµ) Р·РЅР°С‡РµРЅРёСЏ РІ С‚РѕС‡РєР°С… NewSteps
+  Faster - РїРѕР·РІРѕР»СЏРµС‚ Р·РЅР°С‡РёС‚РµР»СЊРЅРѕ СѓСЃРєРѕСЂРёС‚СЊ РІС‹С‡РёСЃР»РµРЅРёР№, РµСЃР»Рё СЃРµС‚РєР° NewSteps СЏРІР»СЏРµС‚СЃСЏ
+    СЂРµРіСѓР»СЏСЂРЅРѕР№. РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СЂР°Р±РѕС‚С‹ С„СѓРЅРєС†РёРё РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёСЏ StretchRows() 
 
- Данный способ для вычисления очередного восстановленного значения использует
- следующий алгоритм:
+ Р”Р°РЅРЅС‹Р№ СЃРїРѕСЃРѕР± РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ РѕС‡РµСЂРµРґРЅРѕРіРѕ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РёСЃРїРѕР»СЊР·СѓРµС‚
+ СЃР»РµРґСѓСЋС‰РёР№ Р°Р»РіРѕСЂРёС‚Рј:
 
- P(E) = Y0 + (Y1 - Y0) * E + (Y2 - 2 * Y1 + Y0) / 2 * E * (E - 1), где Е
- расчитывается по формуле
+ P(E) = Y0 + (Y1 - Y0) * E + (Y2 - 2 * Y1 + Y0) / 2 * E * (E - 1), РіРґРµ Р•
+ СЂР°СЃС‡РёС‚С‹РІР°РµС‚СЃСЏ РїРѕ С„РѕСЂРјСѓР»Рµ
  E = (X - X0) / (X1 - X0)
 
- Функция поддерживает работу с массивами любых размерностей}
+ Р¤СѓРЅРєС†РёСЏ РїРѕРґРґРµСЂР¶РёРІР°РµС‚ СЂР°Р±РѕС‚Сѓ СЃ РјР°СЃСЃРёРІР°РјРё Р»СЋР±С‹С… СЂР°Р·РјРµСЂРЅРѕСЃС‚РµР№}
 procedure Fast3PointInterp(Values, OldSteps, NewSteps, AResult: TMatrix; Faster: Boolean = False);
 
-{Осуществляет изменение длины строк матрицы AMatrix в соответствии с NewLength.
- Эта операция выполняется посредством параболической интерполяции.
- Функция поддерживает работу с массивами любых размерностей}
+{РћСЃСѓС‰РµСЃС‚РІР»СЏРµС‚ РёР·РјРµРЅРµРЅРёРµ РґР»РёРЅС‹ СЃС‚СЂРѕРє РјР°С‚СЂРёС†С‹ AMatrix РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ NewLength.
+ Р­С‚Р° РѕРїРµСЂР°С†РёСЏ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РїРѕСЃСЂРµРґСЃС‚РІРѕРј РїР°СЂР°Р±РѕР»РёС‡РµСЃРєРѕР№ РёРЅС‚РµСЂРїРѕР»СЏС†РёРё.
+ Р¤СѓРЅРєС†РёСЏ РїРѕРґРґРµСЂР¶РёРІР°РµС‚ СЂР°Р±РѕС‚Сѓ СЃ РјР°СЃСЃРёРІР°РјРё Р»СЋР±С‹С… СЂР°Р·РјРµСЂРЅРѕСЃС‚РµР№}
 procedure StretchRows(AMatrix, AResult: TMatrix; NewLength: Integer);
 
-{Решение системы линейный алгебраических уравнений с помощью одного из
- методов Гаусса. Метод не самый быстрый, но обеспечивает неплохую сходимость.
- A - Квадратная матрица коэффициентов
- B - Массив свободных членов
- X - Результат решения СЛАУ
+{Р РµС€РµРЅРёРµ СЃРёСЃС‚РµРјС‹ Р»РёРЅРµР№РЅС‹Р№ Р°Р»РіРµР±СЂР°РёС‡РµСЃРєРёС… СѓСЂР°РІРЅРµРЅРёР№ СЃ РїРѕРјРѕС‰СЊСЋ РѕРґРЅРѕРіРѕ РёР·
+ РјРµС‚РѕРґРѕРІ Р“Р°СѓСЃСЃР°. РњРµС‚РѕРґ РЅРµ СЃР°РјС‹Р№ Р±С‹СЃС‚СЂС‹Р№, РЅРѕ РѕР±РµСЃРїРµС‡РёРІР°РµС‚ РЅРµРїР»РѕС…СѓСЋ СЃС…РѕРґРёРјРѕСЃС‚СЊ.
+ A - РљРІР°РґСЂР°С‚РЅР°СЏ РјР°С‚СЂРёС†Р° РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ
+ B - РњР°СЃСЃРёРІ СЃРІРѕР±РѕРґРЅС‹С… С‡Р»РµРЅРѕРІ
+ X - Р РµР·СѓР»СЊС‚Р°С‚ СЂРµС€РµРЅРёСЏ РЎР›РђРЈ
 
- В данной реализации массив свободных членов должен быть вектором-столбцом.
- Функция не поддерживает решение СЛАУ сразу для нескольких векторов свободных
- членов. Принимаются более быстрые и гибкие варианты реализации данной функции}
+ Р’ РґР°РЅРЅРѕР№ СЂРµР°Р»РёР·Р°С†РёРё РјР°СЃСЃРёРІ СЃРІРѕР±РѕРґРЅС‹С… С‡Р»РµРЅРѕРІ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІРµРєС‚РѕСЂРѕРј-СЃС‚РѕР»Р±С†РѕРј.
+ Р¤СѓРЅРєС†РёСЏ РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚ СЂРµС€РµРЅРёРµ РЎР›РђРЈ СЃСЂР°Р·Сѓ РґР»СЏ РЅРµСЃРєРѕР»СЊРєРёС… РІРµРєС‚РѕСЂРѕРІ СЃРІРѕР±РѕРґРЅС‹С…
+ С‡Р»РµРЅРѕРІ. РџСЂРёРЅРёРјР°СЋС‚СЃСЏ Р±РѕР»РµРµ Р±С‹СЃС‚СЂС‹Рµ Рё РіРёР±РєРёРµ РІР°СЂРёР°РЅС‚С‹ СЂРµР°Р»РёР·Р°С†РёРё РґР°РЅРЅРѕР№ С„СѓРЅРєС†РёРё}
 procedure SlauGauss(A, B, X: TMatrix);
 
-{Перемножает матрицы А и В в соответствии с алгоритмом Копперсмита — Винограда.
- Сложность алгоритма должна составить n^2.38 (что до 70 раз быстрее, чем при
- использовании лобового метода)}
+{РџРµСЂРµРјРЅРѕР¶Р°РµС‚ РјР°С‚СЂРёС†С‹ Рђ Рё Р’ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ Р°Р»РіРѕСЂРёС‚РјРѕРј РљРѕРїРїРµСЂСЃРјРёС‚Р° вЂ” Р’РёРЅРѕРіСЂР°РґР°.
+ РЎР»РѕР¶РЅРѕСЃС‚СЊ Р°Р»РіРѕСЂРёС‚РјР° РґРѕР»Р¶РЅР° СЃРѕСЃС‚Р°РІРёС‚СЊ n^2.38 (С‡С‚Рѕ РґРѕ 70 СЂР°Р· Р±С‹СЃС‚СЂРµРµ, С‡РµРј РїСЂРё
+ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРё Р»РѕР±РѕРІРѕРіРѕ РјРµС‚РѕРґР°)}
 procedure FastMulMatrix(A, B, C: TMatrix);
 
 implementation
@@ -102,6 +81,7 @@ var
 const
   SFuncName = 'procedure Fast3PointInterp';
 
+  {
   function CalcElem(X0, X1, Y0, Y1, Y2, X: Double): Double;
   var E: Real;
   begin
@@ -110,6 +90,17 @@ const
       raise MatrixCreateExceptObj(EMatrixError, 'CalcElem Error', 'function CalcElem');
     Result := Y0 + (Y1 - Y0) * E + (Y2 - 2 * Y1 + Y0) / 2 * E * (E - 1);
   end;
+  }
+  function CalcElem(X0, X1, Y0, Y1, Y2, X: Double): Double;
+  var E: Real;
+  begin
+    E := (X - X0) / (X1 - X0);
+    if (E < 0) or (E > 200) then
+      raise MatrixCreateExceptObj(EMatrixError,
+        Format('Interp: too big distance: (%f - %f) / (%f - %f) = %f',
+               [X, X0, X1, X0, E]), 'function CalcElem');
+    Result := Y0 + (Y1 - Y0) * E + (Y2 - 2 * Y1 + Y0) / 2 * E * (E - 1);
+  end;  
 begin
   try
 
@@ -122,36 +113,36 @@ begin
     if Values.ElemCount = 0 then
       raise EMatrixError.Create(matSArrayIsEmpty);
 
-    // Создаем ссылку на исходный массив. Нам нужно будет преобразовать
-    // исходный массив в матрицу. Однако не хочется этого делать над
-    // массивом Values. Вдруг он используется в многопоточном приложении.
+    // РЎРѕР·РґР°РµРј СЃСЃС‹Р»РєСѓ РЅР° РёСЃС…РѕРґРЅС‹Р№ РјР°СЃСЃРёРІ. РќР°Рј РЅСѓР¶РЅРѕ Р±СѓРґРµС‚ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ
+    // РёСЃС…РѕРґРЅС‹Р№ РјР°СЃСЃРёРІ РІ РјР°С‚СЂРёС†Сѓ. РћРґРЅР°РєРѕ РЅРµ С…РѕС‡РµС‚СЃСЏ СЌС‚РѕРіРѕ РґРµР»Р°С‚СЊ РЅР°Рґ
+    // РјР°СЃСЃРёРІРѕРј Values. Р’РґСЂСѓРі РѕРЅ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ РјРЅРѕРіРѕРїРѕС‚РѕС‡РЅРѕРј РїСЂРёР»РѕР¶РµРЅРёРё.
     ValuesRef := Values.CreateReference;
 
-    // Создаем временный массив
+    // РЎРѕР·РґР°РµРј РІСЂРµРјРµРЅРЅС‹Р№ РјР°СЃСЃРёРІ
     TempMatrix := AResult.CreateInstance;  
 
     try
 
-      // Запоминаем размеры массива
+      // Р—Р°РїРѕРјРёРЅР°РµРј СЂР°Р·РјРµСЂС‹ РјР°СЃСЃРёРІР°
       SetLength(OldDimValues, 0);
       OldDimValues := Values.GetDimensions;
 
-      // Исходный массив может быть многомерным. Превращаем его в матрицу
+      // РСЃС…РѕРґРЅС‹Р№ РјР°СЃСЃРёРІ РјРѕР¶РµС‚ Р±С‹С‚СЊ РјРЅРѕРіРѕРјРµСЂРЅС‹Рј. РџСЂРµРІСЂР°С‰Р°РµРј РµРіРѕ РІ РјР°С‚СЂРёС†Сѓ
       ValuesRef.Reshape(ValuesRef.CalcMatrixDimensions);
 
-      // Устанавливаем требуемые размеры массива
+      // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚СЂРµР±СѓРµРјС‹Рµ СЂР°Р·РјРµСЂС‹ РјР°СЃСЃРёРІР°
       TempMatrix.Resize([ValuesRef.Rows, NewSteps.Cols]);
 
-      // Запоминаем число эл-в
+      // Р—Р°РїРѕРјРёРЅР°РµРј С‡РёСЃР»Рѕ СЌР»-РІ
       ColNum := OldSteps.Cols;
 
 
       for I := NewSteps.Cols - 1 downto 0 do
       begin
-        // Запоминаем очередную точку
+        // Р—Р°РїРѕРјРёРЅР°РµРј РѕС‡РµСЂРµРґРЅСѓСЋ С‚РѕС‡РєСѓ
         Tmp := NewSteps.VecElem[I];
 
-        // Ищем точку в массиве исходных отсчетов
+        // РС‰РµРј С‚РѕС‡РєСѓ РІ РјР°СЃСЃРёРІРµ РёСЃС…РѕРґРЅС‹С… РѕС‚СЃС‡РµС‚РѕРІ
         for J := ColNum - 1 downto 0 do
         begin
           if Tmp >= OldSteps.VecElem[J] then
@@ -187,11 +178,11 @@ begin
 
       end; // for I
 
-      // Устанавливаем для массива TempMatrix правильные размеры
+      // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РґР»СЏ РјР°СЃСЃРёРІР° TempMatrix РїСЂР°РІРёР»СЊРЅС‹Рµ СЂР°Р·РјРµСЂС‹
       OldDimValues[Length(OldDimValues) - 1] := TempMatrix.Cols;
       TempMatrix.Reshape(OldDimValues);
 
-      // Перемещаем элементы в AResult
+      // РџРµСЂРµРјРµС‰Р°РµРј СЌР»РµРјРµРЅС‚С‹ РІ AResult
       AResult.MoveFrom(TempMatrix);
     finally
       TempMatrix.Free;
@@ -211,7 +202,7 @@ begin
 
   TempMatrix := AResult.CreateInstance;
 
-  // Создаем массивы отсчетов
+  // РЎРѕР·РґР°РµРј РјР°СЃСЃРёРІС‹ РѕС‚СЃС‡РµС‚РѕРІ
   OldSteps := TIntegerMatrix.Create;
   NewSteps := TSingleMatrix.Create;
 
@@ -249,10 +240,10 @@ begin
     Interval := AMatrix.Cols div (NewLength - 1) + 1;
     Num := Interval * (NewLength - 1) + 1;
 
-    // Запоминаем размеры AMatrix
+    // Р—Р°РїРѕРјРёРЅР°РµРј СЂР°Р·РјРµСЂС‹ AMatrix
     OldDimValues := AMatrix.GetDimensions;
 
-    // Делаем MatrixRef 2-мерной матрицей
+    // Р”РµР»Р°РµРј MatrixRef 2-РјРµСЂРЅРѕР№ РјР°С‚СЂРёС†РµР№
     MatrixRef.Reshape(MatrixRef.CalcMatrixDimensions);
 
     DoIncRows(MatrixRef, TempMatrix2, Num);
@@ -268,7 +259,7 @@ begin
         TempMatrix.Elem[I, Column] := TempMatrix2.Elem[I, J - 1];
     end;
 
-    // Корректируем размеры TempMatrix
+    // РљРѕСЂСЂРµРєС‚РёСЂСѓРµРј СЂР°Р·РјРµСЂС‹ TempMatrix
     OldDimValues[Length(OldDimValues) - 1] := NewLength;
     TempMatrix.Reshape(OldDimValues); 
 
@@ -317,18 +308,18 @@ begin
     if (A.Rows <> B.Rows) or (B.Cols > 1) then
       raise EMatrixDimensionsError.Create(matSArraysNotAgree);
 
-    // Создаем массив для хранения результата
+    // РЎРѕР·РґР°РµРј РјР°СЃСЃРёРІ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚Р°
     TempRes := TExtendedMatrix.Create;
-    // Создаем массив для хранения расширенной матрицы
+    // РЎРѕР·РґР°РµРј РјР°СЃСЃРёРІ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЂР°СЃС€РёСЂРµРЅРЅРѕР№ РјР°С‚СЂРёС†С‹
     ExtMatrix := TempRes.CreateInstance(TempRes);
     try
 
       if not A.IsEmpty then
       begin
-        // Формируем расширенную матрицу
+        // Р¤РѕСЂРјРёСЂСѓРµРј СЂР°СЃС€РёСЂРµРЅРЅСѓСЋ РјР°С‚СЂРёС†Сѓ
         ExtMatrix.Concat(A.DimCols, [A, B]);
       
-        // Выполняем перестановку строк
+        // Р’С‹РїРѕР»РЅСЏРµРј РїРµСЂРµСЃС‚Р°РЅРѕРІРєСѓ СЃС‚СЂРѕРє
         for I := 0 to ExtMatrix.Rows - 1 do
         begin
           Tmp1 := ExtMatrix.Elem[I, I];
@@ -350,12 +341,12 @@ begin
               ExtMatrix.Elem[I, J] := ExtMatrix.Elem[ARow, J];
               ExtMatrix.Elem[ARow, J]:= Tmp2;
             end;
-        end; // Перестанока строк закончена
+        end; // РџРµСЂРµСЃС‚Р°РЅРѕРєР° СЃС‚СЂРѕРє Р·Р°РєРѕРЅС‡РµРЅР°
 
         if SameValue(ExtMatrix.Elem[0, 0], 0) then
           EMatrixError.Create(matSlauNotSolutions);
 
-        // Прямой шаг
+        // РџСЂСЏРјРѕР№ С€Р°Рі
 
         for I := 1 to ExtMatrix.Cols - 1 do
           ExtMatrix.Elem[0, I] := ExtMatrix.Elem[0, I] / ExtMatrix.Elem[0, 0];
@@ -379,9 +370,9 @@ begin
           end;
         end;
 
-        // Прямой шаг завершен!
+        // РџСЂСЏРјРѕР№ С€Р°Рі Р·Р°РІРµСЂС€РµРЅ!
 
-        // Обратный шаг
+        // РћР±СЂР°С‚РЅС‹Р№ С€Р°Рі
 
         TempRes.Resize([A.Cols]);
         TempRes.AssignVecElem(ExtMatrix, TempRes.ElemCount - 1, ExtMatrix.ElemCount - 1);
@@ -396,7 +387,7 @@ begin
         end;
         TempRes.Reshape([TempRes.ElemCount, 1]);
 
-        // Вычисление СЛАУ завершено!
+        // Р’С‹С‡РёСЃР»РµРЅРёРµ РЎР›РђРЈ Р·Р°РІРµСЂС€РµРЅРѕ!
       end;
 
       X.MoveFrom(TempRes);
@@ -424,12 +415,11 @@ var
   //PRes, P_A, P_B: P6x6Ar;
   I, J, K, D: Integer;
   Buf: Extended;
-  Tc: DWORD;
-
+  //Tc: Cardinal;
 begin
   try
     if A.Cols <> B.Rows then
-      raise EMatrixError.Create('Массивы не согласованы');
+      raise EMatrixError.Create('РњР°СЃСЃРёРІС‹ РЅРµ СЃРѕРіР»Р°СЃРѕРІР°РЅС‹');
 
     D := A.Cols div 2;
     Temp := TExtendedMatrix.Create();
@@ -440,7 +430,7 @@ begin
      // PRowFactor := ARowFactor.ArrayAddress;
       //P_A := A.ArrayAddress;
 
-      Tc := GetTickCount;
+      //Tc := GetTickCount;
       for I := 0 to A.Rows - 1 do
       begin
         ARowFactor.VecElem[I] := A.Elem[I, 0] * A.Elem[I, 1];
@@ -448,28 +438,28 @@ begin
           ARowFactor.VecElem[I] := ARowFactor.VecElem[I] + A.Elem[I, 2 * J] * A.Elem[I, 2 * J + 1];
       end;
 
-      Tc := GetTickCount - Tc;
-      ShowMessageFmt('%d', [Tc]);
+      //Tc := GetTickCount - Tc;
+      //ShowMessageFmt('%d', [Tc]);
 
       BColFactor.Resize([B.Cols]);
       //PColFactor := BColFactor.ArrayAddress;
       //P_B := B.ArrayAddress;
 
-      Tc := GetTickCount;
+      //Tc := GetTickCount;
       for I := 0 to B.Cols - 1 do
       begin
         BColFactor.VecElem[I] := B.Elem[0, I] * B.Elem[1, I];
         for J := 1 to D - 1 do
           BColFactor.VecElem[I] := BColFactor.VecElem[I] + B.Elem[2 * J, I] * B.Elem[2 * J + 1, I]
       end;
-      Tc := GetTickCount - Tc;
-      ShowMessageFmt('%d', [Tc]);
+      //Tc := GetTickCount - Tc;
+      //ShowMessageFmt('%d', [Tc]);
 
       Temp.Resize([A.Rows, B.Cols]);
       //PRes := Temp.ArrayAddress;
 
       Buf := 0;
-      Tc := GetTickCount;
+      //Tc := GetTickCount;
       for I := 0 to A.Rows - 1 do
       begin
         for J := 0 to B.Cols - 1 do
@@ -482,8 +472,8 @@ begin
               (A.Elem[I, 2 * K + 1] + B.Elem[2 * K, J]);}
         end;
       end;
-      Tc := GetTickCount - Tc;
-      ShowMessageFmt('%d', [Tc]);
+      //Tc := GetTickCount - Tc;
+      //ShowMessageFmt('%d', [Tc]);
 
       if A.Cols mod 2 <> 0 then
       begin

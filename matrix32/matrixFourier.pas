@@ -1,36 +1,15 @@
-{
-Copyright (c) 2005-2013, Loginov Dmitry Sergeevich
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-}
+п»ї{$IFDEF FPC}
+{$MODE DELPHI}{$H+}{$CODEPAGE UTF8}
+{$ENDIF}
 
 { *************************************************************************** }
 {                                                                             }
 {                                                                             }
 {                                                                             }
-{ Модуль matrixFourier - модуль дискретного преобразования Фурье              }
-{ (c) 2005 - 2007 Логинов Дмитрий Сергеевич                                   }
-{ Последнее изменение: 03.03.2007                                             }
-{ Адрес сайта: http://loginovprojects.ru/                                     }
+{ РњРѕРґСѓР»СЊ matrixFourier - РјРѕРґСѓР»СЊ РґРёСЃРєСЂРµС‚РЅРѕРіРѕ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ Р¤СѓСЂСЊРµ              }
+{ (c) 2005 - 2007 Р›РѕРіРёРЅРѕРІ Р”РјРёС‚СЂРёР№ РЎРµСЂРіРµРµРІРёС‡                                   }
+{ РџРѕСЃР»РµРґРЅРµРµ РёР·РјРµРЅРµРЅРёРµ: 03.03.2007                                             }
+{ РђРґСЂРµСЃ СЃР°Р№С‚Р°: http://matrix.kladovka.net.ru/                                 }
 { e-mail: loginov_d@inbox.ru                                                  }
 {                                                                             }
 { *************************************************************************** }
@@ -44,44 +23,44 @@ interface
 uses
   SysUtils, Math, Matrix32,
 
-  {David Butler}cUtils, cMaths {/David Butler};
+  {David Butler}flcUtils, flcInteger, flcBits32, flcMaths {/David Butler};
 
-{Выполняет быстрое преобразование Фурье над элементами комплексного массива
- AVector. Результирующий массив AResult должен быть установлен заранее.
- В качестве ALength задается длина массива AVector. Массив AResult также
- должен имет длину ALength. Что означает аргумент AngleNumerator не знаю.
- Функцию передрал из модуля "cMaths" by David Butler.
- Длина вектора ALength должна быть кратной степени двойки.}
+{Р’С‹РїРѕР»РЅСЏРµС‚ Р±С‹СЃС‚СЂРѕРµ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ Р¤СѓСЂСЊРµ РЅР°Рґ СЌР»РµРјРµРЅС‚Р°РјРё РєРѕРјРїР»РµРєСЃРЅРѕРіРѕ РјР°СЃСЃРёРІР°
+ AVector. Р РµР·СѓР»СЊС‚РёСЂСѓСЋС‰РёР№ РјР°СЃСЃРёРІ AResult РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СѓСЃС‚Р°РЅРѕРІР»РµРЅ Р·Р°СЂР°РЅРµРµ.
+ Р’ РєР°С‡РµСЃС‚РІРµ ALength Р·Р°РґР°РµС‚СЃСЏ РґР»РёРЅР° РјР°СЃСЃРёРІР° AVector. РњР°СЃСЃРёРІ AResult С‚Р°РєР¶Рµ
+ РґРѕР»Р¶РµРЅ РёРјРµС‚ РґР»РёРЅСѓ ALength. Р§С‚Рѕ РѕР·РЅР°С‡Р°РµС‚ Р°СЂРіСѓРјРµРЅС‚ AngleNumerator РЅРµ Р·РЅР°СЋ.
+ Р¤СѓРЅРєС†РёСЋ РїРµСЂРµРґСЂР°Р» РёР· РјРѕРґСѓР»СЏ "cMaths" by David Butler.
+ Р”Р»РёРЅР° РІРµРєС‚РѕСЂР° ALength РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РєСЂР°С‚РЅРѕР№ СЃС‚РµРїРµРЅРё РґРІРѕР№РєРё.}
 procedure VecFourierTransform(const AngleNumerator: Extended;
   AVector, AResult: PExtendedComplexArray; ALength: Cardinal);
 
-{Выполняем быстрое преобразование Фурье над массивом AMatrix. Допускается
- любая размерность. Количество столбцов не должно быть меньше 2-х
- Если ALength задано, то использоется это значение, в противном случае
- используется значение количества стобцов массива AMatrix. Кроме того
- ALength расчитывается так, чтобы быть кратным степени двойки
- Длина возвращаемого массива AResult всегда кратна степени двойки}
+{Р’С‹РїРѕР»РЅСЏРµРј Р±С‹СЃС‚СЂРѕРµ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ Р¤СѓСЂСЊРµ РЅР°Рґ РјР°СЃСЃРёРІРѕРј AMatrix. Р”РѕРїСѓСЃРєР°РµС‚СЃСЏ
+ Р»СЋР±Р°СЏ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ. РљРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ РЅРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РјРµРЅСЊС€Рµ 2-С…
+ Р•СЃР»Рё ALength Р·Р°РґР°РЅРѕ, С‚Рѕ РёСЃРїРѕР»СЊР·РѕРµС‚СЃСЏ СЌС‚Рѕ Р·РЅР°С‡РµРЅРёРµ, РІ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ
+ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Р·РЅР°С‡РµРЅРёРµ РєРѕР»РёС‡РµСЃС‚РІР° СЃС‚РѕР±С†РѕРІ РјР°СЃСЃРёРІР° AMatrix. РљСЂРѕРјРµ С‚РѕРіРѕ
+ ALength СЂР°СЃС‡РёС‚С‹РІР°РµС‚СЃСЏ С‚Р°Рє, С‡С‚РѕР±С‹ Р±С‹С‚СЊ РєСЂР°С‚РЅС‹Рј СЃС‚РµРїРµРЅРё РґРІРѕР№РєРё
+ Р”Р»РёРЅР° РІРѕР·РІСЂР°С‰Р°РµРјРѕРіРѕ РјР°СЃСЃРёРІР° AResult РІСЃРµРіРґР° РєСЂР°С‚РЅР° СЃС‚РµРїРµРЅРё РґРІРѕР№РєРё}
 procedure FourierTransform(const AngleNumerator: Extended;
   AMatrix, AResult: TMatrix; ALength: Integer = 0);
 
-{Облегченный вариант вызова функции FourierTransform. Аналогична
- одноименной функции Матлаба. Число столбцов в возвращаемом массиве кратно
- степени двойки}
+{РћР±Р»РµРіС‡РµРЅРЅС‹Р№ РІР°СЂРёР°РЅС‚ РІС‹Р·РѕРІР° С„СѓРЅРєС†РёРё FourierTransform. РђРЅР°Р»РѕРіРёС‡РЅР°
+ РѕРґРЅРѕРёРјРµРЅРЅРѕР№ С„СѓРЅРєС†РёРё РњР°С‚Р»Р°Р±Р°. Р§РёСЃР»Рѕ СЃС‚РѕР»Р±С†РѕРІ РІ РІРѕР·РІСЂР°С‰Р°РµРјРѕРј РјР°СЃСЃРёРІРµ РєСЂР°С‚РЅРѕ
+ СЃС‚РµРїРµРЅРё РґРІРѕР№РєРё}
 procedure FFT(AMatrix, AResult: TMatrix; ALength: Integer = 0);
 
-{Обратное преобразование фурье. Аналогична одноименной функции Матлаба. Число
- столбцов в возвращаемом массиве кратно степени двойки}
+{РћР±СЂР°С‚РЅРѕРµ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ С„СѓСЂСЊРµ. РђРЅР°Р»РѕРіРёС‡РЅР° РѕРґРЅРѕРёРјРµРЅРЅРѕР№ С„СѓРЅРєС†РёРё РњР°С‚Р»Р°Р±Р°. Р§РёСЃР»Рѕ
+ СЃС‚РѕР»Р±С†РѕРІ РІ РІРѕР·РІСЂР°С‰Р°РµРјРѕРј РјР°СЃСЃРёРІРµ РєСЂР°С‚РЅРѕ СЃС‚РµРїРµРЅРё РґРІРѕР№РєРё}
 procedure IFFT(AMatrix, AResult: TMatrix; ALength: Integer = 0);
 
-{Выполняет проверку работоспособности процедуры FFT. Могу удалить эту функцию
- когда угодно.}
+{Р’С‹РїРѕР»РЅСЏРµС‚ РїСЂРѕРІРµСЂРєСѓ СЂР°Р±РѕС‚РѕСЃРїРѕСЃРѕР±РЅРѕСЃС‚Рё РїСЂРѕС†РµРґСѓСЂС‹ FFT. РњРѕРіСѓ СѓРґР°Р»РёС‚СЊ СЌС‚Сѓ С„СѓРЅРєС†РёСЋ
+ РєРѕРіРґР° СѓРіРѕРґРЅРѕ.}
 procedure TestFFT(AResult: TMatrix; ALength: Integer);
 
 implementation
 
 resourcestring
-  SMatchElemCount = 'Задано недопустимое количество элементов';
-  SIsNotPowerOfTwo = 'Длина массива должна быть кратной степени двойки';
+  SMatchElemCount = 'Р—Р°РґР°РЅРѕ РЅРµРґРѕРїСѓСЃС‚РёРјРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ';
+  SIsNotPowerOfTwo = 'Р”Р»РёРЅР° РјР°СЃСЃРёРІР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РєСЂР°С‚РЅРѕР№ СЃС‚РµРїРµРЅРё РґРІРѕР№РєРё';
 
   procedure VecFourierTransform(const AngleNumerator: Extended;
   AVector, AResult: PExtendedComplexArray; ALength: Cardinal);
@@ -97,23 +76,23 @@ begin
     if Integer(ALength) < 2 then
       raise EMatrixError.Create(SMatchElemCount);
 
-    // Значение ALength должно быть кратным степени двойки. Это может быть
-    // только в случае, если имеется всего один неустановленный бит
-    if BitCount(ALength) <> 1 then
+    // Р—РЅР°С‡РµРЅРёРµ ALength РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РєСЂР°С‚РЅС‹Рј СЃС‚РµРїРµРЅРё РґРІРѕР№РєРё. Р­С‚Рѕ РјРѕР¶РµС‚ Р±С‹С‚СЊ
+    // С‚РѕР»СЊРєРѕ РІ СЃР»СѓС‡Р°Рµ, РµСЃР»Рё РёРјРµРµС‚СЃСЏ РІСЃРµРіРѕ РѕРґРёРЅ РЅРµСѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Р№ Р±РёС‚
+    if BitCount32(ALength) <> 1 then // BitCount -> BitCount32
       raise EMatrixError.Create(SIsNotPowerOfTwo);
 
-    // Обнуляем элементы результирующего массива AResult
-    // Это наверно не обязательно, но точно не повредит
+    // РћР±РЅСѓР»СЏРµРј СЌР»РµРјРµРЅС‚С‹ СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰РµРіРѕ РјР°СЃСЃРёРІР° AResult
+    // Р­С‚Рѕ РЅР°РІРµСЂРЅРѕ РЅРµ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ, РЅРѕ С‚РѕС‡РЅРѕ РЅРµ РїРѕРІСЂРµРґРёС‚
     FillChar(AResult^, ALength * SizeOf(TExtendedComplex), 0);
 
-    // Определяем порядковый номер первого установленного бита
-    NumBits := SetBitScanForward(ALength);
+    // РћРїСЂРµРґРµР»СЏРµРј РїРѕСЂСЏРґРєРѕРІС‹Р№ РЅРѕРјРµСЂ РїРµСЂРІРѕРіРѕ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅРѕРіРѕ Р±РёС‚Р°
+    NumBits := SetBitScanForward32(ALength); // SetBitScanForward -> SetBitScanForward32
 
-    // Инициализируем результирующий массив по хитрому алгоритму
-    // После этого исходный массив становится не нужным
+    // РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰РёР№ РјР°СЃСЃРёРІ РїРѕ С…РёС‚СЂРѕРјСѓ Р°Р»РіРѕСЂРёС‚РјСѓ
+    // РџРѕСЃР»Рµ СЌС‚РѕРіРѕ РёСЃС…РѕРґРЅС‹Р№ РјР°СЃСЃРёРІ СЃС‚Р°РЅРѕРІРёС‚СЃСЏ РЅРµ РЅСѓР¶РЅС‹Рј
     for I := 0 to ALength - 1 do
     begin
-      J := ReverseBits (I, NumBits);   
+      J := ReverseBits32(I, NumBits); // ReverseBits -> ReverseBits32
       AResult[J] := AVector[I];
     end;     //exit;
 
@@ -187,31 +166,31 @@ begin
 
     NewLength := ALength;
 
-    // Пересчитываем NewLength так, чтобы эта величина была кратной степени двойки
+    // РџРµСЂРµСЃС‡РёС‚С‹РІР°РµРј NewLength С‚Р°Рє, С‡С‚РѕР±С‹ СЌС‚Р° РІРµР»РёС‡РёРЅР° Р±С‹Р»Р° РєСЂР°С‚РЅРѕР№ СЃС‚РµРїРµРЅРё РґРІРѕР№РєРё
 
-    for I := 0 to High(BitMaskTable) do
-      if BitMaskTable[I] >= NewLength then
+    for I := 0 to High(BitMaskTable32) do
+      if BitMaskTable32[I] >= NewLength then
       begin
-        NewLength := BitMaskTable[I];
+        NewLength := BitMaskTable32[I];
         Break;
       end;
 
-    // Проверяем, является ли NewLength кратным степени двойки
+    // РџСЂРѕРІРµСЂСЏРµРј, СЏРІР»СЏРµС‚СЃСЏ Р»Рё NewLength РєСЂР°С‚РЅС‹Рј СЃС‚РµРїРµРЅРё РґРІРѕР№РєРё
 
     if NewLength > 0 then
-      if BitCount(NewLength) <> 1 then
+      if BitCount32(NewLength) <> 1 then
         raise EMatrixError.Create(SIsNotPowerOfTwo);
 
-    {Здесь мы должны создать массив определенного класса, а именно
-     TExtendedComplexMatrix, так как процедура VecFourierTransform
-     работает только с элементами типа TExtendedComplex}
+    {Р—РґРµСЃСЊ РјС‹ РґРѕР»Р¶РЅС‹ СЃРѕР·РґР°С‚СЊ РјР°СЃСЃРёРІ РѕРїСЂРµРґРµР»РµРЅРЅРѕРіРѕ РєР»Р°СЃСЃР°, Р° РёРјРµРЅРЅРѕ
+     TExtendedComplexMatrix, С‚Р°Рє РєР°Рє РїСЂРѕС†РµРґСѓСЂР° VecFourierTransform
+     СЂР°Р±РѕС‚Р°РµС‚ С‚РѕР»СЊРєРѕ СЃ СЌР»РµРјРµРЅС‚Р°РјРё С‚РёРїР° TExtendedComplex}
     TempMatrix := TExtendedComplexMatrix.Create();
     TempResult := TExtendedComplexMatrix.Create();
 
     try
       TempMatrix.CopyFrom(AMatrix);
 
-      // Устанавливаем число столбцов в соответствие с NewLength
+      // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‡РёСЃР»Рѕ СЃС‚РѕР»Р±С†РѕРІ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ СЃ NewLength
       TempMatrix.Reshape(TempMatrix.CalcMatrixDimensions);
       TempMatrix.Cols := NewLength;
       
@@ -224,16 +203,16 @@ begin
           TempResult.ElemAddress(I, 0),
           NewLength);
 
-      // Восстанавливаем размеры массива
+      // Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЂР°Р·РјРµСЂС‹ РјР°СЃСЃРёРІР°
 
-      SetLength(DimValues, 0); // Это чтобы Варнинги не показывались
+      SetLength(DimValues, 0); // Р­С‚Рѕ С‡С‚РѕР±С‹ Р’Р°СЂРЅРёРЅРіРё РЅРµ РїРѕРєР°Р·С‹РІР°Р»РёСЃСЊ
       DimValues := AMatrix.GetDimensions;
 
-      // Устанавливаем требуемое число столбцов
+      // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚СЂРµР±СѓРµРјРѕРµ С‡РёСЃР»Рѕ СЃС‚РѕР»Р±С†РѕРІ
       DimValues[Length(DimValues) - 1] := NewLength;
       TempResult.Reshape(DimValues);  
 
-      // Передаем данные в результирующий массив
+      // РџРµСЂРµРґР°РµРј РґР°РЅРЅС‹Рµ РІ СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰РёР№ РјР°СЃСЃРёРІ
       AResult.MoveFrom(TempResult);
 
     finally

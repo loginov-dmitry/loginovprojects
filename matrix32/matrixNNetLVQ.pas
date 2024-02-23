@@ -1,36 +1,15 @@
-{
-Copyright (c) 2005-2013, Loginov Dmitry Sergeevich
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-}
+п»ї{$IFDEF FPC}
+{$MODE DELPHI}{$H+}{$CODEPAGE UTF8}
+{$ENDIF}
 
 { *************************************************************************** }
 {                                                                             }
 {                                                                             }
 {                                                                             }
-{ Модуль matrixNNetLVQ - реализация нейронной сети LVQ                        }
-{ (c) 2005 - 2010 Логинов Дмитрий Сергеевич                                   }
-{ Последнее обновление: 15.12.2010                                            }
-{ Адрес сайта: http://loginovprojects.ru/                                     }
+{ РњРѕРґСѓР»СЊ matrixNNetLVQ - СЂРµР°Р»РёР·Р°С†РёСЏ РЅРµР№СЂРѕРЅРЅРѕР№ СЃРµС‚Рё LVQ                        }
+{ (c) 2005 - 2009 Р›РѕРіРёРЅРѕРІ Р”РјРёС‚СЂРёР№ РЎРµСЂРіРµРµРІРёС‡                                   }
+{ РџРѕСЃР»РµРґРЅРµРµ РѕР±РЅРѕРІР»РµРЅРёРµ: 11.06.2009                                            }
+{ РђРґСЂРµСЃ СЃР°Р№С‚Р°: http://matrix.kladovka.net.ru/                                 }
 { e-mail: loginov_d@inbox.ru                                                  }
 {                                                                             }
 { *************************************************************************** }
@@ -47,39 +26,39 @@ uses
 type
   TNNetLVQ = class(TNeuronNetwork)
   private
-    {Выполняет создание массивов для хранения статистики}
+    {Р’С‹РїРѕР»РЅСЏРµС‚ СЃРѕР·РґР°РЅРёРµ РјР°СЃСЃРёРІРѕРІ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЃС‚Р°С‚РёСЃС‚РёРєРё}
     procedure CreateStatArrays;
   protected
     procedure InitNetworkData; override;
   public
-    {Обучение нейронной сети LVQ по стандартному алгоритму, улучшенному автором
-     благодаря применению дополнительной составляющей - метода выпуклой комбинации.
-     Модицицированный алгоритм под авторством Бодина О.Н. и Логинова Д.С.
-     опубликован в журнале "Нейрокомпьютеры и их применение" № 6, 2008г.}
+    {РћР±СѓС‡РµРЅРёРµ РЅРµР№СЂРѕРЅРЅРѕР№ СЃРµС‚Рё LVQ РїРѕ СЃС‚Р°РЅРґР°СЂС‚РЅРѕРјСѓ Р°Р»РіРѕСЂРёС‚РјСѓ, СѓР»СѓС‡С€РµРЅРЅРѕРјСѓ Р°РІС‚РѕСЂРѕРј
+     Р±Р»Р°РіРѕРґР°СЂСЏ РїСЂРёРјРµРЅРµРЅРёСЋ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕР№ СЃРѕСЃС‚Р°РІР»СЏСЋС‰РµР№ - РјРµС‚РѕРґР° РІС‹РїСѓРєР»РѕР№ РєРѕРјР±РёРЅР°С†РёРё.
+     РњРѕРґРёС†РёС†РёСЂРѕРІР°РЅРЅС‹Р№ Р°Р»РіРѕСЂРёС‚Рј РїРѕРґ Р°РІС‚РѕСЂСЃС‚РІРѕРј Р‘РѕРґРёРЅР° Рћ.Рќ. Рё Р›РѕРіРёРЅРѕРІР° Р”.РЎ.
+     РѕРїСѓР±Р»РёРєРѕРІР°РЅ РІ Р¶СѓСЂРЅР°Р»Рµ "РќРµР№СЂРѕРєРѕРјРїСЊСЋС‚РµСЂС‹ Рё РёС… РїСЂРёРјРµРЅРµРЅРёРµ" в„– 6, 2008Рі.}
     procedure Train; override;
 
-    {Выполняет нейросетевой анализ обученной ИНС LVQ}
+    {Р’С‹РїРѕР»РЅСЏРµС‚ РЅРµР№СЂРѕСЃРµС‚РµРІРѕР№ Р°РЅР°Р»РёР· РѕР±СѓС‡РµРЅРЅРѕР№ РРќРЎ LVQ}
     procedure Simulate(Inputs, Outputs: TMatrix); override;
     
     class function GetAlias: TSignature; override;
 
-    {Устанавливает параметры ИНС LVQ
-    InputsCount - количество входов ИНС
-    HiddenLayerSize - число нейронов в скрытов слое (слое Кохонена).
-      Всем нейронам автоматически присваивается значение 1 / sqrt(InputsCount)
-    OutLayerParts - определяет, какая часть нейронов скрытого слоя будет
-      проецироваться на нейроны выходного слоя. Количество указанных значений
-      берется в качестве числа нейронов выходного слоя. Сумма указанных значений
-      должна быть равной 1. Функция SetLVQParams автоматически инициализирует
-      веса нейронов выходного слоя }
+    {РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РїР°СЂР°РјРµС‚СЂС‹ РРќРЎ LVQ
+    InputsCount - РєРѕР»РёС‡РµСЃС‚РІРѕ РІС…РѕРґРѕРІ РРќРЎ
+    HiddenLayerSize - С‡РёСЃР»Рѕ РЅРµР№СЂРѕРЅРѕРІ РІ СЃРєСЂС‹С‚РѕРІ СЃР»РѕРµ (СЃР»РѕРµ РљРѕС…РѕРЅРµРЅР°).
+      Р’СЃРµРј РЅРµР№СЂРѕРЅР°Рј Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РїСЂРёСЃРІР°РёРІР°РµС‚СЃСЏ Р·РЅР°С‡РµРЅРёРµ 1 / sqrt(InputsCount)
+    OutLayerParts - РѕРїСЂРµРґРµР»СЏРµС‚, РєР°РєР°СЏ С‡Р°СЃС‚СЊ РЅРµР№СЂРѕРЅРѕРІ СЃРєСЂС‹С‚РѕРіРѕ СЃР»РѕСЏ Р±СѓРґРµС‚
+      РїСЂРѕРµС†РёСЂРѕРІР°С‚СЊСЃСЏ РЅР° РЅРµР№СЂРѕРЅС‹ РІС‹С…РѕРґРЅРѕРіРѕ СЃР»РѕСЏ. РљРѕР»РёС‡РµСЃС‚РІРѕ СѓРєР°Р·Р°РЅРЅС‹С… Р·РЅР°С‡РµРЅРёР№
+      Р±РµСЂРµС‚СЃСЏ РІ РєР°С‡РµСЃС‚РІРµ С‡РёСЃР»Р° РЅРµР№СЂРѕРЅРѕРІ РІС‹С…РѕРґРЅРѕРіРѕ СЃР»РѕСЏ. РЎСѓРјРјР° СѓРєР°Р·Р°РЅРЅС‹С… Р·РЅР°С‡РµРЅРёР№
+      РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЂР°РІРЅРѕР№ 1. Р¤СѓРЅРєС†РёСЏ SetLVQParams Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚
+      РІРµСЃР° РЅРµР№СЂРѕРЅРѕРІ РІС‹С…РѕРґРЅРѕРіРѕ СЃР»РѕСЏ }
     procedure SetLVQParams(InputsCount, HiddenLayerSize: Integer; OutLayerParts: array of Double); overload;
 
     procedure SetLVQParams(InputsCount, HiddenLayerSize: Integer; OutLayerParts: TMatrix); overload;
   end;
 
 resourcestring
-  matSLVQOutErrorSum = 'Сумма значений, определяющих свойства выходного слоя сети LVQ, должна быть равной 1';
-  matSLVQWrongTrainDataSize = 'Неверная размерность обучающего набора данных';
+  matSLVQOutErrorSum = 'РЎСѓРјРјР° Р·РЅР°С‡РµРЅРёР№, РѕРїСЂРµРґРµР»СЏСЋС‰РёС… СЃРІРѕР№СЃС‚РІР° РІС‹С…РѕРґРЅРѕРіРѕ СЃР»РѕСЏ СЃРµС‚Рё LVQ, РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЂР°РІРЅРѕР№ 1';
+  matSLVQWrongTrainDataSize = 'РќРµРІРµСЂРЅР°СЏ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РѕР±СѓС‡Р°СЋС‰РµРіРѕ РЅР°Р±РѕСЂР° РґР°РЅРЅС‹С…';
 
 implementation
 
@@ -91,45 +70,37 @@ var
 begin
   Stat := TRecordMatrix.Create();
 
-  // Вся статистика для нейронов скрытого слоя
+  // Р’СЃСЏ СЃС‚Р°С‚РёСЃС‚РёРєР° РґР»СЏ РЅРµР№СЂРѕРЅРѕРІ СЃРєСЂС‹С‚РѕРіРѕ СЃР»РѕСЏ
   Layers[0].Fields['Stat'] := Stat;
 
-  // Размеры статистических массивов должны устанавливаться в начале обучения
-  // При этом массивы должны инициализироваться пустыми значениями
+  // Р Р°Р·РјРµСЂС‹ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРёС… РјР°СЃСЃРёРІРѕРІ РґРѕР»Р¶РЅС‹ СѓСЃС‚Р°РЅР°РІР»РёРІР°С‚СЊСЃСЏ РІ РЅР°С‡Р°Р»Рµ РѕР±СѓС‡РµРЅРёСЏ
+  // РџСЂРё СЌС‚РѕРј РјР°СЃСЃРёРІС‹ РґРѕР»Р¶РЅС‹ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊСЃСЏ РїСѓСЃС‚С‹РјРё Р·РЅР°С‡РµРЅРёСЏРјРё
 
-  // Статистика полной коррекции (Correction) нейронов для каждой эпохи обучения
-  // Число строк = числу эпох обучения
-  // Число столбцов = числу нейронов
+  // РЎС‚Р°С‚РёСЃС‚РёРєР° РїРѕР»РЅРѕР№ РєРѕСЂСЂРµРєС†РёРё (Correction) РЅРµР№СЂРѕРЅРѕРІ РґР»СЏ РєР°Р¶РґРѕР№ СЌРїРѕС…Рё РѕР±СѓС‡РµРЅРёСЏ
+  // Р§РёСЃР»Рѕ СЃС‚СЂРѕРє = С‡РёСЃР»Сѓ СЌРїРѕС… РѕР±СѓС‡РµРЅРёСЏ
+  // Р§РёСЃР»Рѕ СЃС‚РѕР»Р±С†РѕРІ = С‡РёСЃР»Сѓ РЅРµР№СЂРѕРЅРѕРІ
   Stat.Fields['CorFull'] := TIntegerMatrix.Create();
 
-  // Тоже самое, что и Corr, только накопительное. Всего одна строка.
-  // Число столбцов = числу нейронов
+  // РўРѕР¶Рµ СЃР°РјРѕРµ, С‡С‚Рѕ Рё Corr, С‚РѕР»СЊРєРѕ РЅР°РєРѕРїРёС‚РµР»СЊРЅРѕРµ. Р’СЃРµРіРѕ РѕРґРЅР° СЃС‚СЂРѕРєР°.
+  // Р§РёСЃР»Рѕ СЃС‚РѕР»Р±С†РѕРІ = С‡РёСЃР»Сѓ РЅРµР№СЂРѕРЅРѕРІ
   Stat.Fields['CorFullAll'] := TIntegerMatrix.Create();
 
-  // Статистика частичной коррекции нейронов для каждой эпохи обучения
-  // Число строк = числу эпох обучения
-  // Число столбцов = числу нейронов
+  // РЎС‚Р°С‚РёСЃС‚РёРєР° С‡Р°СЃС‚РёС‡РЅРѕР№ РєРѕСЂСЂРµРєС†РёРё РЅРµР№СЂРѕРЅРѕРІ РґР»СЏ РєР°Р¶РґРѕР№ СЌРїРѕС…Рё РѕР±СѓС‡РµРЅРёСЏ
+  // Р§РёСЃР»Рѕ СЃС‚СЂРѕРє = С‡РёСЃР»Сѓ СЌРїРѕС… РѕР±СѓС‡РµРЅРёСЏ
+  // Р§РёСЃР»Рѕ СЃС‚РѕР»Р±С†РѕРІ = С‡РёСЃР»Сѓ РЅРµР№СЂРѕРЅРѕРІ
   Stat.Fields['Cor'] := TIntegerMatrix.Create();
 
-  // Тоже самое, что и Corr, только накопительное. Всего одна строка.
-  // Число столбцов = числу нейронов
+  // РўРѕР¶Рµ СЃР°РјРѕРµ, С‡С‚Рѕ Рё Corr, С‚РѕР»СЊРєРѕ РЅР°РєРѕРїРёС‚РµР»СЊРЅРѕРµ. Р’СЃРµРіРѕ РѕРґРЅР° СЃС‚СЂРѕРєР°.
+  // Р§РёСЃР»Рѕ СЃС‚РѕР»Р±С†РѕРІ = С‡РёСЃР»Сѓ РЅРµР№СЂРѕРЅРѕРІ
   Stat.Fields['CorAll'] := TIntegerMatrix.Create();
 
-  // Статистика отталкиваний (Repulsion) нейронов для каждой эпохи обучения
-  // Число строк = числу эпох обучения
-  // Число столбцов = числу нейронов
+  // РЎС‚Р°С‚РёСЃС‚РёРєР° РѕС‚С‚Р°Р»РєРёРІР°РЅРёР№ (Repulsion) РЅРµР№СЂРѕРЅРѕРІ РґР»СЏ РєР°Р¶РґРѕР№ СЌРїРѕС…Рё РѕР±СѓС‡РµРЅРёСЏ
+  // Р§РёСЃР»Рѕ СЃС‚СЂРѕРє = С‡РёСЃР»Сѓ СЌРїРѕС… РѕР±СѓС‡РµРЅРёСЏ
+  // Р§РёСЃР»Рѕ СЃС‚РѕР»Р±С†РѕРІ = С‡РёСЃР»Сѓ РЅРµР№СЂРѕРЅРѕРІ
   Stat.Fields['Rep'] := TIntegerMatrix.Create();
 
   Stat.Fields['RepAll'] := TIntegerMatrix.Create();
 
-  // Статистика "правильных" побед для каждой эпохи обучения
-  Stat.Fields['WinTrue'] := TIntegerMatrix.Create();
-
-  // Общее количество "правильных" побед для каждого нейрона
-  Stat.Fields['WinTrueAll'] := TIntegerMatrix.Create();
-
-  // Статистика "ложных" побед для каждой эпохи обучения
-  Stat.Fields['WinFalse'] := TIntegerMatrix.Create();
 end;
 
 class function TNNetLVQ.GetAlias: TSignature;
@@ -141,10 +112,10 @@ procedure TNNetLVQ.InitNetworkData;
 begin
   inherited;
 
-  // ИНС LVQ состоит из 2-х слоев: скрытого и выходного
+  // РРќРЎ LVQ СЃРѕСЃС‚РѕРёС‚ РёР· 2-С… СЃР»РѕРµРІ: СЃРєСЂС‹С‚РѕРіРѕ Рё РІС‹С…РѕРґРЅРѕРіРѕ
   LayersCount := 2;
 
-  // Создаем массивы статистических данных
+  // РЎРѕР·РґР°РµРј РјР°СЃСЃРёРІС‹ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРёС… РґР°РЅРЅС‹С…
   CreateStatArrays;
 end;
 
@@ -170,35 +141,35 @@ begin
     begin
       Layers[0].Fields['W'].Resize([HiddenLayerSize, InputsCount]);
 
-      //Инициализируем массив весов значениями 1 / sqrt(InputsCount)
+      //РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РјР°СЃСЃРёРІ РІРµСЃРѕРІ Р·РЅР°С‡РµРЅРёСЏРјРё 1 / sqrt(InputsCount)
       Layers[0].Fields['W'].FillByValue(1 / sqrt(InputsCount));
 
-      W := Layers[1].Fields['W']; // Ссылка на массив весов выходного слоя
+      W := Layers[1].Fields['W']; // РЎСЃС‹Р»РєР° РЅР° РјР°СЃСЃРёРІ РІРµСЃРѕРІ РІС‹С…РѕРґРЅРѕРіРѕ СЃР»РѕСЏ
 
-      // Устанавливаем размер массива весов выходного слоя
+      // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР° РІРµСЃРѕРІ РІС‹С…РѕРґРЅРѕРіРѕ СЃР»РѕСЏ
       W.Resize([Length(OutLayerParts), HiddenLayerSize]);
-      W.Zeros; // Обнуляем все элементы
+      W.Zeros; // РћР±РЅСѓР»СЏРµРј РІСЃРµ СЌР»РµРјРµРЅС‚С‹
 
-      CurElem := 0; // Текущий элемент
-      CurRow := 0; // Текущая строка массива Layers[1].Fields['W']
+      CurElem := 0; // РўРµРєСѓС‰РёР№ СЌР»РµРјРµРЅС‚
+      CurRow := 0; // РўРµРєСѓС‰Р°СЏ СЃС‚СЂРѕРєР° РјР°СЃСЃРёРІР° Layers[1].Fields['W']
 
-      // Проецируем нейроны скрытого слоя на выходной слой согласно значениям,
-      // заданным в массиве OutLayerParts
+      // РџСЂРѕРµС†РёСЂСѓРµРј РЅРµР№СЂРѕРЅС‹ СЃРєСЂС‹С‚РѕРіРѕ СЃР»РѕСЏ РЅР° РІС‹С…РѕРґРЅРѕР№ СЃР»РѕР№ СЃРѕРіР»Р°СЃРЅРѕ Р·РЅР°С‡РµРЅРёСЏРј,
+      // Р·Р°РґР°РЅРЅС‹Рј РІ РјР°СЃСЃРёРІРµ OutLayerParts
       for I := 0 to High(OutLayerParts) do
       begin
-        // Определяем, для скольки элементов выходного слоя мы должны установить значение 1
+        // РћРїСЂРµРґРµР»СЏРµРј, РґР»СЏ СЃРєРѕР»СЊРєРё СЌР»РµРјРµРЅС‚РѕРІ РІС‹С…РѕРґРЅРѕРіРѕ СЃР»РѕСЏ РјС‹ РґРѕР»Р¶РЅС‹ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ Р·РЅР°С‡РµРЅРёРµ 1
         Part := Round(HiddenLayerSize * OutLayerParts[I]);
 
-        if CurRow = W.Rows - 1 then // Для последней строки нужно присвоить 1 всем оставшимся элементам
+        if CurRow = W.Rows - 1 then // Р”Р»СЏ РїРѕСЃР»РµРґРЅРµР№ СЃС‚СЂРѕРєРё РЅСѓР¶РЅРѕ РїСЂРёСЃРІРѕРёС‚СЊ 1 РІСЃРµРј РѕСЃС‚Р°РІС€РёРјСЃСЏ СЌР»РµРјРµРЅС‚Р°Рј
           HighLimit := W.Cols - 1
         else
           HighLimit := CurElem + Part - 1;
 
         for J := CurElem to HighLimit do
         begin
-          // Страхуемся на случай выхода за пределы массива
-          // Если мы неверно спроецируем какой-нибудь нейрон, то ничего страшного.
-          // Это не настолько критично, как словить AV.
+          // РЎС‚СЂР°С…СѓРµРјСЃСЏ РЅР° СЃР»СѓС‡Р°Р№ РІС‹С…РѕРґР° Р·Р° РїСЂРµРґРµР»С‹ РјР°СЃСЃРёРІР°
+          // Р•СЃР»Рё РјС‹ РЅРµРІРµСЂРЅРѕ СЃРїСЂРѕРµС†РёСЂСѓРµРј РєР°РєРѕР№-РЅРёР±СѓРґСЊ РЅРµР№СЂРѕРЅ, С‚Рѕ РЅРёС‡РµРіРѕ СЃС‚СЂР°С€РЅРѕРіРѕ.
+          // Р­С‚Рѕ РЅРµ РЅР°СЃС‚РѕР»СЊРєРѕ РєСЂРёС‚РёС‡РЅРѕ, РєР°Рє СЃР»РѕРІРёС‚СЊ AV.
           if (J < W.Cols) and (CurRow < W.Rows) then
             W.ElemI[CurRow, J] := 1;
         end;
@@ -245,38 +216,38 @@ begin
     W1 := Layers[0].Fields['W'];
     W2 := Layers[1].Fields['W'];
 
-    // Число строк матрицы Inputs должно совпадать с числом столбцов массива весов W
+    // Р§РёСЃР»Рѕ СЃС‚СЂРѕРє РјР°С‚СЂРёС†С‹ Inputs РґРѕР»Р¶РЅРѕ СЃРѕРІРїР°РґР°С‚СЊ СЃ С‡РёСЃР»РѕРј СЃС‚РѕР»Р±С†РѕРІ РјР°СЃСЃРёРІР° РІРµСЃРѕРІ W
     if Inputs.Rows <> W1.Cols then
       raise EMatrixBadParams(matSLVQWrongTrainDataSize);
 
     MRes := Outputs.CreateInstance();
     try
       MRes.Resize([W2.Rows, Inputs.Cols]);
-      MRes.Zeros; // Обнуляем все элементы массива
+      MRes.Zeros; // РћР±РЅСѓР»СЏРµРј РІСЃРµ СЌР»РµРјРµРЅС‚С‹ РјР°СЃСЃРёРІР°
 
-      // Сюда будет записан результат работы функции CalcDist
+      // РЎСЋРґР° Р±СѓРґРµС‚ Р·Р°РїРёСЃР°РЅ СЂРµР·СѓР»СЊС‚Р°С‚ СЂР°Р±РѕС‚С‹ С„СѓРЅРєС†РёРё CalcDist
       Z := TDoubleMatrix.Create(MRes);
 
       CalcDist(W1, Inputs, Z);
 
       MinIndexes := TIntegerMatrix.Create(MRes);
 
-      // Для каждого столбца матрицы Z ищем наименьшее значение. Нам нужен его индекс
+      // Р”Р»СЏ РєР°Р¶РґРѕРіРѕ СЃС‚РѕР»Р±С†Р° РјР°С‚СЂРёС†С‹ Z РёС‰РµРј РЅР°РёРјРµРЅСЊС€РµРµ Р·РЅР°С‡РµРЅРёРµ. РќР°Рј РЅСѓР¶РµРЅ РµРіРѕ РёРЅРґРµРєСЃ
       Z.GetMinMaxMean(Z.DimRows, nil, nil, nil, nil, MinIndexes, nil);
 
-      // Теперь есть массив индексов наименьших элементов. MinIndexes имеет
-      // 1 строку и столько же столбцов, что и у входного массива Inputs
-      // Устанавливаем нужные элементы массива MRes в "1"
+      // РўРµРїРµСЂСЊ РµСЃС‚СЊ РјР°СЃСЃРёРІ РёРЅРґРµРєСЃРѕРІ РЅР°РёРјРµРЅСЊС€РёС… СЌР»РµРјРµРЅС‚РѕРІ. MinIndexes РёРјРµРµС‚
+      // 1 СЃС‚СЂРѕРєСѓ Рё СЃС‚РѕР»СЊРєРѕ Р¶Рµ СЃС‚РѕР»Р±С†РѕРІ, С‡С‚Рѕ Рё Сѓ РІС…РѕРґРЅРѕРіРѕ РјР°СЃСЃРёРІР° Inputs
+      // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅСѓР¶РЅС‹Рµ СЌР»РµРјРµРЅС‚С‹ РјР°СЃСЃРёРІР° MRes РІ "1"
       for I := 0 to MinIndexes.ElemCount - 1 do
       begin
-        Ind := MinIndexes.VecElemI[I]; // Номер нейрона
+        Ind := MinIndexes.VecElemI[I]; // РќРѕРјРµСЂ РЅРµР№СЂРѕРЅР°
 
-        // Копируем весь столбец из W2
+        // РљРѕРїРёСЂСѓРµРј РІРµСЃСЊ СЃС‚РѕР»Р±РµС† РёР· W2
         for J := 0 to W2.Rows - 1 do
           MRes.ElemI[J, I] := W2.ElemI[J, Ind];
       end;
 
-      Outputs.MoveFrom(MRes); // Обращаемся к объекту Outputs в самом конце
+      Outputs.MoveFrom(MRes); // РћР±СЂР°С‰Р°РµРјСЃСЏ Рє РѕР±СЉРµРєС‚Сѓ Outputs РІ СЃР°РјРѕРј РєРѕРЅС†Рµ
     finally
       MRes.FreeMatrix;
     end;
@@ -289,74 +260,35 @@ end;
 
 procedure TNNetLVQ.Train;
 var
-  W1, W2, Xh, MOut, TrainErrors, QuantErrors: TMatrix;
+  W1, W2, Xh, Dm, MOut, SumOut, Vec1, Vec2, TrainErrors: TMatrix;
   N, VecCnt, CurrentEpoch, h, I, Index1, Index2, Xout: Integer;
-  betta, e, etta, CurrentError, Eq: Double;
-  Stop, FallIntoWindow, W1IsTrue, W2IsTrue, CanRepulsion: Boolean;
+  betta, e, etta, CurrentError: Double;
+  Dm1, Dm2, Dm12, TmpValue: Extended;
+  Stop, cond1, W1IsTrue, W2IsTrue, CanRepulsion: Boolean;
   Stat: TRecordMatrix;
   BegTrainTime: TDateTime;
-  TmpValue: Extended;
-  PenaltyThreshold: Integer;
-
-  procedure CalcLVQErrorAndPerfomance(W1, W2, X, T: TMatrix; var Eq, Perf: Double);
-  var
-    d, MinVal, MinIdx, W2Vec: TMatrix;
-    h, i, NetOut, p, p1, WinNum: Integer;
-  begin
-    Eq := 0;
-
-    // Определяем кол-во анализируемых векторов в X
-    p := X.Cols;
-
-    // Делитель. В случае ошибок распознавания будет уменьшаться
-    p1 := p;
-
-    d := TDoubleMatrix.Create();
-    try
-      MinVal := TDoubleMatrix.Create(d);
-      MinIdx := TIntegerMatrix.Create(d);
-      W2Vec := TIntegerMatrix.Create(d);
-
-      W2Vec.Resize([W2.Rows]);
-
-      //Вычисляем Эвклидово расстояние между W1 и векторами в X
-      CalcDist(W1, X, d);
-
-      // Определяем минимальные Эвклидовы расстояния и номера нейронов-победителей
-      d.GetMinMaxMean(d.DimRows, MinVal, nil, nil, nil, MinIdx);
-
-      for h := 0 to p - 1 do
-      begin
-
-        // Запоминаем номер нейрона - победителя
-        WinNum := MinIdx.VecElemI[h];
-
-        // Копируем столбец WinNum из матрицы W2
-        for i := 0 to W2Vec.ElemCount - 1 do
-          W2Vec.VecElemI[i] := W2.ElemI[i, WinNum];
-
-        // Определяем выход, к которому подключен нейрон-победитель
-        W2Vec.GetMinMaxValues(nil, nil, nil, @NetOut);
-
-        // Если совпадает со значением целевого вектора T, то прибавляем к Eq
-        // эвклидово расстояние от h-го вектора до нейрона победителя
-        if T.ElemI[NetOut, h] = 1 then
-          Eq := Eq + MinVal.VecElem[h]
-        else // Иначе уменьшаем на 1 значение делителя p1
-          p1 := p1 - 1
-      end;
-    finally
-      d.FreeMatrix;
-    end;
-
-    if p1 < 1 then p1 := 1;
-    Eq := Eq / p1;
-    Perf := 1 - p1 / p;
-  end;
 
   procedure CalcCurrentError;
+  var
+    h, I: Integer;
   begin
-    CalcLVQErrorAndPerfomance(W1, W2, TrainInput, TrainTarget, Eq, CurrentError);
+    CurrentError := 0;
+    Simulate(TrainInput, SumOut);
+
+    // РљР°Р¶РґС‹Р№ СЃС‚РѕР»Р±РµС† РјР°СЃСЃРёРІР° SumOut РґРѕР»Р¶РµРЅ СЃРѕРІРїР°РґР°С‚СЊ СЃ TrainTarget
+    for h := 0 to VecCnt - 1 do
+    begin
+      for I := 0 to TrainTarget.Rows - 1 do
+      begin
+        if SumOut.ElemI[I, h] <> TrainTarget.ElemI[I, h] then
+        begin
+          CurrentError := CurrentError + 1;
+          Break; // РџРµСЂРµС…РѕРґРёРј Рє СЃР»РµРґСѓСЋС‰РµРјСѓ РІРµРєС‚РѕСЂСѓ
+        end;
+      end;
+    end;
+
+    CurrentError := CurrentError / TrainInput.Cols;
   end;
 
   procedure PrepareStatArrays;
@@ -378,20 +310,10 @@ var
 
     Stat.Fields['RepAll'].Resize([1, W1.Rows]);
     Stat.Fields['RepAll'].Zeros;
-
-    Stat.Fields['WinTrue'].Resize([Epochs, W1.Rows]);
-    Stat.Fields['WinTrue'].Zeros;
-
-    Stat.Fields['WinFalse'].Resize([Epochs, W1.Rows]);
-    Stat.Fields['WinFalse'].Zeros;
-
-    Stat.Fields['WinTrueAll'].Resize([1, W1.Rows]);
-    Stat.Fields['WinTrueAll'].Zeros;
-
   end;
 
-  // IsCorrection = True | False (коррекция | отталкивание)
-  // IsFull = True | False (полная | частичная)
+  // IsCorrection = True | False (РєРѕСЂСЂРµРєС†РёСЏ | РѕС‚С‚Р°Р»РєРёРІР°РЅРёРµ)
+  // IsFull = True | False (РїРѕР»РЅР°СЏ | С‡Р°СЃС‚РёС‡РЅР°СЏ)
   procedure WriteToStatArrays(IsCorrection, IsFull: Boolean; Index, CurrEpoch: Integer);
   var
     S1, S2: string;
@@ -399,17 +321,17 @@ var
   begin
     if IsCorrection then
     begin
-      if IsFull then  // Полная коррекция
+      if IsFull then  // РџРѕР»РЅР°СЏ РєРѕСЂСЂРµРєС†РёСЏ
       begin
         S1 := 'CorFull';
         S2 := 'CorFullAll';
       end else
-      begin           // Частичная коррекция
+      begin           // Р§Р°СЃС‚РёС‡РЅР°СЏ РєРѕСЂСЂРµРєС†РёСЏ
         S1 := 'Cor';
         S2 := 'CorAll';
       end;
     end else
-    begin             // Частичное отталкивание
+    begin             // Р§Р°СЃС‚РёС‡РЅРѕРµ РѕС‚С‚Р°Р»РєРёРІР°РЅРёРµ
       S1 := 'Rep';
       S2 := 'RepAll';
     end;
@@ -421,338 +343,255 @@ var
     M.ElemI[0, Index] := M.ElemI[0, Index] + 1;
   end;
 
-  procedure SaveWinNeuronInfo(Value: Boolean; Index: Integer);
-    function GetStatTrueFalseMatrix(Value: Boolean): TMatrix;
-    begin
-      if Value then
-        Result := Stat.Fields['WinTrue']
-      else
-        Result := Stat.Fields['WinFalse'];
-    end;
-  var
-    M: TMatrix;
-  begin
-    M := GetStatTrueFalseMatrix(Value);
-    M.ElemI[CurrentEpoch - 1, Index] := M.ElemI[CurrentEpoch - 1, Index] + 1;
-
-    if Value then // Если нейрон победил "правильно"
-    begin         // Учитываем общее количество побед
-      M := Stat.Fields['WinTrueAll'];
-      M.ElemI[0, Index] := M.ElemI[0, Index] + 1;
-    end;
-  end;
-
-  // Отыскивает 2 нейрона из W1, наиболее близкие к Xh. Возвращает их индексы
-  // Index1 и Index2. Возвращает их принадлежность к правильным классам W1IsTrue и W2IsTrue
-  // Возвращает Result - результат попадания в заданное окно "e"
-  function FindClosestNeuronsAndClasses(W1, W2, MOut, Xh: TMatrix; e: Double;
-    CurrentEpoch, VecCnt: Integer; var Index1, Index2: Integer;
-    var W1IsTrue, W2IsTrue: Boolean): Boolean;
-  var
-    I: Integer;
-    Dm, WinTrueAll: TMatrix;
-    Dm1, Dm2, WinMin: Extended;
-  begin
-    Dm := TDoubleMatrix.Create(Xh);
-    try
-      // ОПРЕДЕЛЕНИЕ РАССТОЯНИЕ МЕЖДУ Xh И КАЖДЫМ НЕЙРОНОМ ИЗ W1
-      // В результате получится вектор Dm с числом элементов = W1Cnt
-      CalcDist(W1, Xh, Dm);
-
-      // Модифицируем каждый вектор в соответствие с количеством побед нейронов в прошлом
-      // Следует "штрафовать" нейрон, если он СЛИШКОМ часто обучается
-      WinTrueAll := Stat.Fields['WinTrueAll'];
-
-      // Определяем нейрон с минимальным количеством побед
-      WinTrueAll.GetMinMaxValues(@WinMin, nil);
-
-      // Штрафуем нейроны, число побед которых значительно превышает количество
-      // побед самого "ленивого" нейрона. Таким образом даем шанс "ленивым" нейронам.
-      // Расчитываем порог штрафования PenaltyThreshold. Если значение слишком маленькое,
-      // то нейроны будут выигрывать по-очереди, и ничего хорошего не будет.
-      // Если значение слишком большое, то эффекта от штрафования может и не быть.
-      for I := 0 to Dm.ElemCount - 1 do
-        if WinTrueAll.VecElem[I] > (WinMin + Dm.ElemCount * PenaltyThreshold) then
-          Dm.VecElem[I] := Dm.VecElem[I] * Max(WinTrueAll.VecElem[I], 1);
-
-
-      // ОПРЕДЕЛЯЕМ 2 МИНИМАЛЬНЫХ ЭЛЕМЕНТА В Dm И ИХ ИНДЕКСЫ
-      Dm.GetMinMaxValues(@Dm1, nil, @Index1, nil);
-
-      // Устанавливаем найденному элементу заведомо большое значение
-      Dm.VecElem[Index1] := 10000000;
-
-      Dm.GetMinMaxValues(@Dm2, nil, @Index2, nil);
-
-      // Индексы двух ближайших нейронов определены!
-
-
-      // ПРОВЕРЯЕМ, ВХОДЯТ ЛИ НАЙДЕННЫЕ ВЕСА В ПРАВИЛЬНЫЙ КЛАСС
-      // - ПРОВЕРЯЕМ ДЛЯ Index1. ОПРЕДЕЛЯЕМ НОМЕР ВЫХОДА ДЛЯ ТЕКУЩЕГО
-      // ОБУЧАЮЩЕГО ВЕКТОРА (Т.Е. НОМЕР СТРОКИ В TrainTarget С ЭЛЕМЕНТОМ = "1")
-      MOut.GetMinMaxValues(nil, nil, nil, @XOut);
-      // Теперь нам известно, в какой строке массива W2 должна быть "1"
-      // Если там действительно "1", значит нейрон из W1 входит
-      // в правильный класс.
-      W1IsTrue := W2.ElemI[Xout, Index1] = 1;
-
-      // Сохраняем информацию о победе первого нейрона
-      SaveWinNeuronInfo(W1IsTrue, Index1);
-
-
-      // ПРОВЕРЯЕМ ТО ЖЕ САМОЕ ДЛЯ Index2
-      W2IsTrue := W2.ElemI[Xout, Index2] = 1;
-
-      // Сохраняем информацию о победе второго нейрона
-      SaveWinNeuronInfo(W2IsTrue, Index2);
-
-
-
-      if CurrentEpoch = 1 then // Для первой эпохи никаких окон не нужно
-        Result := True
-      else
-      begin
-        // Для последующих эпох найденные нейроны должны относится к разным классам
-
-        //Result := W1IsTrue <> W2IsTrue;
-
-        // Внимание! Данное условие не улучшает качество обучения!???????????
-        // Первую половину времени обучения сеть идет "вразнос", но затем сходимость
-        // все-равно обеспечивается.
-
-
-        // Дополнительно требуется вхождение в заданное окно
-
-        // Поскольку Dm1 и Dm2 выступают в качестве делителей, то предотвращаем
-        // их равенство нулю.
-        if SameValue(Dm1, 0) then
-          Dm1 := 0.0000000001;
-        if SameValue(Dm2, 0) then
-          Dm2 := 0.0000000001;
-
-        //if W1IsTrue <> W2IsTrue
-
-        // ПРОВЕРЯЕМ, ВЫПОЛНЯЕТСЯ ЛИ УСЛОВИЕ
-        Result := min(Dm1 / Dm2, Dm2 / Dm1) > ((1 - e) / (1 + e));
-                                               // 0.6666666666     //0.53?
-        // Другими словами: условие выполняется, если разница между Dm1 и Dm2
-        // существенная (более чем в 2 раза)
-        // Условие НЕ ВЛИЯЕТ на качество обучения, однако оно СИЛЬНО влияет на
-        // скорость обучения (в 10-ки и 100-ни раз).
-
-      end;
-    finally
-      Dm.FreeMatrix;
-    end;
-  end;
-
-  procedure DoAttraction(W1, Xh: TMatrix; N, Index, CurrentEpoch: Integer; etta: Double; IsFull: Boolean);
-  var
-    I: Integer;
-    TmpValue: Extended;
-  begin
-    for I := 0 to N - 1 do
-    begin
-      TmpValue := W1.Elem[Index, I];
-      // Если предыдущий нейрон - коррекция то делаем небольшую коррекцию
-      if IsFull then // делаем полную коррекцию
-        W1.Elem[Index, I] := TmpValue + etta * (Xh.VecElem[I] - TmpValue)
-      else // Иначе делаем частичную коррекцию
-        W1.Elem[Index, I] := TmpValue + etta * (Xh.VecElem[I] - TmpValue) * 0.1
-    end;
-
-    // Заполняем статистический массив коррекции
-    WriteToStatArrays(True, IsFull, Index, CurrentEpoch - 1);
-  end;
-
-  procedure DoRepulsion(W1, Xh: TMatrix; N, Index, CurrentEpoch: Integer; etta: Double);
-  var
-    I: Integer;
-    TmpValue: Extended;
-  begin
-    for I := 0 to N - 1 do
-    begin
-      TmpValue := W1.Elem[Index, I];
-
-      // Данная формула "отталкивания" не соответствует формуле Кохонена,
-      // однако при таком подходе сходимость - ГАРАНТИРОВАНА
-      W1.Elem[Index, I] := TmpValue - etta * (Xh.VecElem[I] + TmpValue) * 0.2;
-    end;
-
-    // Заполняем статистический массив отталкивания
-    WriteToStatArrays(False, True, Index, CurrentEpoch - 1);
-  end;
-
 begin
   try
     Stop := False;
 
-    // Запоминаем время начала обучения
     BegTrainTime := Now;
 
     Fields['Trained'].Value := 0;
 
     TrainErrors := TDoubleMatrix.Create();
-    Fields['TrainErrors'] := TrainErrors; // Ошибка обучения
+    Fields['TrainErrors'] := TrainErrors;
 
-    QuantErrors := TDoubleMatrix.Create();
-    Fields['QuantErrors'] := QuantErrors; // Ошибка квантования
-
-    // Запоминаем порог штрафования
-    PenaltyThreshold := Fields['TrainDataInfo'].Fields['PenaltyThreshold'].ValueI;
-
-    // ВЕСА НЕЙРОНОВ СКРЫТОГО СЛОЯ
-    // W1.Cols = число входов каждого нейрона
-    // W1.Rows = число нейронов скрытого слоя
+    // Р’Р•РЎРђ РќР•Р™Р РћРќРћР’ РЎРљР Р«РўРћР“Рћ РЎР›РћРЇ
+    // W1.Cols = С‡РёСЃР»Рѕ РІС…РѕРґРѕРІ РєР°Р¶РґРѕРіРѕ РЅРµР№СЂРѕРЅР°
+    // W1.Rows = С‡РёСЃР»Рѕ РЅРµР№СЂРѕРЅРѕРІ СЃРєСЂС‹С‚РѕРіРѕ СЃР»РѕСЏ
     W1 := Layers[0].Fields['W'];
 
-    // ВЕСА НЕЙРОНОВ ВЫХОДНОГО СЛОЯ
+    // Р’Р•РЎРђ РќР•Р™Р РћРќРћР’ Р’Р«РҐРћР”РќРћР“Рћ РЎР›РћРЇ
     W2 := Layers[1].Fields['W'];
 
-    // Массив статистических данных
+    // РњР°СЃСЃРёРІ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРёС… РґР°РЅРЅС‹С…
     Stat := TRecordMatrix(Layers[0].Fields['Stat']);
 
-    // Подготовливаем статистические массивы для нейронов скрытого слоя
+    // РџРѕРґРіРѕС‚РѕРІР»РёРІР°РµРј СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРёРµ РјР°СЃСЃРёРІС‹ РґР»СЏ РЅРµР№СЂРѕРЅРѕРІ СЃРєСЂС‹С‚РѕРіРѕ СЃР»РѕСЏ
     PrepareStatArrays;
 
-    // МОНОТОННО ВОЗРАСТАЮЩАЯ ФУНКЦИЯ, МЕНЯЮЩАЯСЯ ОТ 0 ДО 1 ПО МЕРЕ ОБУЧЕНИЯ
-    // НА КАЖДОЙ ЭПОХЕ УВЕЛИЧИВАЕТСЯ НА ВЕЛИЧИНУ = 1/epochs
+    // РњРћРќРћРўРћРќРќРћ Р’РћР—Р РђРЎРўРђР®Р©РђРЇ Р¤РЈРќРљР¦РРЇ, РњР•РќРЇР®Р©РђРЇРЎРЇ РћРў 0 Р”Рћ 1 РџРћ РњР•Р Р• РћР‘РЈР§Р•РќРРЇ
+    // РќРђ РљРђР–Р”РћР™ Р­РџРћРҐР• РЈР’Р•Р›РР§РР’РђР•РўРЎРЇ РќРђ Р’Р•Р›РР§РРќРЈ = 1/epochs
     betta := 0;
 
-    // КОНСТАНТА, ВЫБИРАЕМАЯ ИЗ ДИАПАЗОНА ОТ 0.2 ДО 0.3
+    // РљРћРќРЎРўРђРќРўРђ, Р’Р«Р‘РР РђР•РњРђРЇ РР— Р”РРђРџРђР—РћРќРђ РћРў 0.2 Р”Рћ 0.3
     e := 0.2;
 
-    // МОНОТОННО УБЫВАЮЩАЯ ФУНКЦИЯ, МЕНЯЮЩАЯСЯ ОТ 1 ДО 0.2 ПО МЕРЕ ОБУЧЕНИЯ
-    // НА КАЖДОЙ ЭПОХЕ УМЕНЬШАЕТСЯ НА ВЕЛИЧИНУ = (1 - 0.2)/epochs
+    // РњРћРќРћРўРћРќРќРћ РЈР‘Р«Р’РђР®Р©РђРЇ Р¤РЈРќРљР¦РРЇ, РњР•РќРЇР®Р©РђРЇРЎРЇ РћРў 1 Р”Рћ 0.2 РџРћ РњР•Р Р• РћР‘РЈР§Р•РќРРЇ
+    // РќРђ РљРђР–Р”РћР™ Р­РџРћРҐР• РЈРњР•РќР¬РЁРђР•РўРЎРЇ РќРђ Р’Р•Р›РР§РРќРЈ = (1 - 0.2)/epochs
     etta := 1;
 
-    // ЧИСЛО ВХОДОВ НС
+    // Р§РРЎР›Рћ Р’РҐРћР”РћР’ РќРЎ
     N := TrainInput.Rows;
 
-    // Проверяем, правильно ли задан обучающий набор данных
+    // РџСЂРѕРІРµСЂСЏРµРј, РїСЂР°РІРёР»СЊРЅРѕ Р»Рё Р·Р°РґР°РЅ РѕР±СѓС‡Р°СЋС‰РёР№ РЅР°Р±РѕСЂ РґР°РЅРЅС‹С…
     if (N <> W1.Cols) or (W2.Rows <> TrainTarget.Rows) then
       raise EMatrixBadParams.Create(matSLVQWrongTrainDataSize);
 
-    // КОЛ-ВО ОБУЧАЮЩИХ ВЕКТОРОВ
+    // РљРћР›-Р’Рћ РћР‘РЈР§РђР®Р©РРҐ Р’Р•РљРўРћР РћР’
     VecCnt := TrainInput.Cols;
 
-    // ПРИСВАИВАЕМ ВСЕМ ВЕСАМ СЛОЯ КОХОНЕНА ОДИНАКОВОЕ ЗНАЧЕНИЕ
-    // W1(:,:) = 1 / sqrt(N); - не нужно! Это было сделано при создании ИНС LVQ
+    // РџР РРЎР’РђРР’РђР•Рњ Р’РЎР•Рњ Р’Р•РЎРђРњ РЎР›РћРЇ РљРћРҐРћРќР•РќРђ РћР”РРќРђРљРћР’РћР• Р—РќРђР§Р•РќРР•
+    // W1(:,:) = 1 / sqrt(N); - РЅРµ РЅСѓР¶РЅРѕ! Р­С‚Рѕ Р±С‹Р»Рѕ СЃРґРµР»Р°РЅРѕ РїСЂРё СЃРѕР·РґР°РЅРёРё РРќРЎ LVQ
 
     CurrentEpoch := 0;
 
 
-    Xh := TDoubleMatrix.Create(); // Будем хранить текущий вектор-столбец
+    Xh := TDoubleMatrix.Create(); // Р‘СѓРґРµРј С…СЂР°РЅРёС‚СЊ С‚РµРєСѓС‰РёР№ РІРµРєС‚РѕСЂ-СЃС‚РѕР»Р±РµС†
     try
       Xh.Resize([N, 1]);
 
-      MOut := TDoubleMatrix.Create(Xh); // Вектор. Хранит h-й столбец массива TrainTarget
+      Vec1 := TDoubleMatrix.Create(Xh); // Р”Р»СЏ РІСЂРµРјРµРЅРЅРѕРіРѕ С…СЂР°РЅРµРЅРёСЏ РІРµСЃРѕРІ РЅРµР№СЂРѕРЅР° РїРѕР±РµРґРёС‚РµР»СЏ 1
+      Vec1.Resize([1, N]);
+      Vec2 := TDoubleMatrix.Create(Xh); // Р”Р»СЏ РІСЂРµРјРµРЅРЅРѕРіРѕ С…СЂР°РЅРµРЅРёСЏ РІРµСЃРѕРІ РЅРµР№СЂРѕРЅР° РїРѕР±РµРґРёС‚РµР»СЏ 2
+      Vec2.Resize([N, 1]);
+
+      Dm := TDoubleMatrix.Create(Xh); // Р’РµРєС‚РѕСЂ Р­РІРєР»РёРґРѕРІС‹С… СЂР°СЃСЃС‚РѕСЏРЅРёР№
+      MOut := TDoubleMatrix.Create(Xh); // Р’РµРєС‚РѕСЂ. РҐСЂР°РЅРёС‚ h-Р№ СЃС‚РѕР»Р±РµС† РјР°СЃСЃРёРІР° TrainTarget
 
       MOut.Resize([TrainTarget.Rows, 1]);
 
-      TrainErrors.Resize([Epochs]); // Вектор ошибок обучения
+      TrainErrors.Resize([Epochs]); // Р’РµРєС‚РѕСЂ РѕС€РёР±РѕРє РѕР±СѓС‡РµРЅРёСЏ
       TrainErrors.Zeros;
 
-      QuantErrors.Resize([Epochs]); // Вектор ошибок квантования
-      QuantErrors.Zeros;
+      SumOut := TDoubleMatrix.Create(Xh); // Р‘СѓРґРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ РїСЂРё СЂР°СЃС‡РµС‚Рµ С†РµР»РµРІРѕР№ С„СѓРЅРєС†РёРё
 
-      CalcCurrentError; // Вычисляем ошибку обучения
+      CalcCurrentError; // Р’С‹С‡РёСЃР»СЏРµРј РѕС€РёР±РєСѓ РѕР±СѓС‰РµРЅРёСЏ
 
-      // Осуществляем вызов функции OnProgress - сообщаем о начале обучения
+      // РћСЃСѓС‰РµСЃС‚РІР»СЏРµРј РІС‹Р·РѕРІ С„СѓРЅРєС†РёРё OnProgress - СЃРѕРѕР±С‰Р°РµРј Рѕ РЅР°С‡Р°Р»Рµ РѕР±СѓС‡РµРЅРёСЏ
       if Assigned(OnProgress) then
-        OnProgress(Self, Goal, CurrentError, Eq, Epochs, 0, Stop);
+        OnProgress(Self, Goal, CurrentError, Epochs, 0, Stop);
 
-      // Досрочное завершение процедуры обучения по требованию пользователя
-      // Это нормальная ситуация, поэтому не нужно генерировать никаких исключений
+      // Р”РѕСЃСЂРѕС‡РЅРѕРµ Р·Р°РІРµСЂС€РµРЅРёРµ РїСЂРѕС†РµРґСѓСЂС‹ РѕР±СѓС‡РµРЅРёСЏ РїРѕ С‚СЂРµР±РѕРІР°РЅРёСЋ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+      // Р­С‚Рѕ РЅРѕСЂРјР°Р»СЊРЅР°СЏ СЃРёС‚СѓР°С†РёСЏ, РїРѕСЌС‚РѕРјСѓ РЅРµ РЅСѓР¶РЅРѕ РіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ РЅРёРєР°РєРёС… РёСЃРєР»СЋС‡РµРЅРёР№
       if Stop then Exit;
 
-      // Цикл по эпохам. Всего итераций = Epochs
+      // Р¦РёРєР» РїРѕ СЌРїРѕС…Р°Рј. Р’СЃРµРіРѕ РёС‚РµСЂР°С†РёР№ = Epochs
       while CurrentEpoch < Epochs do
       begin
         Inc(CurrentEpoch);
 
         betta := betta + 1/epochs;
 
-        // ВЫБИРАЕМ ОЧЕРЕДНОЙ ВЕКТОР Xh ИЗ ОБУЧАЮЩЕЙ ВЫБОРКИ
+        // Р’Р«Р‘РР РђР•Рњ РћР§Р•Р Р•Р”РќРћР™ Р’Р•РљРўРћР  Xh РР— РћР‘РЈР§РђР®Р©Р•Р™ Р’Р«Р‘РћР РљР
         for h := 0 to VecCnt - 1 do
         begin
-          // Копируем элементы очередного обучающего вектора в Xh одновременно с
-          // преобразованием элементов согласно метода выпусклой комбинации
-          // Convex Combination
+          // РљРѕРїРёСЂСѓРµРј СЌР»РµРјРµРЅС‚С‹ РѕС‡РµСЂРµРґРЅРѕРіРѕ РѕР±СѓС‡Р°СЋС‰РµРіРѕ РІРµРєС‚РѕСЂР° РІ Xh РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ СЃ
+          // РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµРј СЌР»РµРјРµРЅС‚РѕРІ СЃРѕРіР»Р°СЃРЅРѕ РјРµС‚РѕРґР° РІС‹РїСѓСЃРєР»РѕР№ РєРѕРјР±РёРЅР°С†РёРё
           for I := 0 to N - 1 do
           begin
             TmpValue := TrainInput.Elem[I, h];
             Xh.VecElem[I] := betta * TmpValue + (1 - betta) / sqrt(N);
           end;
 
-          // Запоминаем соответствующий h-й целевой вектор
+          // Р—Р°РїРѕРјРёРЅР°РµРј СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ h-Р№ С†РµР»РµРІРѕР№ РІРµРєС‚РѕСЂ
           for I := 0 to TrainTarget.Rows - 1 do
             MOut.VecElem[I] := TrainTarget.Elem[I, h];
 
-          // Отталкивание на первой эпохе НЕДОПУСТИМО
-          CanRepulsion := CurrentEpoch > 1;
+          // РћРџР Р•Р”Р•Р›Р•РќРР• Р РђРЎРЎРўРћРЇРќРР• РњР•Р–Р”РЈ Xh Р РљРђР–Р”Р«Рњ РќР•Р™Р РћРќРћРњ РР— W1
+          // Р’ СЂРµР·СѓР»СЊС‚Р°С‚Рµ РїРѕР»СѓС‡РёС‚СЃСЏ РІРµРєС‚РѕСЂ Dm СЃ С‡РёСЃР»РѕРј СЌР»РµРјРµРЅС‚РѕРІ = W1Cnt
+          CalcDist(W1, Xh, Dm);
 
-          // Определяем индексы наиболее близких нейронов и их принадлежность
-          // к соответствующим классам
-          FallIntoWindow := FindClosestNeuronsAndClasses(
-            W1, W2, MOut, Xh, e, CurrentEpoch, VecCnt, // Входные параметры
-            Index1, Index2, W1IsTrue, W2IsTrue);       // Выходные параметры
+          // РћРџР Р•Р”Р•Р›РЇР•Рњ 2 РњРРќРРњРђР›Р¬РќР«РҐ Р­Р›Р•РњР•РќРўРђ Р’ Dm Р РРҐ РРќР”Р•РљРЎР«
+          Dm.GetMinMaxValues(@Dm1, nil, @Index1, nil);
 
-          // Если попадает в заданное окно...
-          if FallIntoWindow then
+          // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅР°Р№РґРµРЅРЅРѕРјСѓ СЌР»РµРјРµРЅС‚Сѓ Р·Р°РІРµРґРѕРјРѕ Р±РѕР»СЊС€РѕРµ Р·РЅР°С‡РµРЅРёРµ
+          Dm.VecElem[Index1] := 10000000;
+
+          Dm.GetMinMaxValues(@Dm2, nil, @Index2, nil);
+
+          // РџРѕСЃРєРѕР»СЊРєСѓ Dm1 Рё Dm2 РІС‹СЃС‚СѓРїР°СЋС‚ РІ РєР°С‡РµСЃС‚РІРµ РґРµР»РёС‚РµР»РµР№, С‚Рѕ РїСЂРµРґРѕС‚РІСЂР°С‰Р°РµРј
+          // РёС… СЂР°РІРµРЅСЃС‚РІРѕ РЅСѓР»СЋ.
+          if SameValue(Dm1, 0) then
+            Dm1 := 0.0000000001;
+          if SameValue(Dm2, 0) then
+            Dm2 := 0.0000000001;
+
+          // =РћРїСЂРµРґРµР»СЏРµРј СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ РЅР°Р№РґРµРЅРЅС‹РјРё РЅРµР№СЂРѕРЅР°РјРё (29-10-2010) =
+          // РљРѕРїРёСЂСѓРµРј РІРµСЃР° 1-РіРѕ Рё 2-РіРѕ РЅРµР№СЂРѕРЅР° РїРѕР±РµРґРёС‚РµР»СЏ РІ Vec1 Рё Vec2
+          for I := 0 to N - 1 do
           begin
+            Vec1.VecElem[I] := W1.Elem[Index1, I];
+            Vec2.VecElem[I] := W1.Elem[Index2, I];
+          end;
+          CalcDist(Vec1, Vec2, Dm);
+          Dm12 := Dm.VecElem[0];
+          if SameValue(Dm12, 0) then
+            Dm12 := 0.0000000001;
 
-            // ЕСЛИ ВХОДИМ В ПРАВИЛЬНЫ КЛАСС, ТО ВЫПОЛНЯЕМ ПОЛНУЮ КОРРЕКЦИЮ
+          // РџР РћР’Р•Р РЇР•Рњ, Р’Р«РџРћР›РќРЇР•РўРЎРЇ Р›Р РЈРЎР›РћР’РР•
+          cond1 := min(Dm1 / Dm12, Dm2 / Dm1) > ((1 - e) / (1 + e));
+                                                 // 0.6666666666     //0.53?
+          // Р”СЂСѓРіРёРјРё СЃР»РѕРІР°РјРё: СѓСЃР»РѕРІРёРµ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ, РµСЃР»Рё СЂР°Р·РЅРёС†Р° РјРµР¶РґСѓ Dm1 Рё Dm2
+          // СЃСѓС‰РµСЃС‚РІРµРЅРЅР°СЏ (Р±РѕР»РµРµ С‡РµРј РІ 2 СЂР°Р·Р°)
+          // РЈСЃР»РѕРІРёРµ РќР• Р’Р›РРЇР•Рў РЅР° РєР°С‡РµСЃС‚РІРѕ РѕР±СѓС‡РµРЅРёСЏ, РѕРґРЅР°РєРѕ РѕРЅРѕ РЎРР›Р¬РќРћ РІР»РёСЏРµС‚ РЅР°
+          // СЃРєРѕСЂРѕСЃС‚СЊ РѕР±СѓС‡РµРЅРёСЏ (РІ 10-РєРё Рё 100-РЅРё СЂР°Р·).
+
+          //cond1 := True; // TODO: РЅСѓР¶РµРЅ Р»Рё СЌС‚РѕС‚ РєСЂРёС‚РµСЂРёР№ РЅР° СЃР°РјРѕРј РґРµР»Рµ?
+
+          if cond1 then
+          begin
+            // РџР РћР’Р•Р РЇР•Рњ, Р’РҐРћР”РЇРў Р›Р РќРђР™Р”Р•РќРќР«Р• Р’Р•РЎРђ Р’ РџР РђР’РР›Р¬РќР«Р™ РљР›РђРЎРЎ
+            // - РџР РћР’Р•Р РЇР•Рњ Р”Р›РЇ Index1. РћРџР Р•Р”Р•Р›РЇР•Рњ РќРћРњР•Р  Р’Р«РҐРћР”Рђ Р”Р›РЇ РўР•РљРЈР©Р•Р“Рћ
+            // РћР‘РЈР§РђР®Р©Р•Р“Рћ Р’Р•РљРўРћР Рђ (Рў.Р•. РќРћРњР•Р  РЎРўР РћРљР Р’ TrainTarget РЎ Р­Р›Р•РњР•РќРўРћРњ = "1")
+            MOut.GetMinMaxValues(nil, nil, nil, @XOut);
+            // РўРµРїРµСЂСЊ РЅР°Рј РёР·РІРµСЃС‚РЅРѕ, РІ РєР°РєРѕР№ СЃС‚СЂРѕРєРµ РјР°СЃСЃРёРІР° W2 РґРѕР»Р¶РЅР° Р±С‹С‚СЊ "1"
+            // Р•СЃР»Рё С‚Р°Рј РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ "1", Р·РЅР°С‡РёС‚ РЅРµР№СЂРѕРЅ РёР· W1 РІС…РѕРґРёС‚
+            // РІ РїСЂР°РІРёР»СЊРЅС‹Р№ РєР»Р°СЃСЃ.
+
+            W1IsTrue := W2.ElemI[Xout, Index1] = 1;
+
+            CanRepulsion := CurrentEpoch > 1;
+
+            // Р•РЎР›Р Р’РҐРћР”РРњ Р’ РџР РђР’РР›Р¬РќР« РљР›РђРЎРЎ, РўРћ Р’Р«РџРћР›РќРЇР•Рњ РџРћР›РќРЈР® РљРћР Р Р•РљР¦РР®
             if W1IsTrue then
             begin
-              DoAttraction(W1, Xh, N, Index1, CurrentEpoch, etta, True);
-            end else // ИНАЧЕ ВЫПОЛНЯЕМ ОТТАЛКИВАНИЕ (Repulsion)
-            begin
-              if CanRepulsion then // Не допускаем отторжение на первой эпохе
+              for I := 0 to N - 1 do
               begin
-                DoRepulsion(W1, Xh, N, Index2, CurrentEpoch, etta);
+                TmpValue := W1.Elem[Index1, I];
+                W1.Elem[Index1, I] := TmpValue + etta * (Xh.VecElem[I] - TmpValue);
+              end;
+
+              // Р—Р°РїРѕР»РЅСЏРµРј СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ РєРѕСЂСЂРµРєС†РёРё
+              WriteToStatArrays(True, True, Index1, CurrentEpoch - 1);
+            end else
+            begin
+              if CanRepulsion then // РќРµ РґРѕРїСѓСЃРєР°РµРј РѕС‚С‚РѕСЂР¶РµРЅРёРµ РЅР° РїРµСЂРІРѕР№ СЌРїРѕС…Рµ
+              begin
+                for I := 0 to N - 1 do
+                begin
+                  TmpValue := W1.Elem[Index1, I];
+                  W1.Elem[Index1, I] := TmpValue - etta * (Xh.VecElem[I] + TmpValue) * 0.2;
+                end;
+
+                // Р—Р°РїРѕР»РЅСЏРµРј СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ РѕС‚С‚Р°Р»РєРёРІР°РЅРёСЏ
+                WriteToStatArrays(False, True, Index1, CurrentEpoch - 1);
               end;
             end;
 
-            // ЕСЛИ ВХОДИМ В ПРАВИЛЬНЫ КЛАСС, ТО ВЫПОЛНЯЕМ КОРРЕКЦИЮ (полную или частичную)
+            // РџР РћР’Р•Р РЇР•Рњ РўРћ Р–Р• РЎРђРњРћР• Р”Р›РЇ Index2
+            W2IsTrue := W2.ElemI[Xout, Index2] = 1;
+
+            // Р•РЎР›Р Р’РҐРћР”РРњ Р’ РџР РђР’РР›Р¬РќР« РљР›РђРЎРЎ, РўРћ Р’Р«РџРћР›РќРЇР•Рњ РљРћР Р Р•РљР¦РР® (РїРѕР»РЅСѓСЋ РёР»Рё С‡Р°СЃС‚РёС‡РЅСѓСЋ)
             if W2IsTrue then
             begin
-              DoAttraction(W1, Xh, N, Index2, CurrentEpoch, etta, not W1IsTrue);
+              for I := 0 to N - 1 do
+              begin
+                TmpValue := W1.Elem[Index2, I];
+                // Р•СЃР»Рё РїСЂРµРґС‹РґСѓС‰РёР№ РЅРµР№СЂРѕРЅ - РєРѕСЂСЂРµРєС†РёСЏ С‚Рѕ РґРµР»Р°РµРј РЅРµР±РѕР»СЊС€СѓСЋ РєРѕСЂСЂРµРєС†РёСЋ
+                if W1IsTrue then
+                  W1.Elem[Index2, I] := TmpValue + etta * (Xh.VecElem[I] - TmpValue) * 0.1
+                else // РРЅР°С‡Рµ РґРµР»Р°РµРј РїРѕР»РЅСѓСЋ РєРѕСЂСЂРµРєС†РёСЋ
+                  W1.Elem[Index2, I] := TmpValue + etta * (Xh.VecElem[I] - TmpValue)
+              end;
+
+              // Р—Р°РїРѕР»РЅСЏРµРј СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ РєРѕСЂСЂРµРєС†РёРё
+              WriteToStatArrays(True, not W1IsTrue, Index2, CurrentEpoch - 1);
             end else
-            begin // ИНАЧЕ ВЫПОЛНЯЕМ ОТТАЛКИВАНИЕ (Repulsion)
+            begin // РРќРђР§Р• Р’Р«РџРћР›РќРЇР•Рњ РћРўРўРђР›РљРР’РђРќРР• (Repulsion)
               if CanRepulsion then
               begin
-                DoRepulsion(W1, Xh, N, Index2, CurrentEpoch, etta);
+                for I := 0 to N - 1 do
+                begin
+                  TmpValue := W1.Elem[Index2, I];
+                  W1.Elem[Index2, I] := TmpValue - etta * (Xh.VecElem[I] + TmpValue) * 0.2;
+                end;
+
+                // Р—Р°РїРѕР»РЅСЏРµРј СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ РѕС‚С‚Р°Р»РєРёРІР°РЅРёСЏ
+                WriteToStatArrays(False, True, Index2, CurrentEpoch - 1);
               end;
             end;
-          end; // if FallIntoWindow
+
+          end; // if cond1
         end; // for h := 1 to VecCnt do
 
-        // ВСЕ ОБУЧАЮЩИЕ ВЕКТОРА ПЕРЕБРАЛИ. ОЧЕРЕДНАЯ ЭПОХА ОБУЧЕНИЯ ЗАКОНЧЕНА
-        // ТЕПЕРЬ НУЖНО РАСЧИТАТЬ ПОГРЕШНОСТЬ ОБУЧЕНИЯ
+        // Р’РЎР• РћР‘РЈР§РђР®Р©РР• Р’Р•РљРўРћР Рђ РџР•Р Р•Р‘Р РђР›Р. РћР§Р•Р Р•Р”РќРђРЇ Р­РџРћРҐРђ РћР‘РЈР§Р•РќРРЇ Р—РђРљРћРќР§Р•РќРђ
+        // РўР•РџР•Р Р¬ РќРЈР–РќРћ Р РђРЎР§РРўРђРўР¬ РџРћР“Р Р•РЁРќРћРЎРўР¬ РћР‘РЈР§Р•РќРРЇ
 
 
-        // Расчитываем ошибку обучения (ошибка квантования)
-        // В простейшем случае - расчитываем количество входных векторов, которые
-        // были проанализированы с ошибкой.
+        // Р Р°СЃС‡РёС‚С‹РІР°РµРј РѕС€РёР±РєСѓ РѕР±СѓС‡РµРЅРёСЏ (РѕС€РёР±РєР° РєРІР°РЅС‚РѕРІР°РЅРёСЏ)
+        // Р’ РїСЂРѕСЃС‚РµР№С€РµРј СЃР»СѓС‡Р°Рµ - СЂР°СЃС‡РёС‚С‹РІР°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РІС…РѕРґРЅС‹С… РІРµРєС‚РѕСЂРѕРІ, РєРѕС‚РѕСЂС‹Рµ
+        // Р±С‹Р»Рё РїСЂРѕР°РЅР°Р»РёР·РёСЂРѕРІР°РЅС‹ СЃ РѕС€РёР±РєРѕР№.
         CalcCurrentError;
 
-        // Запоминаем текущую ошибку обучения
+        // Р—Р°РїРѕРјРёРЅР°РµРј С‚РµРєСѓС‰СѓСЋ РѕС€РёР±РєСѓ РѕР±СѓС‡РµРЅРёСЏ
         TrainErrors.VecElem[CurrentEpoch - 1] := CurrentError;
 
-        // Запоминаем текущую ошибку квантования
-        QuantErrors.VecElem[CurrentEpoch - 1] := Eq;
+        // TODO: РёСЃРєР»СЋС‡РёС‚РµР»СЊРЅРѕ РІ С†РµР»СЏС… РѕС‚Р»Р°РґРєРё!!! РЈРґР°Р»РёС‚СЊ!!!
+        //try
+        //Stat.SaveToBinaryFile('C:\TEMP\LVQStat.bin', 'Stat');
+        //except
+        //end;
 
-        // КОРРЕКТИРОВКА ПЕРЕМЕННОЙ etta
-        etta := etta - (1 - 0.2) / epochs;
+
+        // РљРћР Р Р•РљРўРР РћР’РљРђ РџР•Р Р•РњР•РќРќР«РҐ etta, betta
+        etta := etta - (1 - 0.2)/epochs;
 
         if Assigned(OnProgress) then
-          OnProgress(Self, Goal, CurrentError, Eq, Epochs, CurrentEpoch, Stop);
+          OnProgress(Self, Goal, CurrentError, Epochs, CurrentEpoch, Stop);
 
         if Stop then Exit;
       end; // for CurrentEpoch
 
-      // Отмечаем, что НС полностью обучена
+      // РћС‚РјРµС‡Р°РµРј, С‡С‚Рѕ РќРЎ РїРѕР»РЅРѕСЃС‚СЊСЋ РѕР±СѓС‡РµРЅР°
       Fields['Trained'].Value := 1;
 
       with TCharMatrix.Create() do
@@ -773,20 +612,14 @@ begin
         ThisNetwork.Fields['TrainError'] := ThisMatrix;
       end;
 
-      with TDoubleMatrix.Create() do
-      begin
-        Value := Eq;
-        ThisNetwork.Fields['QuantError'] := ThisMatrix;
-      end;
-
 
     finally
       try
         CalcCurrentError;
         if Assigned(OnProgress) then
-          OnProgress(Self, Goal, CurrentError, Eq, Epochs, CurrentEpoch, Stop);
+          OnProgress(Self, Goal, CurrentError, Epochs, CurrentEpoch, Stop);
       finally
-        // Уничтожаем Xh и все временные массивы
+        // РЈРЅРёС‡С‚РѕР¶Р°РµРј Xh Рё РІСЃРµ РІСЂРµРјРµРЅРЅС‹Рµ РјР°СЃСЃРёРІС‹
         Xh.FreeMatrix;
       end;
     end;

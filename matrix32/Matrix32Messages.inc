@@ -1,182 +1,157 @@
-{
-Copyright (c) 2005-2013, Loginov Dmitry Sergeevich
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-}
-
-{ *************************************************************************** }
+п»ї{ *************************************************************************** }
 {   Unit name: Matrix32Messages.inc                                           }
 {   Autor: Loginov Dmitry <loginov_d@inbox.ru>                                }
-{   Адрес сайта: http://loginovprojects.ru/                                   }
+{   http://matrix.kladovka.net.ru/                                            }
 {   Last update: 04.02.2008                                                   }
 { *************************************************************************** }
 
 {$IFDEF UseResStr}
 resourcestring
-  matSBaseWorkspace = 'Основная рабочая область';
-  matSWrongCoords = 'Ошибка доступа к элементу массива. Указаны недопустимые координаты элемента. ';
-  matSTryAccessToElem = 'Попытка обратиться к элементу с координатами (%s)';
-  matSBadInputData = 'Недопустимые входные данные';
-  matSErrorCreateArray = 'Невозможно создать массив с указанными размерами';
-  matSInvalidFloat = '''%s'' не является числом с плавающей точкой';
-  matSInvalidComplex = '''%s'' не является комплексным числом';
-  matSInvalidNumericSymbol = 'Символ ''%s'' не допустим для числовой последовательности';
-  matSOutOfMemory = 'Недостаточно памяти для выполнения операции. Требуется: %.0f байт. В наличии: %.0f байт.';
-  matSBadName = 'Указано недопустимое имя массива "%s"';
-  matSArraysNotAgree = 'Размеры массивов не согласованы';
-  matSIsNotSquareArray = 'Массив должен быть квадратной матрицей';
-  matSBinaryHeader = 'Matrix32 binaries version 2.0...'; // 32 байта
-  matSBadBINFile = 'Файл не соответствует формату системы Matrix32';
-  matSCanNotRenameFile = 'Не удалось переименовать файл "%s" в "%s"';
+  matSBaseWorkspace = 'РћСЃРЅРѕРІРЅР°СЏ СЂР°Р±РѕС‡Р°СЏ РѕР±Р»Р°СЃС‚СЊ';
+  matSWrongCoords = 'РћС€РёР±РєР° РґРѕСЃС‚СѓРїР° Рє СЌР»РµРјРµРЅС‚Сѓ РјР°СЃСЃРёРІР°. РЈРєР°Р·Р°РЅС‹ РЅРµРґРѕРїСѓСЃС‚РёРјС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ СЌР»РµРјРµРЅС‚Р°. ';
+  matSTryAccessToElem = 'РџРѕРїС‹С‚РєР° РѕР±СЂР°С‚РёС‚СЊСЃСЏ Рє СЌР»РµРјРµРЅС‚Сѓ СЃ РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё (%s)';
+  matSBadInputData = 'РќРµРґРѕРїСѓСЃС‚РёРјС‹Рµ РІС…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ';
+  matSErrorCreateArray = 'РќРµРІРѕР·РјРѕР¶РЅРѕ СЃРѕР·РґР°С‚СЊ РјР°СЃСЃРёРІ СЃ СѓРєР°Р·Р°РЅРЅС‹РјРё СЂР°Р·РјРµСЂР°РјРё';
+  matSInvalidFloat = '''%s'' РЅРµ СЏРІР»СЏРµС‚СЃСЏ С‡РёСЃР»РѕРј СЃ РїР»Р°РІР°СЋС‰РµР№ С‚РѕС‡РєРѕР№';
+  matSInvalidComplex = '''%s'' РЅРµ СЏРІР»СЏРµС‚СЃСЏ РєРѕРјРїР»РµРєСЃРЅС‹Рј С‡РёСЃР»РѕРј';
+  matSInvalidNumericSymbol = 'РЎРёРјРІРѕР» ''%s'' РЅРµ РґРѕРїСѓСЃС‚РёРј РґР»СЏ С‡РёСЃР»РѕРІРѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё';
+  matSOutOfMemory = 'РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РїР°РјСЏС‚Рё РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёРё. РўСЂРµР±СѓРµС‚СЃСЏ: %.0f Р±Р°Р№С‚.';
+  matSBadName = 'РЈРєР°Р·Р°РЅРѕ РЅРµРґРѕРїСѓСЃС‚РёРјРѕРµ РёРјСЏ РјР°СЃСЃРёРІР° "%s"';
+  matSArraysNotAgree = 'Р Р°Р·РјРµСЂС‹ РјР°СЃСЃРёРІРѕРІ РЅРµ СЃРѕРіР»Р°СЃРѕРІР°РЅС‹';
+  matSIsNotSquareArray = 'РњР°СЃСЃРёРІ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РєРІР°РґСЂР°С‚РЅРѕР№ РјР°С‚СЂРёС†РµР№';
+  matSBinaryHeader = 'Matrix32 binaries version 2.0...'; // 32 Р±Р°Р№С‚Р°
+  matSBadBINFile = 'Р¤Р°Р№Р» РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ С„РѕСЂРјР°С‚Сѓ СЃРёСЃС‚РµРјС‹ Matrix32';
+  matSCanNotRenameFile = 'РќРµ СѓРґР°Р»РѕСЃСЊ РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ С„Р°Р№Р» "%s" РІ "%s"';
   matSBadNameForBinFile =
-    'Невозможно загрузить или сохранить объект в файл, так как имя объекта не указано';
-  matSArrayNotFound = 'Не удалось найти массив с именем "%s"';
+    'РќРµРІРѕР·РјРѕР¶РЅРѕ Р·Р°РіСЂСѓР·РёС‚СЊ РёР»Рё СЃРѕС…СЂР°РЅРёС‚СЊ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», С‚Р°Рє РєР°Рє РёРјСЏ РѕР±СЉРµРєС‚Р° РЅРµ СѓРєР°Р·Р°РЅРѕ';
+  matSArrayNotFound = 'РќРµ СѓРґР°Р»РѕСЃСЊ РЅР°Р№С‚Рё РјР°СЃСЃРёРІ СЃ РёРјРµРЅРµРј "%s"';
   matSMatrixRangeOutOfStream =
-    'Невозможно прочитать данные из потока TStream, так как указатель ' +
-    'на конец объекта указывает за пределы потока';
-  matSDimensionError = 'Задано недопустимое значение размерности массива';
-  matSNoDimension = 'Указанной размерности не существует';
-  matSAbstractError = 'Попытка обращения к запрещенному для объекта методу';
-  matSWorkspace = 'Рабочая область';
-  matSIsNotMatrix = 'Операция применима только для 2-мерных массивов';
-  matSDifferentDimCount = 'Массивы имеют разные размерности';
-  matSMustHaveSameType = 'Массивы должны быть однотипными';
-  matSNotObjectType = 'Операция применима только для объектных массивов';
-  matSNotNumericType = 'Операция применима только для числовых массивов';
-  matSNotCellType = 'Операция применима только для массивов ячеек';
-  matSNotRecordType = 'Операция применима только для массивов записей';
-  matSNotDynamicType = 'Операция применима только для динамических массивов';
-  masSIsBadClassForOperation = 'Объект класса "%s" не допустим для выполнения операции';
-  matSUnknownType = 'Тип объекта не поддерживается';
-  matSFunctionError = 'При работе функции произошла ошибка';
-  matSIsCopyByRef = 'Нельзя изменять структуру массива, переданного по ссылке';
-  matSCanNotWriteCell = 'Невозможно изменить элемент массива ячеек, переданного по ссылке';
-  matSCanNotChangeSize = 'Невозможно изменить размеры массива';
-  matSArrayIsEmpty = 'Массив пуст';
-  matSDimNotValid = 'Недопустимая размерность массива';
-  matSElemWriteError = 'Ошибка записи элемента массива';
-  matSElemReadError = 'Ошибка чтения элемента массива';
-  matSIsRefToSelf = 'Попытка установить указатель на себя';
-  matSRefIsNotMatrix = 'Ссылка "0x%p" не соответствует существующему объекту TMatrix';
-  matSDimIntervError = 'Указанный интервал выходит за рамки значения размерности';
-  matSMatrixListIsSmall = 'В списке массивов указано слишком мало элементов';
-  matSClassNotFound = 'Класс "%s" не зарегистрирован';
-  matSAliasError = 'Задан недопустимый псевдоним класса массива';
-  matSIsRefToWorkspace = 'Попытка присвоить ссылку на объект "Рабочая область"';
-  matSRecordFieldIsNil = 'Поля с именем "%s" не существует!';
-  matSRecordIndexNotExists = 'Поля с индексом "%d" не существует!';
+    'РќРµРІРѕР·РјРѕР¶РЅРѕ РїСЂРѕС‡РёС‚Р°С‚СЊ РґР°РЅРЅС‹Рµ РёР· РїРѕС‚РѕРєР° TStream, С‚Р°Рє РєР°Рє СѓРєР°Р·Р°С‚РµР»СЊ ' +
+    'РЅР° РєРѕРЅРµС† РѕР±СЉРµРєС‚Р° СѓРєР°Р·С‹РІР°РµС‚ Р·Р° РїСЂРµРґРµР»С‹ РїРѕС‚РѕРєР°';
+  matSDimensionError = 'Р—Р°РґР°РЅРѕ РЅРµРґРѕРїСѓСЃС‚РёРјРѕРµ Р·РЅР°С‡РµРЅРёРµ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё РјР°СЃСЃРёРІР°';
+  matSNoDimension = 'РЈРєР°Р·Р°РЅРЅРѕР№ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚';
+  matSAbstractError = 'РџРѕРїС‹С‚РєР° РѕР±СЂР°С‰РµРЅРёСЏ Рє Р·Р°РїСЂРµС‰РµРЅРЅРѕРјСѓ РґР»СЏ РѕР±СЉРµРєС‚Р° РјРµС‚РѕРґСѓ';
+  matSWorkspace = 'Р Р°Р±РѕС‡Р°СЏ РѕР±Р»Р°СЃС‚СЊ';
+  matSIsNotMatrix = 'РћРїРµСЂР°С†РёСЏ РїСЂРёРјРµРЅРёРјР° С‚РѕР»СЊРєРѕ РґР»СЏ 2-РјРµСЂРЅС‹С… РјР°СЃСЃРёРІРѕРІ';
+  matSDifferentDimCount = 'РњР°СЃСЃРёРІС‹ РёРјРµСЋС‚ СЂР°Р·РЅС‹Рµ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё';
+  matSMustHaveSameType = 'РњР°СЃСЃРёРІС‹ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РѕРґРЅРѕС‚РёРїРЅС‹РјРё';
+  matSNotObjectType = 'РћРїРµСЂР°С†РёСЏ РїСЂРёРјРµРЅРёРјР° С‚РѕР»СЊРєРѕ РґР»СЏ РѕР±СЉРµРєС‚РЅС‹С… РјР°СЃСЃРёРІРѕРІ';
+  matSNotNumericType = 'РћРїРµСЂР°С†РёСЏ РїСЂРёРјРµРЅРёРјР° С‚РѕР»СЊРєРѕ РґР»СЏ С‡РёСЃР»РѕРІС‹С… РјР°СЃСЃРёРІРѕРІ';
+  matSNotCellType = 'РћРїРµСЂР°С†РёСЏ РїСЂРёРјРµРЅРёРјР° С‚РѕР»СЊРєРѕ РґР»СЏ РјР°СЃСЃРёРІРѕРІ СЏС‡РµРµРє';
+  matSNotRecordType = 'РћРїРµСЂР°С†РёСЏ РїСЂРёРјРµРЅРёРјР° С‚РѕР»СЊРєРѕ РґР»СЏ РјР°СЃСЃРёРІРѕРІ Р·Р°РїРёСЃРµР№';
+  matSNotDynamicType = 'РћРїРµСЂР°С†РёСЏ РїСЂРёРјРµРЅРёРјР° С‚РѕР»СЊРєРѕ РґР»СЏ РґРёРЅР°РјРёС‡РµСЃРєРёС… РјР°СЃСЃРёРІРѕРІ';
+  masSIsBadClassForOperation = 'РћР±СЉРµРєС‚ РєР»Р°СЃСЃР° "%s" РЅРµ РґРѕРїСѓСЃС‚РёРј РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёРё';
+  matSUnknownType = 'РўРёРї РѕР±СЉРµРєС‚Р° РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ';
+  matSFunctionError = 'РџСЂРё СЂР°Р±РѕС‚Рµ С„СѓРЅРєС†РёРё РїСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР°';
+  matSIsCopyByRef = 'РќРµР»СЊР·СЏ РёР·РјРµРЅСЏС‚СЊ СЃС‚СЂСѓРєС‚СѓСЂСѓ РјР°СЃСЃРёРІР°, РїРµСЂРµРґР°РЅРЅРѕРіРѕ РїРѕ СЃСЃС‹Р»РєРµ';
+  matSCanNotWriteCell = 'РќРµРІРѕР·РјРѕР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ СЌР»РµРјРµРЅС‚ РјР°СЃСЃРёРІР° СЏС‡РµРµРє, РїРµСЂРµРґР°РЅРЅРѕРіРѕ РїРѕ СЃСЃС‹Р»РєРµ';
+  matSCanNotChangeSize = 'РќРµРІРѕР·РјРѕР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ СЂР°Р·РјРµСЂС‹ РјР°СЃСЃРёРІР°';
+  matSArrayIsEmpty = 'РњР°СЃСЃРёРІ РїСѓСЃС‚';
+  matSDimNotValid = 'РќРµРґРѕРїСѓСЃС‚РёРјР°СЏ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РјР°СЃСЃРёРІР°';
+  matSElemWriteError = 'РћС€РёР±РєР° Р·Р°РїРёСЃРё СЌР»РµРјРµРЅС‚Р° РјР°СЃСЃРёРІР°';
+  matSElemReadError = 'РћС€РёР±РєР° С‡С‚РµРЅРёСЏ СЌР»РµРјРµРЅС‚Р° РјР°СЃСЃРёРІР°';
+  matSIsRefToSelf = 'РџРѕРїС‹С‚РєР° СѓСЃС‚Р°РЅРѕРІРёС‚СЊ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃРµР±СЏ';
+  matSRefIsNotMatrix = 'РЎСЃС‹Р»РєР° "0x%p" РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРјСѓ РѕР±СЉРµРєС‚Сѓ TMatrix';
+  matSDimIntervError = 'РЈРєР°Р·Р°РЅРЅС‹Р№ РёРЅС‚РµСЂРІР°Р» РІС‹С…РѕРґРёС‚ Р·Р° СЂР°РјРєРё Р·РЅР°С‡РµРЅРёСЏ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё';
+  matSMatrixListIsSmall = 'Р’ СЃРїРёСЃРєРµ РјР°СЃСЃРёРІРѕРІ СѓРєР°Р·Р°РЅРѕ СЃР»РёС€РєРѕРј РјР°Р»Рѕ СЌР»РµРјРµРЅС‚РѕРІ';
+  matSClassNotFound = 'РљР»Р°СЃСЃ "%s" РЅРµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅ';
+  matSAliasError = 'Р—Р°РґР°РЅ РЅРµРґРѕРїСѓСЃС‚РёРјС‹Р№ РїСЃРµРІРґРѕРЅРёРј РєР»Р°СЃСЃР° РјР°СЃСЃРёРІР°';
+  matSIsRefToWorkspace = 'РџРѕРїС‹С‚РєР° РїСЂРёСЃРІРѕРёС‚СЊ СЃСЃС‹Р»РєСѓ РЅР° РѕР±СЉРµРєС‚ "Р Р°Р±РѕС‡Р°СЏ РѕР±Р»Р°СЃС‚СЊ"';
+  matSRecordFieldIsNil = 'РџРѕР»СЏ СЃ РёРјРµРЅРµРј "%s" РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚!';
+  matSRecordIndexNotExists = 'РџРѕР»СЏ СЃ РёРЅРґРµРєСЃРѕРј "%d" РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚!';
 
-  matSBCDErrorString = 'Строка "%s" не содержит корректного двоично-десятичного значения';
-  matSBCDTooBigNumber = 'Двоично-десятичное число "%s" слишком большое';
-  matSBCDOverFlow = 'Двоично-десятичное число не вместилось в разрядную сетку';
+  matSBCDErrorString = 'РЎС‚СЂРѕРєР° "%s" РЅРµ СЃРѕРґРµСЂР¶РёС‚ РєРѕСЂСЂРµРєС‚РЅРѕРіРѕ РґРІРѕРёС‡РЅРѕ-РґРµСЃСЏС‚РёС‡РЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ';
+  matSBCDTooBigNumber = 'Р”РІРѕРёС‡РЅРѕ-РґРµСЃСЏС‚РёС‡РЅРѕРµ С‡РёСЃР»Рѕ "%s" СЃР»РёС€РєРѕРј Р±РѕР»СЊС€РѕРµ';
+  matSBCDOverFlow = 'Р”РІРѕРёС‡РЅРѕ-РґРµСЃСЏС‚РёС‡РЅРѕРµ С‡РёСЃР»Рѕ РЅРµ РІРјРµСЃС‚РёР»РѕСЃСЊ РІ СЂР°Р·СЂСЏРґРЅСѓСЋ СЃРµС‚РєСѓ';
   
-  matSOriginalErrorMsg = 'Сообщение об ошибке:';
-  matSExceptionClass = 'Класс исключения: ';
-  matSMatrixObjectInformation = 'Информация об объекте TMatrix:';
-  matSMatrixName = 'Имя объекта: ';
-  matSMatrixClassName = 'Класс объекта: %s = class(%s)';
-  matSMatrixUsedMemory = 'Занимаемая память: %d байт(а)';
-  matSMatrixElemSize = 'Размер элемента: %d байт(а)';
-  matSMatrixElemCount = 'Количество элементов массива: %d';
-  matSMatrixDimensions = 'Размеры массива (%d-D): %s';
-  matSMatrixFieldsCount = 'Число полей записи: %d';
-  matSMatrixChildrenCount = 'Число дочерних объектов: %d';
-  matSCatchStack = 'Цепь распространения ошибки:';
+  matSOriginalErrorMsg = 'РЎРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ:';
+  matSExceptionClass = 'РљР»Р°СЃСЃ РёСЃРєР»СЋС‡РµРЅРёСЏ: ';
+  matSMatrixObjectInformation = 'РРЅС„РѕСЂРјР°С†РёСЏ РѕР± РѕР±СЉРµРєС‚Рµ TMatrix:';
+  matSMatrixName = 'РРјСЏ РѕР±СЉРµРєС‚Р°: ';
+  matSMatrixClassName = 'РљР»Р°СЃСЃ РѕР±СЉРµРєС‚Р°: %s = class(%s)';
+  matSMatrixUsedMemory = 'Р—Р°РЅРёРјР°РµРјР°СЏ РїР°РјСЏС‚СЊ: %d Р±Р°Р№С‚(Р°)';
+  matSMatrixElemSize = 'Р Р°Р·РјРµСЂ СЌР»РµРјРµРЅС‚Р°: %d Р±Р°Р№С‚(Р°)';
+  matSMatrixElemCount = 'РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РјР°СЃСЃРёРІР°: %d';
+  matSMatrixDimensions = 'Р Р°Р·РјРµСЂС‹ РјР°СЃСЃРёРІР° (%d-D): %s';
+  matSMatrixFieldsCount = 'Р§РёСЃР»Рѕ РїРѕР»РµР№ Р·Р°РїРёСЃРё: %d';
+  matSMatrixChildrenCount = 'Р§РёСЃР»Рѕ РґРѕС‡РµСЂРЅРёС… РѕР±СЉРµРєС‚РѕРІ: %d';
+  matSCatchStack = 'Р¦РµРїСЊ СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅРµРЅРёСЏ РѕС€РёР±РєРё:';
   
-  matSLibraryNotLoaded = 'Библиотека "%s" не загружена!';
-  matSProcNotFoundInLibrary = 'Процедура "%s" не найдена в библиотеке "%s"';
+  matSLibraryNotLoaded = 'Р‘РёР±Р»РёРѕС‚РµРєР° "%s" РЅРµ Р·Р°РіСЂСѓР¶РµРЅР°!';
+  matSProcNotFoundInLibrary = 'РџСЂРѕС†РµРґСѓСЂР° "%s" РЅРµ РЅР°Р№РґРµРЅР° РІ Р±РёР±Р»РёРѕС‚РµРєРµ "%s"';
 {$ELSE}
 
 var
-  matSBaseWorkspace: string = 'Основная рабочая область';
-  matSWrongCoords: string = 'Ошибка доступа к элементу массива. Указаны недопустимые координаты элемента. ';
-  matSTryAccessToElem: string = 'Попытка обратиться к элементу с координатами (%s)';
-  matSBadInputData: string = 'Недопустимые входные данные';
-  matSErrorCreateArray: string = 'Невозможно создать массив с указанными размерами';
-  matSInvalidFloat: string = '''%s'' не является числом с плавающей точкой';
-  matSInvalidComplex: string = '''%s'' не является комплексным числом';
-  matSInvalidNumericSymbol: string = 'Символ ''%s'' не допустим для числовой последовательности';
-  matSOutOfMemory: string = 'Недостаточно памяти для выполнения операции. Требуется: %.0f байт. В наличии: %.0f байт.';
-  matSBadName: string = 'Указано недопустимое имя массива "%s"';
-  matSArraysNotAgree: string = 'Размеры массивов не согласованы';
-  matSIsNotSquareArray: string = 'Массив должен быть квадратной матрицей';
-  matSBinaryHeader: string = 'Matrix32 binaries version 2.0...'; // 32 байта
-  matSBadBINFile: string = 'Файл не соответствует формату системы Matrix32';
-  matSCanNotRenameFile: string = 'Не удалось переименовать файл "%s" в "%s"';
+  matSBaseWorkspace: string = 'РћСЃРЅРѕРІРЅР°СЏ СЂР°Р±РѕС‡Р°СЏ РѕР±Р»Р°СЃС‚СЊ';
+  matSWrongCoords: string = 'РћС€РёР±РєР° РґРѕСЃС‚СѓРїР° Рє СЌР»РµРјРµРЅС‚Сѓ РјР°СЃСЃРёРІР°. РЈРєР°Р·Р°РЅС‹ РЅРµРґРѕРїСѓСЃС‚РёРјС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ СЌР»РµРјРµРЅС‚Р°. ';
+  matSTryAccessToElem: string = 'РџРѕРїС‹С‚РєР° РѕР±СЂР°С‚РёС‚СЊСЃСЏ Рє СЌР»РµРјРµРЅС‚Сѓ СЃ РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё (%s)';
+  matSBadInputData: string = 'РќРµРґРѕРїСѓСЃС‚РёРјС‹Рµ РІС…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ';
+  matSErrorCreateArray: string = 'РќРµРІРѕР·РјРѕР¶РЅРѕ СЃРѕР·РґР°С‚СЊ РјР°СЃСЃРёРІ СЃ СѓРєР°Р·Р°РЅРЅС‹РјРё СЂР°Р·РјРµСЂР°РјРё';
+  matSInvalidFloat: string = '''%s'' РЅРµ СЏРІР»СЏРµС‚СЃСЏ С‡РёСЃР»РѕРј СЃ РїР»Р°РІР°СЋС‰РµР№ С‚РѕС‡РєРѕР№';
+  matSInvalidComplex: string = '''%s'' РЅРµ СЏРІР»СЏРµС‚СЃСЏ РєРѕРјРїР»РµРєСЃРЅС‹Рј С‡РёСЃР»РѕРј';
+  matSInvalidNumericSymbol: string = 'РЎРёРјРІРѕР» ''%s'' РЅРµ РґРѕРїСѓСЃС‚РёРј РґР»СЏ С‡РёСЃР»РѕРІРѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё';
+  matSOutOfMemory: string = 'РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РїР°РјСЏС‚Рё РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёРё. РўСЂРµР±СѓРµС‚СЃСЏ: %.0f Р±Р°Р№С‚.';
+  matSBadName: string = 'РЈРєР°Р·Р°РЅРѕ РЅРµРґРѕРїСѓСЃС‚РёРјРѕРµ РёРјСЏ РјР°СЃСЃРёРІР° "%s"';
+  matSArraysNotAgree: string = 'Р Р°Р·РјРµСЂС‹ РјР°СЃСЃРёРІРѕРІ РЅРµ СЃРѕРіР»Р°СЃРѕРІР°РЅС‹';
+  matSIsNotSquareArray: string = 'РњР°СЃСЃРёРІ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РєРІР°РґСЂР°С‚РЅРѕР№ РјР°С‚СЂРёС†РµР№';
+  matSBinaryHeader: string = 'Matrix32 binaries version 2.0...'; // 32 Р±Р°Р№С‚Р°
+  matSBadBINFile: string = 'Р¤Р°Р№Р» РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ С„РѕСЂРјР°С‚Сѓ СЃРёСЃС‚РµРјС‹ Matrix32';
+  matSCanNotRenameFile: string = 'РќРµ СѓРґР°Р»РѕСЃСЊ РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ С„Р°Р№Р» "%s" РІ "%s"';
   matSBadNameForBinFile: string =
-    'Невозможно загрузить или сохранить объект в файл, так как имя объекта не указано';
-  matSArrayNotFound: string = 'Не удалось найти массив с именем "%s"';
+    'РќРµРІРѕР·РјРѕР¶РЅРѕ Р·Р°РіСЂСѓР·РёС‚СЊ РёР»Рё СЃРѕС…СЂР°РЅРёС‚СЊ РѕР±СЉРµРєС‚ РІ С„Р°Р№Р», С‚Р°Рє РєР°Рє РёРјСЏ РѕР±СЉРµРєС‚Р° РЅРµ СѓРєР°Р·Р°РЅРѕ';
+  matSArrayNotFound: string = 'РќРµ СѓРґР°Р»РѕСЃСЊ РЅР°Р№С‚Рё РјР°СЃСЃРёРІ СЃ РёРјРµРЅРµРј "%s"';
   matSMatrixRangeOutOfStream: string =
-    'Невозможно прочитать данные из потока TStream, так как указатель ' +
-    'на конец объекта указывает за пределы потока';
-  matSDimensionError: string = 'Задано недопустимое значение размерности массива';
-  matSNoDimension: string = 'Указанной размерности не существует';
-  matSAbstractError: string = 'Попытка обращения к запрещенному для объекта методу';
-  matSWorkspace: string = 'Рабочая область';
-  matSIsNotMatrix: string = 'Операция применима только для 2-мерных массивов';
-  matSDifferentDimCount: string = 'Массивы имеют разные размерности';
-  matSMustHaveSameType: string = 'Массивы должны быть однотипными';
-  matSNotObjectType: string = 'Операция применима только для объектных массивов';
-  matSNotNumericType: string = 'Операция применима только для числовых массивов';
-  matSNotCellType: string = 'Операция применима только для массивов ячеек';
-  matSNotRecordType: string = 'Операция применима только для массивов записей';
-  matSNotDynamicType: string = 'Операция применима только для динамических массивов';
-  masSIsBadClassForOperation: string = 'Объект класса "%s" не допустим для выполнения операции';
-  matSUnknownType: string = 'Тип объекта не поддерживается';
-  matSFunctionError: string = 'При работе функции произошла ошибка';
-  matSIsCopyByRef: string = 'Нельзя изменять структуру массива, переданного по ссылке';
-  matSCanNotWriteCell: string = 'Невозможно изменить элемент массива ячеек, переданного по ссылке';
-  matSCanNotChangeSize: string = 'Невозможно изменить размеры массива';
-  matSArrayIsEmpty: string = 'Массив пуст';
-  matSDimNotValid: string = 'Недопустимая размерность массива';
-  matSElemWriteError: string = 'Ошибка записи элемента массива';
-  matSElemReadError: string = 'Ошибка чтения элемента массива';
-  matSIsRefToSelf: string = 'Попытка установить указатель на себя';
-  matSRefIsNotMatrix: string = 'Ссылка "0x%p" не соответствует существующему объекту TMatrix';
-  matSDimIntervError: string = 'Указанный интервал выходит за рамки значения размерности';
-  matSMatrixListIsSmall: string = 'В списке массивов указано слишком мало элементов';
-  matSClassNotFound: string = 'Класс "%s" не зарегистрирован';
-  matSAliasError: string = 'Задан недопустимый псевдоним класса массива';
-  matSIsRefToWorkspace: string = 'Попытка присвоить ссылку на объект "Рабочая область"';
-  matSRecordFieldIsNil: string = 'Поля с именем "%s" не существует!';
-  matSRecordIndexNotExists: string = 'Поля с индексом "%d" не существует!';
+    'РќРµРІРѕР·РјРѕР¶РЅРѕ РїСЂРѕС‡РёС‚Р°С‚СЊ РґР°РЅРЅС‹Рµ РёР· РїРѕС‚РѕРєР° TStream, С‚Р°Рє РєР°Рє СѓРєР°Р·Р°С‚РµР»СЊ ' +
+    'РЅР° РєРѕРЅРµС† РѕР±СЉРµРєС‚Р° СѓРєР°Р·С‹РІР°РµС‚ Р·Р° РїСЂРµРґРµР»С‹ РїРѕС‚РѕРєР°';
+  matSDimensionError: string = 'Р—Р°РґР°РЅРѕ РЅРµРґРѕРїСѓСЃС‚РёРјРѕРµ Р·РЅР°С‡РµРЅРёРµ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё РјР°СЃСЃРёРІР°';
+  matSNoDimension: string = 'РЈРєР°Р·Р°РЅРЅРѕР№ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚';
+  matSAbstractError: string = 'РџРѕРїС‹С‚РєР° РѕР±СЂР°С‰РµРЅРёСЏ Рє Р·Р°РїСЂРµС‰РµРЅРЅРѕРјСѓ РґР»СЏ РѕР±СЉРµРєС‚Р° РјРµС‚РѕРґСѓ';
+  matSWorkspace: string = 'Р Р°Р±РѕС‡Р°СЏ РѕР±Р»Р°СЃС‚СЊ';
+  matSIsNotMatrix: string = 'РћРїРµСЂР°С†РёСЏ РїСЂРёРјРµРЅРёРјР° С‚РѕР»СЊРєРѕ РґР»СЏ 2-РјРµСЂРЅС‹С… РјР°СЃСЃРёРІРѕРІ';
+  matSDifferentDimCount: string = 'РњР°СЃСЃРёРІС‹ РёРјРµСЋС‚ СЂР°Р·РЅС‹Рµ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё';
+  matSMustHaveSameType: string = 'РњР°СЃСЃРёРІС‹ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РѕРґРЅРѕС‚РёРїРЅС‹РјРё';
+  matSNotObjectType: string = 'РћРїРµСЂР°С†РёСЏ РїСЂРёРјРµРЅРёРјР° С‚РѕР»СЊРєРѕ РґР»СЏ РѕР±СЉРµРєС‚РЅС‹С… РјР°СЃСЃРёРІРѕРІ';
+  matSNotNumericType: string = 'РћРїРµСЂР°С†РёСЏ РїСЂРёРјРµРЅРёРјР° С‚РѕР»СЊРєРѕ РґР»СЏ С‡РёСЃР»РѕРІС‹С… РјР°СЃСЃРёРІРѕРІ';
+  matSNotCellType: string = 'РћРїРµСЂР°С†РёСЏ РїСЂРёРјРµРЅРёРјР° С‚РѕР»СЊРєРѕ РґР»СЏ РјР°СЃСЃРёРІРѕРІ СЏС‡РµРµРє';
+  matSNotRecordType: string = 'РћРїРµСЂР°С†РёСЏ РїСЂРёРјРµРЅРёРјР° С‚РѕР»СЊРєРѕ РґР»СЏ РјР°СЃСЃРёРІРѕРІ Р·Р°РїРёСЃРµР№';
+  matSNotDynamicType: string = 'РћРїРµСЂР°С†РёСЏ РїСЂРёРјРµРЅРёРјР° С‚РѕР»СЊРєРѕ РґР»СЏ РґРёРЅР°РјРёС‡РµСЃРєРёС… РјР°СЃСЃРёРІРѕРІ';
+  masSIsBadClassForOperation: string = 'РћР±СЉРµРєС‚ РєР»Р°СЃСЃР° "%s" РЅРµ РґРѕРїСѓСЃС‚РёРј РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёРё';
+  matSUnknownType: string = 'РўРёРї РѕР±СЉРµРєС‚Р° РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ';
+  matSFunctionError: string = 'РџСЂРё СЂР°Р±РѕС‚Рµ С„СѓРЅРєС†РёРё РїСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР°';
+  matSIsCopyByRef: string = 'РќРµР»СЊР·СЏ РёР·РјРµРЅСЏС‚СЊ СЃС‚СЂСѓРєС‚СѓСЂСѓ РјР°СЃСЃРёРІР°, РїРµСЂРµРґР°РЅРЅРѕРіРѕ РїРѕ СЃСЃС‹Р»РєРµ';
+  matSCanNotWriteCell: string = 'РќРµРІРѕР·РјРѕР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ СЌР»РµРјРµРЅС‚ РјР°СЃСЃРёРІР° СЏС‡РµРµРє, РїРµСЂРµРґР°РЅРЅРѕРіРѕ РїРѕ СЃСЃС‹Р»РєРµ';
+  matSCanNotChangeSize: string = 'РќРµРІРѕР·РјРѕР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ СЂР°Р·РјРµСЂС‹ РјР°СЃСЃРёРІР°';
+  matSArrayIsEmpty: string = 'РњР°СЃСЃРёРІ РїСѓСЃС‚';
+  matSDimNotValid: string = 'РќРµРґРѕРїСѓСЃС‚РёРјР°СЏ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РјР°СЃСЃРёРІР°';
+  matSElemWriteError: string = 'РћС€РёР±РєР° Р·Р°РїРёСЃРё СЌР»РµРјРµРЅС‚Р° РјР°СЃСЃРёРІР°';
+  matSElemReadError: string = 'РћС€РёР±РєР° С‡С‚РµРЅРёСЏ СЌР»РµРјРµРЅС‚Р° РјР°СЃСЃРёРІР°';
+  matSIsRefToSelf: string = 'РџРѕРїС‹С‚РєР° СѓСЃС‚Р°РЅРѕРІРёС‚СЊ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃРµР±СЏ';
+  matSRefIsNotMatrix: string = 'РЎСЃС‹Р»РєР° "0x%p" РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРјСѓ РѕР±СЉРµРєС‚Сѓ TMatrix';
+  matSDimIntervError: string = 'РЈРєР°Р·Р°РЅРЅС‹Р№ РёРЅС‚РµСЂРІР°Р» РІС‹С…РѕРґРёС‚ Р·Р° СЂР°РјРєРё Р·РЅР°С‡РµРЅРёСЏ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё';
+  matSMatrixListIsSmall: string = 'Р’ СЃРїРёСЃРєРµ РјР°СЃСЃРёРІРѕРІ СѓРєР°Р·Р°РЅРѕ СЃР»РёС€РєРѕРј РјР°Р»Рѕ СЌР»РµРјРµРЅС‚РѕРІ';
+  matSClassNotFound: string = 'РљР»Р°СЃСЃ "%s" РЅРµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅ';
+  matSAliasError: string = 'Р—Р°РґР°РЅ РЅРµРґРѕРїСѓСЃС‚РёРјС‹Р№ РїСЃРµРІРґРѕРЅРёРј РєР»Р°СЃСЃР° РјР°СЃСЃРёРІР°';
+  matSIsRefToWorkspace: string = 'РџРѕРїС‹С‚РєР° РїСЂРёСЃРІРѕРёС‚СЊ СЃСЃС‹Р»РєСѓ РЅР° РѕР±СЉРµРєС‚ "Р Р°Р±РѕС‡Р°СЏ РѕР±Р»Р°СЃС‚СЊ"';
+  matSRecordFieldIsNil: string = 'РџРѕР»СЏ СЃ РёРјРµРЅРµРј "%s" РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚!';
+  matSRecordIndexNotExists: string = 'РџРѕР»СЏ СЃ РёРЅРґРµРєСЃРѕРј "%d" РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚!';
 
-  matSBCDErrorString: string = 'Строка "%s" не содержит корректного двоично-десятичного значения';
-  matSBCDTooBigNumber: string = 'Двоично-десятичное число "%s" слишком большое';
-  matSBCDOverFlow: string = 'Двоично-десятичное число не вместилось в разрядную сетку';
+  matSBCDErrorString: string = 'РЎС‚СЂРѕРєР° "%s" РЅРµ СЃРѕРґРµСЂР¶РёС‚ РєРѕСЂСЂРµРєС‚РЅРѕРіРѕ РґРІРѕРёС‡РЅРѕ-РґРµСЃСЏС‚РёС‡РЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ';
+  matSBCDTooBigNumber: string = 'Р”РІРѕРёС‡РЅРѕ-РґРµСЃСЏС‚РёС‡РЅРѕРµ С‡РёСЃР»Рѕ "%s" СЃР»РёС€РєРѕРј Р±РѕР»СЊС€РѕРµ';
+  matSBCDOverFlow: string = 'Р”РІРѕРёС‡РЅРѕ-РґРµСЃСЏС‚РёС‡РЅРѕРµ С‡РёСЃР»Рѕ РЅРµ РІРјРµСЃС‚РёР»РѕСЃСЊ РІ СЂР°Р·СЂСЏРґРЅСѓСЋ СЃРµС‚РєСѓ';
 
-  matSOriginalErrorMsg: string = 'Сообщение об ошибке:';
-  matSExceptionClass: string = 'Класс исключения: ';
-  matSMatrixObjectInformation: string = 'Информация об объекте TMatrix:';
-  matSMatrixName: string = 'Имя объекта: ';
-  matSMatrixClassName: string = 'Класс объекта: %s = class(%s)';
-  matSMatrixUsedMemory: string = 'Занимаемая память: %d байт(а)';
-  matSMatrixElemSize: string = 'Размер элемента: %d байт(а)';
-  matSMatrixElemCount: string = 'Количество элементов массива: %d';
-  matSMatrixDimensions: string = 'Размеры массива (%d-D): %s';
-  matSMatrixFieldsCount: string = 'Число полей записи: %d';
-  matSMatrixChildrenCount: string = 'Число дочерних объектов: %d';
-  matSCatchStack: string = 'Цепь распространения ошибки:';
+  matSOriginalErrorMsg: string = 'РЎРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ:';
+  matSExceptionClass: string = 'РљР»Р°СЃСЃ РёСЃРєР»СЋС‡РµРЅРёСЏ: ';
+  matSMatrixObjectInformation: string = 'РРЅС„РѕСЂРјР°С†РёСЏ РѕР± РѕР±СЉРµРєС‚Рµ TMatrix:';
+  matSMatrixName: string = 'РРјСЏ РѕР±СЉРµРєС‚Р°: ';
+  matSMatrixClassName: string = 'РљР»Р°СЃСЃ РѕР±СЉРµРєС‚Р°: %s = class(%s)';
+  matSMatrixUsedMemory: string = 'Р—Р°РЅРёРјР°РµРјР°СЏ РїР°РјСЏС‚СЊ: %d Р±Р°Р№С‚(Р°)';
+  matSMatrixElemSize: string = 'Р Р°Р·РјРµСЂ СЌР»РµРјРµРЅС‚Р°: %d Р±Р°Р№С‚(Р°)';
+  matSMatrixElemCount: string = 'РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РјР°СЃСЃРёРІР°: %d';
+  matSMatrixDimensions: string = 'Р Р°Р·РјРµСЂС‹ РјР°СЃСЃРёРІР° (%d-D): %s';
+  matSMatrixFieldsCount: string = 'Р§РёСЃР»Рѕ РїРѕР»РµР№ Р·Р°РїРёСЃРё: %d';
+  matSMatrixChildrenCount: string = 'Р§РёСЃР»Рѕ РґРѕС‡РµСЂРЅРёС… РѕР±СЉРµРєС‚РѕРІ: %d';
+  matSCatchStack: string = 'Р¦РµРїСЊ СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅРµРЅРёСЏ РѕС€РёР±РєРё:';
   
-  matSLibraryNotLoaded: string = 'Библиотека "%s" не загружена!';
-  matSProcNotFoundInLibrary: string = 'Процедура "%s" не найдена в библиотеке "%s"';
+  matSLibraryNotLoaded: string = 'Р‘РёР±Р»РёРѕС‚РµРєР° "%s" РЅРµ Р·Р°РіСЂСѓР¶РµРЅР°!';
+  matSProcNotFoundInLibrary: string = 'РџСЂРѕС†РµРґСѓСЂР° "%s" РЅРµ РЅР°Р№РґРµРЅР° РІ Р±РёР±Р»РёРѕС‚РµРєРµ "%s"';
 {$ENDIF}

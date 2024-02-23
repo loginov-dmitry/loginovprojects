@@ -1,47 +1,26 @@
-{
-Copyright (c) 2005-2013, Loginov Dmitry Sergeevich
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-}
+п»ї{$IFDEF FPC}
+{$MODE DELPHI}{$H+}{$CODEPAGE UTF8}
+{$ENDIF}
 
 { *************************************************************************** }
 {                                                                             }
 {                                                                             }
 {                                                                             }
-{ Модуль MatrixTranslate - модуль перевода сообщений системы Matrix32         }
-{ (c) 2005 - 2007 Логинов Дмитрий Сергеевич                                   }
-{ Последнее обновление: 10.08.2007                                            }
-{ Адрес сайта: http://loginovprojects.ru/                                     }
+{ РњРѕРґСѓР»СЊ MatrixTranslate - РјРѕРґСѓР»СЊ РїРµСЂРµРІРѕРґР° СЃРѕРѕР±С‰РµРЅРёР№ СЃРёСЃС‚РµРјС‹ Matrix32         }
+{ (c) 2005 - 2007 Р›РѕРіРёРЅРѕРІ Р”РјРёС‚СЂРёР№ РЎРµСЂРіРµРµРІРёС‡                                   }
+{ РџРѕСЃР»РµРґРЅРµРµ РѕР±РЅРѕРІР»РµРЅРёРµ: 10.08.2007                                            }
+{ РђРґСЂРµСЃ СЃР°Р№С‚Р°: http://matrix.kladovka.net.ru/                                 }
 { e-mail: loginov_d@inbox.ru                                                  }
 {                                                                             }
 { *************************************************************************** }
 
-{В данном модуле есть перевод только тех сообщений, которые присутствуют в
- модуле Matrix32.pas. Переводы других модулей вы можете выполнять сами. Можете
- добавить их прямо сюда. Модуль работает с переводами, хранящимися в ini-файлах.
- В дистрибутиве системы вы можете найти файлы Russian.lng и English.lng.
- Перевод в них находится внутри секции [MatrixMessages]. Это сделано в основном
- для нужд программистов, использующих возможности модуля LangReader для
- локализации своих приложений}
+{Р’ РґР°РЅРЅРѕРј РјРѕРґСѓР»Рµ РµСЃС‚СЊ РїРµСЂРµРІРѕРґ С‚РѕР»СЊРєРѕ С‚РµС… СЃРѕРѕР±С‰РµРЅРёР№, РєРѕС‚РѕСЂС‹Рµ РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‚ РІ
+ РјРѕРґСѓР»Рµ Matrix32.pas. РџРµСЂРµРІРѕРґС‹ РґСЂСѓРіРёС… РјРѕРґСѓР»РµР№ РІС‹ РјРѕР¶РµС‚Рµ РІС‹РїРѕР»РЅСЏС‚СЊ СЃР°РјРё. РњРѕР¶РµС‚Рµ
+ РґРѕР±Р°РІРёС‚СЊ РёС… РїСЂСЏРјРѕ СЃСЋРґР°. РњРѕРґСѓР»СЊ СЂР°Р±РѕС‚Р°РµС‚ СЃ РїРµСЂРµРІРѕРґР°РјРё, С…СЂР°РЅСЏС‰РёРјРёСЃСЏ РІ ini-С„Р°Р№Р»Р°С….
+ Р’ РґРёСЃС‚СЂРёР±СѓС‚РёРІРµ СЃРёСЃС‚РµРјС‹ РІС‹ РјРѕР¶РµС‚Рµ РЅР°Р№С‚Рё С„Р°Р№Р»С‹ Russian.lng Рё English.lng.
+ РџРµСЂРµРІРѕРґ РІ РЅРёС… РЅР°С…РѕРґРёС‚СЃСЏ РІРЅСѓС‚СЂРё СЃРµРєС†РёРё [MatrixMessages]. Р­С‚Рѕ СЃРґРµР»Р°РЅРѕ РІ РѕСЃРЅРѕРІРЅРѕРј
+ РґР»СЏ РЅСѓР¶Рґ РїСЂРѕРіСЂР°РјРјРёСЃС‚РѕРІ, РёСЃРїРѕР»СЊР·СѓСЋС‰РёС… РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РјРѕРґСѓР»СЏ LangReader РґР»СЏ
+ Р»РѕРєР°Р»РёР·Р°С†РёРё СЃРІРѕРёС… РїСЂРёР»РѕР¶РµРЅРёР№}
 unit MatrixTranslate;
 
 {$Include MatrixCommon.inc}
@@ -51,8 +30,8 @@ interface
 uses
   Classes, SysUtils, Matrix32, IniFiles;
 
-{Выполняет перевод всех заданных в теле процедуры текстовых сообщений системы
- Matrix32. LangFileName - имя языкового файла. MatrixSection - имя секции}
+{Р’С‹РїРѕР»РЅСЏРµС‚ РїРµСЂРµРІРѕРґ РІСЃРµС… Р·Р°РґР°РЅРЅС‹С… РІ С‚РµР»Рµ РїСЂРѕС†РµРґСѓСЂС‹ С‚РµРєСЃС‚РѕРІС‹С… СЃРѕРѕР±С‰РµРЅРёР№ СЃРёСЃС‚РµРјС‹
+ Matrix32. LangFileName - РёРјСЏ СЏР·С‹РєРѕРІРѕРіРѕ С„Р°Р№Р»Р°. MatrixSection - РёРјСЏ СЃРµРєС†РёРё}
 procedure TranslateMatrixMessages(const LangFileName: string;
   const MatrixSection: string = 'MatrixMessages');
 
