@@ -33,7 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {                                                                             }
 { Модуль LDSLogger - модуль для ведения логов                                 }
 { (c) 2007-2024 Логинов Дмитрий Сергеевич                                     }
-{ Последнее обновление: 23.02.2024                                            }
+{ Последнее обновление: 30.09.2024                                            }
 { Адрес сайта: http://www.loginovprojects.ru/                                 }
 { e-mail: loginov_d@inbox.ru                                                  }
 {                                                                             }
@@ -173,25 +173,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  например, с помощью авторской библиотеки LangReader.pas}
 {.$DEFINE UseResStr}
 
-{Определяет, должен ли созданный объект "мьютекс" быть эксклюзивным (т.е. работать
- только для одной учетной записи), либо с ним могут работать приложения, запущенные
- одновременно под разными учетными записями пользователей. По умолчанию директива
- отключена, т.е. мьютекс находится в общем доступе. Если ваша операционная система
- по каким-то причинам отказывается создавать объект "мьютекс" в таком режиме, то
- включите директиву LDSLoggerMutexExclusive (можно в опциях проекта) }
-{.$DEFINE LDSLoggerMutexExclusive}
-
 unit LDSLogger;
 
 interface
 
 uses
-{$IFnDEF FPC}
-  Windows, Messages,
-{$ELSE}
-  {$IFDEF WINDOWS}Windows, {$ENDIF}LCLIntf, LCLType, LMessages,
-{$ENDIF}
-  SysUtils, Classes, SyncObjs, DateUtils, IniFiles, WideStrUtils;
+  {$IFDEF MSWINDOWS}Windows, Messages,{$ENDIF}
+  {$IFDEF FPC}LCLIntf, LCLType, LMessages, {$ENDIF}
+  SysUtils, Classes, SyncObjs, DateUtils, IniFiles, MutexObjectUnit, WideStrUtils;
 
 type
   TLDSLogType = (tlpNone, tlpInformation, tlpError, tlpCriticalError, tlpWarning,
@@ -205,9 +194,9 @@ type
   private
     FCritSect: TCriticalSection;
     FBufferCS: TCriticalSection;
-    {$IFDEF MSWINDOWS}
-    FMutexHandle: THandle;
-    {$ENDIF}
+
+    FMutex: TMutexObject;
+
     FFileName: string;
     FMaxFileSize: Int64;
     FClearOldLogData: Boolean;
@@ -260,11 +249,11 @@ type
     procedure SetListBufferMaxCount(const Value: Integer);
     procedure SetDateTimeTrimInterval(const Value: TDateTime);
 
-    procedure DoLogStr(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: DWORD; ReadyBuf: TMemoryStream);
+    procedure DoLogStr(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: UInt64; ReadyBuf: TMemoryStream);
     function GetLazyWrite: Boolean;
     function GetFinalLogString(MsgText: string; LogType: TLDSLogType;
-      CurDateTime: TDateTime; AThreadID: DWORD): string;
-    procedure AddToListBuffer(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: DWORD);
+      CurDateTime: TDateTime; AThreadID: UInt64): string;
+    procedure AddToListBuffer(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: UInt64);
   public
     {Конструктор. AFileName определяет имя лог-файла. Если указывается имя файла
      без пути, то в качестве него подставляется путь к исполняемому файлу. Имя
@@ -559,7 +548,7 @@ type
     FEvent: {$IFDEF MSWINDOWS}THandle{$ELSE}TEvent{$ENDIF};
     FRecList: TList;
     FCritSect: TCriticalSection; // Критическая секция для защиты списка
-    LazyThreadID: DWORD;
+    LazyThreadID: UInt64;
     SkipDelay: Boolean;
     procedure CheckWriteToLog;
   public
@@ -580,7 +569,7 @@ type
     LogTime: TDateTime;
     LogType: TLDSLogType;
     LogMsg: string;
-    LogThreadID: DWORD;
+    LogThreadID: UInt64;
   end;
 
 var
@@ -657,47 +646,10 @@ begin
   end;
 end;
 
-{ Создает мьютекс. Учитывает опцию условной компиляции LDSLoggerMutexExclusive }
-{$IFDEF MSWINDOWS}
-function LDSLoggerCreateMutex(AName: string): Cardinal;
-var
-{$IFNDEF LDSLoggerMutexExclusive}
-  SD:TSecurityDescriptor;
-  SA:TSecurityAttributes;
-{$ENDIF}
-  pSA: PSecurityAttributes;
-begin
-{$IFNDEF LDSLoggerMutexExclusive}
-  if not InitializeSecurityDescriptor(@SD, SECURITY_DESCRIPTOR_REVISION) then
-    raise Exception.CreateFmt('Error InitializeSecurityDescriptor: %s', [SysErrorMessage(GetLastError)]);
-
-  SA.nLength:=SizeOf(TSecurityAttributes);
-  SA.lpSecurityDescriptor:=@SD;
-  SA.bInheritHandle:=False;
-
-  if not SetSecurityDescriptorDacl(SA.lpSecurityDescriptor, True, nil, False) then
-    raise Exception.CreateFmt('Error SetSecurityDescriptorDacl: %s', [SysErrorMessage(GetLastError)]);
-
-  pSA := @SA;
-{$ELSE}
-  pSA := nil;
-{$ENDIF}
-
-  Result := CreateMutex(pSA, False, PChar('Global\' + AName)); // Пытаемся создать с директивой Global
-  if Result = 0 then
-    Result := CreateMutex(pSA, False, PChar(AName)); // Пытаемся создать без директивы Global
-
-
-  if Result = 0 then
-    if LDSCanRaiseMutexError then
-      raise Exception.CreateFmt(resSCreateMutexError, [SysErrorMessage(GetLastError)]);
-end;
-{$ENDIF}
-
 { TLDSLogger }
 
 procedure TLDSLogger.AddToListBuffer(MsgText: string; LogType: TLDSLogType;
-  CurDateTime: TDateTime; AThreadID: DWORD);
+  CurDateTime: TDateTime; AThreadID: UInt64);
 var
   BufferMsgText: string;
 begin
@@ -969,13 +921,11 @@ procedure TLDSLogger.Lock;
 begin
   FCritSect.Enter;
 
-  {$IFDEF MSWINDOWS}
-  if FMutexHandle <> 0 then
-    WaitForSingleObject(FMutexHandle, INFINITE);
-  {$ENDIF}
+  if Assigned(FMutex) then
+    FMutex.WaitFor(INFINITE);
 end;
 
-function TLDSLogger.GetFinalLogString(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: DWORD): string;
+function TLDSLogger.GetFinalLogString(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: UInt64): string;
 var
   PID: Int64;
 begin
@@ -1009,7 +959,7 @@ begin
   end;
 end;
 
-procedure TLDSLogger.DoLogStr(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: DWORD; ReadyBuf: TMemoryStream);
+procedure TLDSLogger.DoLogStr(MsgText: string; LogType: TLDSLogType; CurDateTime: TDateTime; AThreadID: UInt64; ReadyBuf: TMemoryStream);
 var
   Fs: TFileStream;
   SFileMode: string;
@@ -1379,22 +1329,16 @@ begin
       Value := ExtractFilePath(ParamStr(0)) + Value;
 
     // Если указано новое имя файла, то пересоздаем объект "мьютекс
-    if {$IFDEF MSWINDOWS}  ((FMutexHandle = 0) and UseMutex) or{$ENDIF}
-      (AnsiLowerCase(Value) <> AnsiLowerCase(FFileName)) then
+    if ((FMutex = nil) and UseMutex) or (AnsiLowerCase(Value) <> AnsiLowerCase(FFileName)) then
     begin
       FFileName := Value;
 
-      {$IFDEF MSWINDOWS}
       // Если мьютекс ранее уже существовал, то удаляем его
-      if FMutexHandle <> 0 then
-      begin
-        CloseHandle(FMutexHandle);
-        FMutexHandle := 0;
-      end;
+      if Assigned(FMutex) then
+        FreeAndNil(FMutex);
 
       if UseMutex then
-        FMutexHandle := LDSLoggerCreateMutex(GenerateMutexName);
-      {$ENDIF}
+        FMutex := TMutexObject.Create(GenerateMutexName);
     end;
   finally
     FCritSect.Leave;
@@ -1427,27 +1371,20 @@ end;
 
 procedure TLDSLogger.SetUseMutex(const Value: Boolean);
 begin
-  {$IFDEF MSWINDOWS}
   FCritSect.Enter;
   try
     FUseMutex := Value;
-    if not Value and (FMutexHandle <> 0) then
-    begin
-      CloseHandle(FMutexHandle);
-      FMutexHandle := 0;
-    end;
+    if (not Value) and (Assigned(FMutex)) then
+      FreeAndNil(FMutex);
   finally
     FCritSect.Leave;
   end;
-  {$ENDIF}
 end;
 
 procedure TLDSLogger.UnLock;
 begin
-  {$IFDEF MSWINDOWS}
-  if FMutexHandle <> 0 then
-    ReleaseMutex(FMutexHandle);
-  {$ENDIF}
+  if Assigned(FMutex) then
+    FMutex.ReleaseMutex;
   FCritSect.Leave;
 end;
 
