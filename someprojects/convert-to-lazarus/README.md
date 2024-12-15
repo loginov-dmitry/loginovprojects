@@ -8,87 +8,87 @@
 
 Установка Lazarus [...](#laz-install)
 
-    Настройка IDE Lazarus [...](#laz-config)
+&nbsp;&nbsp;&nbsp;&nbsp;Настройка IDE Lazarus [...](#laz-config)
 
-    Установка компонентов [...](#laz-components-install)
+&nbsp;&nbsp;&nbsp;&nbsp;Установка компонентов [...](#laz-components-install)
 
-    Компоненты для работы с СУБД Firebird [...](#laz-components-firebird)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компоненты для работы с СУБД Firebird [...](#laz-components-firebird)
 
-        Компоненты для работы с другими базами данных [...](#laz-components-other-db)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компоненты для работы с другими базами данных [...](#laz-components-other-db)
 
-        Компоненты для работы с in-memory наборами данных [...](#laz-components-mds)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компоненты для работы с in-memory наборами данных [...](#laz-components-mds)
 
-        Компоненты для оторажения набора данных (DBGrid) [...](#laz-components-dbgrid)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компоненты для оторажения набора данных (DBGrid) [...](#laz-components-dbgrid)
 
-        Компоненты SpinEdit [...](#laz-components-spinedit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компоненты SpinEdit [...](#laz-components-spinedit)
 
-        Компоненты для работы с JSON [...](#laz-components-json)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компоненты для работы с JSON [...](#laz-components-json)
 
-        Компоненты для работы с XML [...](#laz-components-xml)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компоненты для работы с XML [...](#laz-components-xml)
 
-        Компоненты для отображения HTML-страниц [...](#laz-components-html)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компоненты для отображения HTML-страниц [...](#laz-components-html)
 
-        Сетевые компоненты Indy10 [...](#laz-components-indy)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Сетевые компоненты Indy10 [...](#laz-components-indy)
 
-        Компоненты для работы с COM-портами [...](#laz-components-serial)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компоненты для работы с COM-портами [...](#laz-components-serial)
 
-        Компоненты для работы с графикой [...](#laz-components-graphics)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компоненты для работы с графикой [...](#laz-components-graphics)
 
-        Компоненты для построения графиков [...](#laz-components-chart)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компоненты для построения графиков [...](#laz-components-chart)
 
-        Компонент VirtualTreeView (VTV) [...](#laz-components-vtv)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компонент VirtualTreeView (VTV) [...](#laz-components-vtv)
 
-        Компоненты для хранения PNG-иконок [...](#laz-components-png)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Компоненты для хранения PNG-иконок [...](#laz-components-png)
 
 Подготовка проекта к портированию [...](#laz-prepare-porting-start)
 
-    Преобразование кодировки файлов с исходными кодами в UTF-8 [...](#laz-prepare-porting-codepage)
+&nbsp;&nbsp;&nbsp;&nbsp;Преобразование кодировки файлов с исходными кодами в UTF-8 [...](#laz-prepare-porting-codepage)
 
-    Портировать на Lazarus все независимые модули. Убедиться в том, что они работают как на Windows, так и в Linux [...](#laz-prepare-porting-base-units)
+&nbsp;&nbsp;&nbsp;&nbsp;Портировать на Lazarus все независимые модули. Убедиться в том, что они работают как на Windows, так и в Linux [...](#laz-prepare-porting-base-units)
 
-    Отделение кода бизнес-логики от графического интерфейса [...](#laz-prepare-porting-split-code)
+&nbsp;&nbsp;&nbsp;&nbsp;Отделение кода бизнес-логики от графического интерфейса [...](#laz-prepare-porting-split-code)
 
-    Избавиться от взаимных (циклических) зависимостей между модулями [...](#laz-prepare-porting-unit-ref)
+&nbsp;&nbsp;&nbsp;&nbsp;Избавиться от взаимных (циклических) зависимостей между модулями [...](#laz-prepare-porting-unit-ref)
 
-    Проверить в Lazarus работоспособность сторонних библиотек и компонентов [...](#laz-prepare-porting-check-components)
+&nbsp;&nbsp;&nbsp;&nbsp;Проверить в Lazarus работоспособность сторонних библиотек и компонентов [...](#laz-prepare-porting-check-components)
 
-    Разработать модуль (либо несколько модулей) совместимости типов [...](#laz-prepare-porting-unit-compat-types)
+&nbsp;&nbsp;&nbsp;&nbsp;Разработать модуль (либо несколько модулей) совместимости типов [...](#laz-prepare-porting-unit-compat-types)
 
-    Разработать модуль (либо модули) с реализацей отсутствующих для Linux функций [...](#laz-prepare-porting-unit-compat-funcs)
+&nbsp;&nbsp;&nbsp;&nbsp;Разработать модуль (либо модули) с реализацей отсутствующих для Linux функций [...](#laz-prepare-porting-unit-compat-funcs)
 
-    Исправить код преобразования типов, не учитывающий 64-битный код [...](#laz-prepare-porting-fix-64)
+&nbsp;&nbsp;&nbsp;&nbsp;Исправить код преобразования типов, не учитывающий 64-битный код [...](#laz-prepare-porting-fix-64)
 
-    Скорректировать объявления THandle [...](#laz-prepare-porting-fix-handle)
+&nbsp;&nbsp;&nbsp;&nbsp;Скорректировать объявления THandle [...](#laz-prepare-porting-fix-handle)
 
-    Подготовьте модули DLL-библиотек к тому, что они могут быть включены в исполняемый файл [...](#laz-prepare-porting-prepare-dll)
+&nbsp;&nbsp;&nbsp;&nbsp;Подготовьте модули DLL-библиотек к тому, что они могут быть включены в исполняемый файл [...](#laz-prepare-porting-prepare-dll)
 
-    Произвести замену некоторых компонентов [...](#laz-prepare-porting-replace-components)
+&nbsp;&nbsp;&nbsp;&nbsp;Произвести замену некоторых компонентов [...](#laz-prepare-porting-replace-components)
 
-    По возможности избавиться от неиспользуемых компонентов, которые недоступны для Лазаруса [...](#laz-prepare-porting-remove-old-components)
+&nbsp;&nbsp;&nbsp;&nbsp;По возможности избавиться от неиспользуемых компонентов, которые недоступны для Лазаруса [...](#laz-prepare-porting-remove-old-components)
 
-    Избавиться от обработчика события OnDrawDataCell у компонента TDBGrid [...](#laz-prepare-porting-fix-event-drawdatacell)
+&nbsp;&nbsp;&nbsp;&nbsp;Избавиться от обработчика события OnDrawDataCell у компонента TDBGrid [...](#laz-prepare-porting-fix-event-drawdatacell)
 
-    Исправить кодировку текста в базе данных [...](#laz-prepare-porting-fix-db-encode)
+&nbsp;&nbsp;&nbsp;&nbsp;Исправить кодировку текста в базе данных [...](#laz-prepare-porting-fix-db-encode)
 
 Конвертация форм dfm -> lfm [...](#laz-convert-forms)    
 
-    Трудности конвертации форм в Лазарусе [...](#laz-convert-forms-problems)
+&nbsp;&nbsp;&nbsp;&nbsp;Трудности конвертации форм в Лазарусе [...](#laz-convert-forms-problems)
 
-    Разработка собственного инструмента конвертации форм [...](#laz-convert-forms-app)
+&nbsp;&nbsp;&nbsp;&nbsp;Разработка собственного инструмента конвертации форм [...](#laz-convert-forms-app)
 
-    Привязка компонентов на форме [...](#laz-convert-forms-anchor-editor)
+&nbsp;&nbsp;&nbsp;&nbsp;Привязка компонентов на форме [...](#laz-convert-forms-anchor-editor)
 
-    Совместное редактирование форм в Delphi и Lazarus [...](#laz-convert-forms-joint-editing)
+&nbsp;&nbsp;&nbsp;&nbsp;Совместное редактирование форм в Delphi и Lazarus [...](#laz-convert-forms-joint-editing)
 
-    Использование директив условной компиляции для корректировки объявлений используемых компонентов [...](#laz-convert-forms-directives)
+&nbsp;&nbsp;&nbsp;&nbsp;Использование директив условной компиляции для корректировки объявлений используемых компонентов [...](#laz-convert-forms-directives)
 
 Подключение стороннего менеджера памяти [...](#laz-mem-manager)
 
 Подключение общего менеджера памяти в DLL-библиотеку [...](#laz-mem-manager-dll)
 
-    Действия по установке общего менеджера памяти в библиотеке [...](#laz-mem-manager-dll-steps)
+&nbsp;&nbsp;&nbsp;&nbsp;Действия по установке общего менеджера памяти в библиотеке [...](#laz-mem-manager-dll-steps)
 
-    Корректная выгрузка библиотеки с помощью FreeLibrary [...](#laz-mem-manager-freelibrary)
+&nbsp;&nbsp;&nbsp;&nbsp;Корректная выгрузка библиотеки с помощью FreeLibrary [...](#laz-mem-manager-freelibrary)
 
 Обработка исключений, возникающих в DLL/SO-библиотеке [...](#laz-dll-exceptions)
 
